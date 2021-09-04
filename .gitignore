@@ -1,2 +1,21 @@
-/bin
-.swp
+# Ignore ALL:
+
+*
+
+# Unignore:
+
+!.gitignore
+
+!*.c
+
+!*.cpp
+
+!*.h
+
+!*/
+
+!*.md
+
+!*.txt
+
+!*/bin

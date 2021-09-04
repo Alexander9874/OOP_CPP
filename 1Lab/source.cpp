@@ -1,40 +1,4 @@
-#include <vector>
-#include <iostream>
-#include <climits>
-using namespace std;
-
-struct Matrix
-{
-	int rows;
-	int cols;
-	double** items;
-};
-
-template <class T>
-void getSomething(T &x)
-{
-	cin >> x;
-	if(cin.eof())
-	{
-		cout << "EOF occured!" << endl;
-		throw -1;
-	}
-	if(cin.fail())
-	{
-		cout << "Wrong input!" << endl;
-		cin.clear();
-		cin.ignore(INT_MAX, '\n');
-		throw 0;
-	}
-}
-
-template <class T>
-inline void Swap(T &x, T &y)
-{
-	T tmp = x;
-	x = y;
-	y = tmp;
-}
+#include "header.h"
 
 void CreateMatrix(Matrix &matrix)
 {
@@ -196,25 +160,4 @@ void PrintVector(vector<int> vect)
 		cout << i << ' ';
 	}
 	cout << endl;
-}
-
-int main()
-{
-	Matrix matrix;
-	
-	if(DialogCreate(matrix) || FillMatrix(matrix))
-	{
-		return -1;
-	}
-	cout << "Original MATRIX:" << endl << endl;
-	PrintMatrix(matrix);
-	ModifyMatrix(matrix);
-	cout << "Modified MATRIX:" << endl << endl;
-	PrintMatrix(matrix);
-	vector<int>* vect = MakeVector(matrix); 
-	PrintVector(*vect);
-	delete vect;
-	DeleteMatrix(matrix);
-
-	return 0;
 }
