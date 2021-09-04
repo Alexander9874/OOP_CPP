@@ -1,3 +1,4 @@
+#include <vector>
 #include <iostream>
 #include <climits>
 using namespace std;
@@ -10,7 +11,6 @@ struct Matrix
 };
 
 template <class T>
-//int getNum(T &x)
 void getSomething(T &x)
 {
 	cin >> x;
@@ -42,12 +42,6 @@ void CreateMatrix(Matrix &matrix)
 	for(int i = 0; i < matrix.cols; i++)
 	{
 		matrix.items[i] = new double[matrix.rows];
-/*
-		for(int j = 0; j < matrix.rows; j++)
-		{
-			matrix.items[i][j] = i + j;
-		}
-*/
 	}
 }
 
@@ -109,12 +103,10 @@ int DialogCreate(Matrix &matrix)
 		{
 			if(x)
 			{
-				//cout << "EOF occured!" << endl;
 				return -1;
 			}
 			else
 			{
-				//cout << "Wrong input!" << endl;
 				continue;
 			}
 		}
@@ -162,21 +154,48 @@ void DeleteMatrix(Matrix matrix)
 	delete [] matrix.items;
 }
 
-double* CreateVector(Matrix matrix)
+vector<int>* MakeVector(Matrix matrix)
 {
+	vector<int>* vect;
 	try
 	{
-		double* vector = new double[matrix.rows];
+		vect = new vector<int>;
 	}
-	catch(bad_alloc x)
+	catch(bad_alloc &x)
 	{
 		cout << x.what() << endl;
 		return nullptr;
 	}
 	for(int i = 0; i < matrix.rows; i++)
 	{
-//		vector[i] = CountInRow()
+		vect->push_back (INT_MIN);
+		for(int j = 0; j < matrix.cols; j++)
+		{
+			int count = 1;
+			for(int k = j + 1; k < matrix.cols; k++)
+			{
+				if(matrix.items[j][i] == matrix.items[k][i])
+				{
+					count++;
+				}
+			}
+			if((*vect)[i] < count)
+			{
+				(*vect)[i] = count;
+			}
+		}
 	}
+	return vect;
+}
+
+void PrintVector(vector<int> vect)
+{
+	cout << "Vector :\n" << endl;
+	for(int i : vect)
+	{
+		cout << i << ' ';
+	}
+	cout << endl;
 }
 
 int main()
@@ -192,10 +211,9 @@ int main()
 	ModifyMatrix(matrix);
 	cout << "Modified MATRIX:" << endl << endl;
 	PrintMatrix(matrix);
-
-for(int i = 0; i < 3; i++)
-cout << matrix.items[0][i];
-
+	vector<int>* vect = MakeVector(matrix); 
+	PrintVector(*vect);
+	delete vect;
 	DeleteMatrix(matrix);
 
 	return 0;
