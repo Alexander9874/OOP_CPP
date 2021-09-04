@@ -19,3 +19,7 @@
 !*.txt
 
 !*/bin
+
+# IDK:
+
+!*makefile
