@@ -1,5 +1,7 @@
 #include "header.h" 
 
+using namespace NameSpaceLab1;
+
 int main()
 {
 	Matrix matrix;
