@@ -107,10 +107,3 @@ void Dialog_TextPolarEquation(Lem_Bouta* Obj)
 	cout << str << '\n' << endl;
 	delete [] str;
 }
-
-
-
-
-
-
-

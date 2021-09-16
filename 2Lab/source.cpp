@@ -147,7 +147,6 @@ char* Lem_Bouta::TextPolarEquation()
 		length++;
 	}
 	char* result = new char[length];
-	//sprintf(result, str_RS);
 	sprintf(result, "r^2=");
 	int k = strlen(result);
 
@@ -155,7 +154,6 @@ char* Lem_Bouta::TextPolarEquation()
 	{
 		sprintf(result + k, "%.2f", AS);
 		k = strlen(result);
-		//sprintf(result + k, str_COS);
 		sprintf(result + k, "*cos(f)^2");
 		k = strlen(result);
 	}
@@ -165,7 +163,6 @@ char* Lem_Bouta::TextPolarEquation()
 		{
 			sprintf(result + k, "%.2f" ,BS);
 			k = strlen(result);
-			//sprintf(result + k, str_SIN);
 			sprintf(result + k, "*sin(f)^2");
 			k = strlen(result);
 		}
@@ -175,7 +172,6 @@ char* Lem_Bouta::TextPolarEquation()
 			k++;
 			sprintf(result + k, "%.2f" ,BS);
 			k = strlen(result);
-			//sprintf(result + k, str_SIN);
 			sprintf(result + k, "*sin(f)^2");
 			k = strlen(result);
 		}
@@ -185,22 +181,4 @@ char* Lem_Bouta::TextPolarEquation()
 		sprintf(result + k, "0");
 	}
 	return result;
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

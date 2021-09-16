@@ -32,31 +32,3 @@ int main()
 	delete Obj;
 	return 0;
 }
-
-
-/*
-int main()
-{
-	Together* together = Together_Create();
-	while(1)
-	{
-		int choice = Dialog_Menu();
-		if(choice == -1)
-		{
-			Together_Delete(together);
-			return -1;
-		}
-		int check = Functions[choice](together);
-		if(check == -1)
-		{
-			Together_Delete(together);
-			return -1;
-		}
-		if(choice == 0)
-		{
-			break;
-		}
-	}
-	return 0;
-}
-*/
