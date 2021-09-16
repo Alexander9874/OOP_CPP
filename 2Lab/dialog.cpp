@@ -103,7 +103,9 @@ void Dialog_FindSquare(Lem_Bouta* Obj)
 
 void Dialog_TextPolarEquation(Lem_Bouta* Obj)
 {
-	cout << "MEOW!\n" << endl;
+	char* str = Obj->TextPolarEquation();
+	cout << str << '\n' << endl;
+	delete [] str;
 }
 
 

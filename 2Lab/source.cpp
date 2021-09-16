@@ -85,11 +85,7 @@ double Lem_Bouta::FindSquare()
 
 double Lem_Bouta::FindRadius(double f)
 {
-	if(c > DMS)
-	{
-		return sqrt(AS*pow(cos(f), 2)+BS*pow(sin(f), 2));
-	}
-	if(c < DMS)
+	if(c != DMS)
 	{
 		return sqrt(AS*pow(cos(f), 2)+BS*pow(sin(f), 2));
 	}
@@ -97,6 +93,7 @@ double Lem_Bouta::FindRadius(double f)
 	
 }
 
+/*
 void Lem_Bouta::TextPolarEquation()
 {
 	string AS_str = to_string(AS);
@@ -112,8 +109,84 @@ void Lem_Bouta::TextPolarEquation()
 	}
 	cout << result << '\n' << endl;;
 }
+*/
 
+char* Lem_Bouta::TextPolarEquation()
+{
+	char str_RS[] = "r^2=";
+	char str_COS[] = "*cos(f)^2";
+	char str_SIN[] = "*sin(f)^2";
+	int length = 1 + strlen(str_RS);
+	
+	char num[20];
+	
+	sprintf(num, "%.2f", AS);
+	length += strlen(num);
+	sprintf(num, "%.2f", BS);
+	length += strlen(num);
 
+	if(AS)
+	{
+		sprintf(num, "%.2f", AS);
+		length += strlen(str_COS) + strlen(num);
+	}
+	if(BS)
+	{
+		sprintf(num, "%.2f", AS);
+		if(c > DMS && AS)
+		{
+			length += strlen(num) + strlen(str_SIN) + 1;
+		}
+		else
+		{
+			length += strlen(num) + strlen(str_SIN);
+		}
+	}
+	if(!BS && !AS)
+	{
+		length++;
+	}
+	char* result = new char[length];
+	//sprintf(result, str_RS);
+	sprintf(result, "r^2=");
+	int k = strlen(result);
+
+	if(AS)
+	{
+		sprintf(result + k, "%.2f", AS);
+		k = strlen(result);
+		//sprintf(result + k, str_COS);
+		sprintf(result + k, "*cos(f)^2");
+		k = strlen(result);
+	}
+	if(BS)
+	{
+		if(!AS || c < DMS)
+		{
+			sprintf(result + k, "%.2f" ,BS);
+			k = strlen(result);
+			//sprintf(result + k, str_SIN);
+			sprintf(result + k, "*sin(f)^2");
+			k = strlen(result);
+		}
+		else
+		{
+			sprintf(result + k, "+");
+			k++;
+			sprintf(result + k, "%.2f" ,BS);
+			k = strlen(result);
+			//sprintf(result + k, str_SIN);
+			sprintf(result + k, "*sin(f)^2");
+			k = strlen(result);
+		}
+	}
+	if(!BS && !AS)
+	{
+		sprintf(result + k, "0");
+	}
+	return result;
+
+}
 
 
 

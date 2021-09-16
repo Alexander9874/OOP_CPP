@@ -4,6 +4,7 @@
 #include <iostream>
 #include <climits>
 #include <math.h>
+#include <string.h>
 
 #define _USE_MATH_DEFINES
 
@@ -25,7 +26,7 @@ class Lem_Bouta
 		bool PolarCoeff(double&, double&);			//
 		double FindRadius(double);		
 		double FindSquare();			//
-		void TextPolarEquation();		//
+		char* TextPolarEquation();		//
 };
 
 template <typename T>
