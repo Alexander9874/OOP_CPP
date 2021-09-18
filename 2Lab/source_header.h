@@ -19,9 +19,16 @@ class Lem_Bouta
 		void PrintGeneralEquation();
 		void PrintEquation();
 	public:
+		double GetM();
+		double GetC();
+		double GetDMS();
+		double GetAS();
+		double GetBS();
+
 		void SetCoeff(double, double);
 		void PrintTotal();			//
 		Lem_Bouta(double, double);
+		Lem_Bouta();
 		string WhatType();			//
 		bool PolarCoeff(double&, double&);			//
 		double FindRadius(double);		

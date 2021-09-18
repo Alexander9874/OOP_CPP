@@ -1,5 +1,30 @@
 #include "source_header.h"
 
+double Lem_Bouta::GetM()
+{
+	return m;
+}
+
+double Lem_Bouta::GetC()
+{
+	return c;
+}
+
+double Lem_Bouta::GetDMS()
+{
+	return DMS;
+}
+
+double Lem_Bouta::GetAS()
+{
+	return AS;
+}
+
+double Lem_Bouta::GetBS()
+{
+	return BS;
+}
+
 void Lem_Bouta::PrintGeneralEquation()
 {
 	cout << "General equation:" << endl;
@@ -38,9 +63,15 @@ void Lem_Bouta::PrintTotal()
 	this->PrintCoeff();
 }
 
-Lem_Bouta::Lem_Bouta(double a = 0, double b = 0) : m(a), c(b) 
+Lem_Bouta::Lem_Bouta(double a, double b) : m(a), c(b) 
 {
-	cout << "Coefficients were setted " << a << " and " << b << '\n' << endl;
+	cout << "\nCoefficients were setted " << m << " and " << c << '\n' << endl;
+	FixCoeff();
+}
+
+Lem_Bouta::Lem_Bouta() : m(0), c(0)
+{
+	cout << "\nCoefficients were setted " << m << " and " << c << '\n' << endl;
 	FixCoeff();
 }
 

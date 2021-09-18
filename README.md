@@ -1,3 +1,3 @@
 # 3rdSemester
 
-	commit from Asus
+	шел бы ты от сюда...

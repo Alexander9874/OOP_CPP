@@ -5,7 +5,7 @@
 
 int main()
 {
-	Lem_Bouta* Obj = new Lem_Bouta(0, 0);
+	Lem_Bouta* Obj = new Lem_Bouta;
 	int choice = 0;
 	while(1)
 	{
