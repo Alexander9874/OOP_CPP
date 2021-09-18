@@ -2,7 +2,7 @@
 #define DIALOG_HEADER
 
 #include <iostream>
-#include "source_header.h" 
+#include "Lem_Bouta.h" 
 
 typedef void (*Dialog_t)(Lem_Bouta*);
 

@@ -1,5 +1,4 @@
-//#include "source_header.h"
-#include "dialog_header.h"
+#include "dialog.h"
 
 //Dialog_t Dialogs[7] = {Dialog_SetCoeff, Dialog_PrintTotal, Dialog_PolarCoeff, Dialog_WhatType, Dialog_FindSquare, Dialog_FindRadius, Dialog_TextPolarEquation};
 

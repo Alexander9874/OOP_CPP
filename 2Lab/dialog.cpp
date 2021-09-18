@@ -1,5 +1,5 @@
-#include "dialog_header.h"
-#include "source_header.h"
+#include "dialog.h"
+//#include "source_header.h"
 
 int Dialog_Main()
 {
