@@ -24,4 +24,22 @@ void Dialog_TextPolarEquation(Lem_Bouta*);
 
 const Dialog_t Dialogs[] = {Dialog_SetCoeff, Dialog_PrintTotal, Dialog_PolarCoeff, Dialog_WhatType, Dialog_FindSquare, Dialog_FindRadius, Dialog_TextPolarEquation};
 
+template <typename T>
+void getSomething(T &x)
+{
+	cin >> x;
+	if(cin.eof())
+	{
+		cout << "EOF occured!" << endl;
+		throw -1;
+	}
+	if(cin.fail())
+	{
+		cout << "Wrong input!" << endl;
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		throw 0;
+	}
+}
+
 #endif

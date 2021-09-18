@@ -25,7 +25,7 @@ int Dialog_Main()
 void Dialog_SetCoeff(Lem_Bouta* Obj)
 {
 	double x, y;
-	cout << "Enter coefficients of your equation\n>> ";
+	cout << "Enter coefficients of your equation, M and C\n>> ";
 	while(1)
 	{
 		try
@@ -74,6 +74,7 @@ void Dialog_WhatType(Lem_Bouta* Obj)
 	cout << "Type is " << Obj->WhatType() << '\n' << endl;
 }
 
+/*
 void Dialog_PolarCoeff(Lem_Bouta* Obj)
 {
 	double AS, BS;
@@ -94,6 +95,16 @@ void Dialog_PolarCoeff(Lem_Bouta* Obj)
 	cout << "r^2=a^2*cos(f)^2-b^2*sin(f)^2" << endl;
 	cout << "a^2=2m^2+c=" << AS << endl;
 	cout << "b^2=2m^2-c=" << -BS << '\n' << endl;
+}
+*/
+
+void Dialog_PolarCoeff(Lem_Bouta* Obj)
+{
+	double AS, BS;
+	Obj->PolarCoeff(AS, BS);
+	cout << "r^2=A*cos(f)^2+B*cos(f)^2" << endl;
+	cout << "A = " << AS << endl;
+	cout << "B = " << BS << endl;
 }
 
 void Dialog_FindSquare(Lem_Bouta* Obj)

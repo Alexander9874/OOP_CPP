@@ -46,7 +46,7 @@ void Lem_Bouta::SetCoeff(double x, double y)
 
 void Lem_Bouta::FixCoeff()
 {
-	DMS = 2*m*m;
+	DMS = 2 * m * m;
 	AS = DMS + c;
 	BS = c - DMS;
 }
@@ -81,15 +81,25 @@ string Lem_Bouta::WhatType()
 	{
 		return "Elliptical Lemniscate Bouta";
 	}
+	//
+	if(c + DMS <= 0)
+	{
+		return "Point";
+	}
+	//
 	if(c < DMS)
 	{
 		return "Hyperbolic Lemniscate Bouta";
 	}
-	return "Two Circles";
+	return "Double Circle";
 }
 
+/*
 bool Lem_Bouta::PolarCoeff(double &x, double &y)
 {
+
+	cout << AS << '\t' << BS << endl;
+
 	x = AS;
 	if(c >= DMS)
 	{
@@ -99,29 +109,48 @@ bool Lem_Bouta::PolarCoeff(double &x, double &y)
 	y = -BS;
 	return false;
 }
+*/
+
+void Lem_Bouta::PolarCoeff(double &x, double &y)
+{
+	x = AS;
+	y = BS;
+}
 
 double Lem_Bouta::FindSquare()
 {
+	//
+	if(c + DMS <= 0)
+	{
+		return 0;
+	}
+	//
 	if(c > DMS)
 	{
 		return M_PI/2*(AS+BS);
 	}
+	
 	if(c < DMS)
 	{
 		
 		return (AS+BS)/2*atan(sqrt(-AS*BS))+sqrt(-AS*BS)/2;
 	}
-	return M_PI*AS/2;
+	return M_PI*(AS)/2;
 }
 
 double Lem_Bouta::FindRadius(double f)
 {
+	//
+	if(c + DMS <= 0)
+	{
+		return 0;
+	}
+	//
 	if(c != DMS)
 	{
 		return sqrt(AS*pow(cos(f), 2)+BS*pow(sin(f), 2));
 	}
 	return sqrt(AS*pow(cos(f), 2));
-	
 }
 
 /*
@@ -195,7 +224,6 @@ char* Lem_Bouta::TextPolarEquation()
 			sprintf(result + k, "%.2f" ,BS);
 			k = strlen(result);
 			sprintf(result + k, "*sin(f)^2");
-			k = strlen(result);
 		}
 		else
 		{
@@ -204,7 +232,6 @@ char* Lem_Bouta::TextPolarEquation()
 			sprintf(result + k, "%.2f" ,BS);
 			k = strlen(result);
 			sprintf(result + k, "*sin(f)^2");
-			k = strlen(result);
 		}
 	}
 	if(!BS && !AS)
