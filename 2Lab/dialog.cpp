@@ -73,30 +73,6 @@ void Dialog_WhatType(Lem_Bouta* Obj)
 	cout << "Type is " << Obj->WhatType() << '\n' << endl;
 }
 
-/*
-void Dialog_PolarCoeff(Lem_Bouta* Obj)
-{
-	double AS, BS;
-	bool x = Obj->PolarCoeff(AS, BS);
-	if(!BS)
-	{
-		cout << "r^2=a^2*cos(f)^2" << endl;
-		cout << "a^2=2m^2+c=" << AS << '\n' << endl;
-		return;
-	}
-	if(x)
-	{
-		cout << "r^2=a^2*cos(f)^2+b^2*sin(f)^2" << endl;
-		cout << "a^2=2m^2+c=" << AS << endl;
-		cout << "b^2=c-2m^2=" << BS << '\n'<< endl;
-		return;
-	}
-	cout << "r^2=a^2*cos(f)^2-b^2*sin(f)^2" << endl;
-	cout << "a^2=2m^2+c=" << AS << endl;
-	cout << "b^2=2m^2-c=" << -BS << '\n' << endl;
-}
-*/
-
 void Dialog_PolarCoeff(Lem_Bouta* Obj)
 {
 	double AS, BS;
