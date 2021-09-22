@@ -136,14 +136,11 @@ char* Lem_Bouta::TextPolarEquation() const
 	char str_COS[] = "*cos(f)^2";
 	char str_SIN[] = "*sin(f)^2";
 	long unsigned int length = 1 + strlen(str_RS);
-	
 	char num[20];
-	
 	sprintf(num, "%.2f", AS);
 	length += strlen(num);
 	sprintf(num, "%.2f", BS);
 	length += strlen(num);
-
 	if(AS)
 	{
 		sprintf(num, "%.2f", AS);
@@ -168,29 +165,20 @@ char* Lem_Bouta::TextPolarEquation() const
 	char* result = new char[length];
 	sprintf(result, "r^2=");
 	long unsigned int k = strlen(result);
-
 	if(AS)
 	{
-		sprintf(result + k, "%.2f", AS);
-		k = strlen(result);
-		sprintf(result + k, "*cos(f)^2");
+		sprintf(result + k, "%.2f*cos(f)^2", AS);
 		k = strlen(result);
 	}
 	if(BS)
 	{
 		if(!AS || c < DMS)
 		{
-			sprintf(result + k, "%.2f" ,BS);
-			k = strlen(result);
-			sprintf(result + k, "*sin(f)^2");
+			sprintf(result + k, "%.2f*sin(f)^2" ,BS);
 		}
 		else
 		{
-			sprintf(result + k, "+");
-			k++;
-			sprintf(result + k, "%.2f" ,BS);
-			k = strlen(result);
-			sprintf(result + k, "*sin(f)^2");
+			sprintf(result + k, "+%.2f*sin(f)^2" ,BS);
 		}
 	}
 	if(!BS && !AS)
