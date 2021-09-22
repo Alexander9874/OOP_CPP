@@ -15,28 +15,28 @@ class Lem_Bouta
 	private:
 		double m, c, DMS, AS, BS;
 		void FixCoeff();
-		void PrintCoeff();
-		void PrintGeneralEquation();
-		void PrintEquation();
+		void PrintCoeff() const;
+		void PrintGeneralEquation() const;
+		void PrintEquation() const;
 	public:
-		double GetM();
-		double GetC();
-		double GetDMS();
-		double GetAS();
-		double GetBS();
+		double GetM() const;
+		double GetC() const;
+		double GetDMS() const;
+		double GetAS() const;
+		double GetBS() const;
 
-		void PrintTotal();
+		void PrintTotal() const;
 
 		void SetCoeff(double, double);
 
 		Lem_Bouta(double, double);
 		Lem_Bouta();
 
-		string WhatType();
-		void PolarCoeff(double&, double&);
-		double FindRadius(double);
-		double FindSquare();
-		char* TextPolarEquation();
+		string WhatType() const;
+		void PolarCoeff(double&, double&) const;
+		double FindRadius(double) const;
+		double FindSquare() const;
+		char* TextPolarEquation() const;
 };
 
 #endif

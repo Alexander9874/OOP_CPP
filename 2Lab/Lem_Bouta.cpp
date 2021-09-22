@@ -1,37 +1,37 @@
 #include "Lem_Bouta.h"
 
-double Lem_Bouta::GetM()
+double Lem_Bouta::GetM() const
 {
 	return m;
 }
 
-double Lem_Bouta::GetC()
+double Lem_Bouta::GetC() const
 {
 	return c;
 }
 
-double Lem_Bouta::GetDMS()
+double Lem_Bouta::GetDMS() const
 {
 	return DMS;
 }
 
-double Lem_Bouta::GetAS()
+double Lem_Bouta::GetAS() const
 {
 	return AS;
 }
 
-double Lem_Bouta::GetBS()
+double Lem_Bouta::GetBS() const
 {
 	return BS;
 }
 
-void Lem_Bouta::PrintGeneralEquation()
+void Lem_Bouta::PrintGeneralEquation() const
 {
 	cout << "General equation:" << endl;
 	cout << "(x^2+y^2)^2-(2*m^2+c)*x^2+(2*m^2-c)*y^2=0\n" << endl;
 }
 
-void Lem_Bouta::PrintEquation()
+void Lem_Bouta::PrintEquation() const
 {
 	cout << "Your equation:" << endl;
 	cout << "(x^2+y^2)^2-(2*" << m << "^2+" << c << ")*x^2+(2*" << m << "^2-" << c << ")*y^2=0\n" << endl;
@@ -51,12 +51,12 @@ void Lem_Bouta::FixCoeff()
 	BS = c - DMS;
 }
 
-void Lem_Bouta::PrintCoeff()
+void Lem_Bouta::PrintCoeff() const
 {
 	cout << "m=" << m << " c=" << c << '\n' << endl;
 }
 
-void Lem_Bouta::PrintTotal()
+void Lem_Bouta::PrintTotal() const
 {
 	this->PrintGeneralEquation();
 	this->PrintEquation();
@@ -75,18 +75,16 @@ Lem_Bouta::Lem_Bouta() : m(0), c(0)
 	FixCoeff();
 }
 
-string Lem_Bouta::WhatType()
+string Lem_Bouta::WhatType() const
 {
 	if(c > DMS)
 	{
 		return "Elliptical Lemniscate Bouta";
 	}
-	//
 	if(c + DMS <= 0)
 	{
 		return "Point";
 	}
-	//
 	if(c < DMS)
 	{
 		return "Hyperbolic Lemniscate Bouta";
@@ -94,37 +92,18 @@ string Lem_Bouta::WhatType()
 	return "Double Circle";
 }
 
-/*
-bool Lem_Bouta::PolarCoeff(double &x, double &y)
-{
-
-	cout << AS << '\t' << BS << endl;
-
-	x = AS;
-	if(c >= DMS)
-	{
-		y = BS;
-		return true;
-	}
-	y = -BS;
-	return false;
-}
-*/
-
-void Lem_Bouta::PolarCoeff(double &x, double &y)
+void Lem_Bouta::PolarCoeff(double &x, double &y) const
 {
 	x = AS;
 	y = BS;
 }
 
-double Lem_Bouta::FindSquare()
+double Lem_Bouta::FindSquare() const
 {
-	//
 	if(c + DMS <= 0)
 	{
 		return 0;
 	}
-	//
 	if(c > DMS)
 	{
 		return M_PI/2*(AS+BS);
@@ -138,14 +117,12 @@ double Lem_Bouta::FindSquare()
 	return M_PI*(AS)/2;
 }
 
-double Lem_Bouta::FindRadius(double f)
+double Lem_Bouta::FindRadius(double f) const
 {
-	//
 	if(c + DMS <= 0)
 	{
 		return 0;
 	}
-	//
 	if(c != DMS)
 	{
 		return sqrt(AS*pow(cos(f), 2)+BS*pow(sin(f), 2));
@@ -153,30 +130,12 @@ double Lem_Bouta::FindRadius(double f)
 	return sqrt(AS*pow(cos(f), 2));
 }
 
-/*
-void Lem_Bouta::TextPolarEquation()
-{
-	string AS_str = to_string(AS);
-	string BS_str = to_string(BS);
-	string result = "r^2=" + AS_str + "*cos(f)^2";
-	if(c > DMS)
-	{
-		result += "+" + BS_str + "*sin(f)^2";
-	}
-	if(c < DMS)
-	{
-		result += BS_str + "*sin(f)^2";
-	}
-	cout << result << '\n' << endl;;
-}
-*/
-
-char* Lem_Bouta::TextPolarEquation()
+char* Lem_Bouta::TextPolarEquation() const
 {
 	char str_RS[] = "r^2=";
 	char str_COS[] = "*cos(f)^2";
 	char str_SIN[] = "*sin(f)^2";
-	int length = 1 + strlen(str_RS);
+	long unsigned int length = 1 + strlen(str_RS);
 	
 	char num[20];
 	
@@ -208,7 +167,7 @@ char* Lem_Bouta::TextPolarEquation()
 	}
 	char* result = new char[length];
 	sprintf(result, "r^2=");
-	int k = strlen(result);
+	long unsigned int k = strlen(result);
 
 	if(AS)
 	{

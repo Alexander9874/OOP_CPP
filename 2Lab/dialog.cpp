@@ -1,12 +1,11 @@
 #include "dialog.h"
-//#include "source_header.h"
 
 int Dialog_Main()
 {
 	int choice;
 	while(1)
 	{
-		cout << "Chose:\n\t0. exit\n\t1. change coefficients\n\t2. print coefficients\n\t3. print polar coefficient\n\t4. find type\n\t5. find square\n\t6. find radius\n\t7. print polar equation\n>> ";
+		cout << "Chose:\n\t0. exit\n\t1. change coefficients\n\t2. print equation and coefficients\n\t3. print polar coefficient\n\t4. find type\n\t5. find square\n\t6. find radius\n\t7. print polar equation\n>> ";
 		try
 		{
 			getSomething(choice);
