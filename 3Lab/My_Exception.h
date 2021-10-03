@@ -9,12 +9,13 @@ class My_Exception
 		std::string message;
 		bool fatal;
 	public:
+		My_Exception();
 		My_Exception(std::string);
 		My_Exception(std::string, bool);
 		My_Exception(bool, std::string);
 		std::string What() const;
 		bool Fatal() const;
-		friend std::ostream & operator << (std::ostream & out, const My_Exception & exception);
+		friend std::ostream & operator << (std::ostream &, const My_Exception &);
 	};
 
 #endif
