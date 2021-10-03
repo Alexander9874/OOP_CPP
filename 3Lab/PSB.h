@@ -37,15 +37,15 @@ class PSB
 		
 		//ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
 		void Input_Contact();
-//not ready		friend std::istream & operator >> (std::istream &, PSB &);
+		friend std::istream & operator >> (std::istream &, PSB &);
 
 		//вывод информации о плате в выходной поток;	(Перегрузка <<)
 		void Print_PSB() const;
-//not ready		friend std::ostream & operator << (std::ostream &, const PSB &);
+		friend std::ostream & operator << (std::ostream &, const PSB &);
 
 		//добавить контакт на плате;	(Перегрузка +=)
 		void Add_Contact(Contact*);
-//not ready		PSB & operator += (PSB &, const Contact &);
+		PSB & operator += (Contact *);
 
 		//“установить связь” между двумя указанными контактами (с проверкой корректности);
 		void Connect_Safe(unsigned int, unsigned int);

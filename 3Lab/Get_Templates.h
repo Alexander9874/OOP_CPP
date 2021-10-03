@@ -19,7 +19,7 @@ void Get_Template(X &x)
                 }
                 if(std::cin.fail())
                 {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
+                        std::cout << "Wrong input! Repeat from the begining.\n>> ";
                         std::cin.clear();
                         std::cin.ignore(INT_MAX, '\n');
                 	continue;
@@ -39,26 +39,14 @@ void Get_Template(X &x, Y &y)
 	std::cout << ">> ";
         while(1)
         {
-                std::cin >> x;
+                std::cin >> x >> y;
                 if(std::cin.eof())
                 {
 			throw My_Exception("EOF occured!", 1);
                 }
                 if(std::cin.fail())
                 {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
-                        std::cin.clear();
-                        std::cin.ignore(INT_MAX, '\n');
-                        continue;
-                }
-                std::cin >> y;
-                if(std::cin.eof())
-                {
-			throw My_Exception("EOF occured!", 1);
-                }
-                if(std::cin.fail())
-                {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
+                        std::cout << "Wrong input! Repeat from the begining.\n>> ";
                         std::cin.clear();
                         std::cin.ignore(INT_MAX, '\n');
                         continue;
@@ -77,38 +65,14 @@ void Get_Template(X &x, Y &y, Z &z)
 	std::cout << ">> ";
         while(1)
         {
-                std::cin >> x;
+                std::cin >> x >> y >> z;
                 if(std::cin.eof())
                 {
 			throw My_Exception("EOF occured!", 1);
                 }
                 if(std::cin.fail())
                 {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
-                        std::cin.clear();
-                        std::cin.ignore(INT_MAX, '\n');
-                        continue;
-                }
-                std::cin >> y;
-                if(std::cin.eof())
-                {
-			throw My_Exception("EOF occured!", 1);
-                }
-                if(std::cin.fail())
-                {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
-                        std::cin.clear();
-                        std::cin.ignore(INT_MAX, '\n');
-                        continue;
-                }
-                std::cin >> z;
-                if(std::cin.eof())
-                {
-			throw My_Exception("EOF occured!", 1);
-                }
-                if(std::cin.fail())
-                {
-                        std::cout << "Wrong input! Repeate from the begining.\n>> ";
+                        std::cout << "Wrong input! Repeat from the begining.\n>> ";
                         std::cin.clear();
                         std::cin.ignore(INT_MAX, '\n');
                         continue;

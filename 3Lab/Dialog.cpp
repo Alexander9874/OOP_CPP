@@ -15,29 +15,59 @@ int Dialog_Main()
 
 void Dialog_Input_Contact(PSB * psb)
 {
-	psb->Input_Contact();
+	std::cout << "Execute as:\n\t0. Method\n\t1. Overloaded Operator" << std::endl;
+	bool choice;
+	Get_Template(choice);
+	if(choice)
+	{
+		std::cin >> *psb;
+	}
+	else
+	{
+		psb->Input_Contact();
+	}
 	std::cout << std::endl;
 }
 
 void Dialog_Print_PSB(PSB * psb)
 {
-	psb->Print_PSB();
-	//std::cout << std::endl;
+	std::cout << "Execute as:\n\t0. Method\n\t1. Overloaded Operator" << std::endl;
+	bool choice;
+	Get_Template(choice);
+	if(choice)
+	{
+		std::cout << *psb;
+	}
+	else
+	{
+		psb->Print_PSB();
+	}
 }
 
 void Dialog_Add_Contact(PSB * psb)
 {
+	std::cout << "Execute as:\n\t0. Method\n\t1. Overloaded Operator" << std::endl;
+	bool choice;
+	Get_Template(choice);
+	std::cout << "Enter (bool) TYPE (double) X (double) Y of your new contact" << std::endl;
 	bool tmp_type;
 	double tmp_x, tmp_y;
 	Get_Template(tmp_type, tmp_x, tmp_y);
 	Contact * new_contact = new Contact(tmp_type, tmp_x, tmp_y);
+	if(choice)
+	{
+		*psb += new_contact;
+	}
+	else
+	{
 	psb->Add_Contact(new_contact);
+	}
 	std::cout << std::endl;
 }
 
 void Dialog_Connect(PSB * psb)
 {
-	std::cout << "Execut:\n\t0. Unsafe Connection\n\t1. Safe Connection" << std::endl;
+	std::cout << "Execute as:\n\t0. Unsafe Connection\n\t1. Safe Connection" << std::endl;
 	bool choice;
 	Get_Template(choice);
 	std::cout << "Enter two contacts' numbers to connect." << std::endl;

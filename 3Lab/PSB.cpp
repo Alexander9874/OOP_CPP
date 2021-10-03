@@ -33,7 +33,36 @@ void PSB::Input_Contact()
 	Get_Template(tmp_type, tmp_x, tmp_y);
 	Contact * new_contact = new Contact(tmp_type, tmp_x, tmp_y);
 	contacts[num++] = new_contact;
-	std::cout << std::endl;
+}
+
+std::istream & operator >> (std::istream & in, PSB & psb)
+{
+	if(psb.num == NUM)
+	{
+		throw My_Exception("Not enough space.");
+	}
+	bool tmp_type;
+	double tmp_x, tmp_y;
+	std::cout << "Enter (bool) TYPE (double) X (double) Y of your new contact" << std::endl << ">> ";
+	while(1)
+	{
+		in >> tmp_type >> tmp_x >> tmp_y;
+		if(in.eof())
+		{
+			throw My_Exception("EOF occured!", 1);
+		}
+		if(in.fail())
+		{
+			std::cout << "Wrong input! Repeat from begining.\n>> ";
+			in.clear();
+			in.ignore(INT_MAX, '\n');
+			continue;
+		}
+		break;
+	}
+	Contact* new_contact = new Contact(tmp_type, tmp_x, tmp_y);
+	psb.contacts[psb.num++] = new_contact;
+	return in;
 }
 
 //вывод информации о плате в выходной поток;	(Перегрузка <<)
@@ -43,7 +72,7 @@ void PSB::Print_PSB() const
 	{
 		throw My_Exception("PSB is empty.");
 	}
-	std::cout << "NUM	TYPE	X	Y	CONNECTION" << std::endl;
+	std::cout << "NUM\tTYPE\tX\tY\tCONNECTION" << std::endl;
 	for(unsigned int i = 0; i < num; i++)
 	{
 		std::cout << i << '\t' << contacts[i]->type << '\t' << contacts[i]->x << '\t' << contacts[i]->y << '\t';
@@ -59,6 +88,25 @@ void PSB::Print_PSB() const
 	std::cout << std::endl;
 }
 
+std::ostream & operator << (std::ostream & out, const PSB & psb)
+{
+	out << "NUM\tTYPE\tX\tY\tCONNECTION" << std::endl;
+	for(unsigned int i = 0; i < psb.num; i++)
+	{
+		out << i << '\t' << psb.contacts[i]->type << '\t' << psb.contacts[i]->x << '\t' << psb.contacts[i]->y << '\t';
+		if(psb.contacts[i]->connection)
+		{
+			out << psb.contacts[i]->another_num << std::endl;
+		}
+		else
+		{
+			out << "none" << std::endl;
+		}
+	}
+	out << std::endl;
+	return out;
+}
+
 //добавить контакт на плате;	(Перегрузка +=)
 void PSB::Add_Contact(Contact* new_contact)
 {
@@ -68,6 +116,17 @@ void PSB::Add_Contact(Contact* new_contact)
 		throw My_Exception("Not enogh space.\nYour contact was deleted.");
 	}
 	contacts[num++] = new_contact;
+}
+
+PSB & PSB::operator += (Contact * new_contact)
+{
+	if(this->num == NUM)
+	{
+		delete new_contact;
+		throw My_Exception("Not enogh space.\nYour contact was deleted.");
+	}
+	this->contacts[this->num++] = new_contact;
+	return *this;
 }
 
 //“установить связь” между двумя указанными контактами (с проверкой корректности);
