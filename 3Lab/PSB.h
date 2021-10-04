@@ -27,13 +27,12 @@ struct Contact
 class PSB
 {
 	private:
-		Contact * contacts[NUM];
+		Contact contacts[NUM];
 		unsigned int num;
 		inline void Connect_Body(unsigned int, unsigned int);
 	public:
 		//пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
 		PSB();
-		~PSB();
 		
 		//ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
 		void Input_Contact();
@@ -44,19 +43,23 @@ class PSB
 		friend std::ostream & operator << (std::ostream &, const PSB &);
 
 		//добавить контакт на плате;	(Перегрузка +=)
-		void Add_Contact(Contact*);
-		PSB & operator += (Contact *);
+		void Add_Contact(Contact);
+		PSB & operator += (Contact);
 
 		//“установить связь” между двумя указанными контактами (с проверкой корректности);
 		void Connect_Safe(unsigned int, unsigned int);
 		void Connect_Unsafe(unsigned int, unsigned int);
 
 		//проверка “корректности связи” контакта, указанного его номером (входной контакт может быть связан только с одним выходным контактом, и наоборот);
-		void Correct_Connection(unsigned int);
-		void Correct_Connection();
 		
+//		void Correct_Connection(unsigned int);
+//		void Correct_Connection();
+
+[[nodiscard]]		bool Correct_Connection(unsigned int) const;
+[[nodiscard]]		bool Correct_Connection() const;
+
 		//выделить группу контактов заданного типа;
-[[nodiscard]]	Contact **  One_Type_Contacts(bool) const;
+[[nodiscard]]	Contact * One_Type_Contacts(unsigned int&) const;
 		
 		//оценить длину трассы между двумя указанными контактами (с проверкой корректности).
 [[nodiscard]]	double PSB_Trace_Length(unsigned int, unsigned int) const;

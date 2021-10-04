@@ -18,9 +18,10 @@ void Dialog_Input_Contact(PSB * psb)
 	std::cout << "Execute as:\n\t0. Method\n\t1. Overloaded Operator" << std::endl;
 	bool choice;
 	Get_Template(choice);
+	std::cout << "Enter (bool) TYPE (double) X (double) Y of your new contact" << std::endl;
 	if(choice)
 	{
-		std::cin >> *psb;
+		Get_Template(*psb);
 	}
 	else
 	{
@@ -53,7 +54,7 @@ void Dialog_Add_Contact(PSB * psb)
 	bool tmp_type;
 	double tmp_x, tmp_y;
 	Get_Template(tmp_type, tmp_x, tmp_y);
-	Contact * new_contact = new Contact(tmp_type, tmp_x, tmp_y);
+	Contact new_contact(tmp_type, tmp_x, tmp_y);
 	if(choice)
 	{
 		*psb += new_contact;
@@ -73,7 +74,7 @@ void Dialog_Connect(PSB * psb)
 	std::cout << "Enter two contacts' numbers to connect." << std::endl;
 	unsigned int first, second;
 	Get_Template(first, second);
-	if(!choice)
+	if(choice)
 	{
 		psb->Connect_Safe(first, second);
 	}
@@ -84,12 +85,13 @@ void Dialog_Connect(PSB * psb)
 	std::cout << std::endl;
 }
 
+/*
 void Dialog_Correct_Connection(PSB * psb)
 {
 	std::cout << "Execute Correction for\n\t0. Single contact\n\t1. Whole PSB" << std::endl;
 	bool choice;
 	Get_Template(choice);
-	if(choice)
+	if(!choice)
 	{
 		unsigned int number;
 		Get_Template(number);
@@ -101,27 +103,56 @@ void Dialog_Correct_Connection(PSB * psb)
 	}
 	std::cout << std::endl;
 }
+*/
+
+void Dialog_Correct_Connection(PSB * psb)
+{
+	std::cout << "Execute Correction for\n\t0. Single contact\n\t1. Whole PSB" << std::endl;
+	bool choice, result;
+	Get_Template(choice);
+	if(choice)
+	{
+		result = psb->Correct_Connection();
+	}
+	else
+	{
+		unsigned int number;
+		std::cout << "Enter contact to check connection." << std::endl;
+		Get_Template(number);
+		result = psb->Correct_Connection(number);
+	}
+	if(result)
+	{
+		if(choice)
+		{	
+			std::cout << "PSB is OK.\n" << std::endl;
+			return;
+		}
+		std::cout << "Contact is OK.\n" << std::endl;
+		return;
+	}
+	std::cout << "Found incorrectly connected contact. PSB is broken.\n" << std::endl;
+}
 
 void Dialog_One_Type_Contacts(PSB * psb)
 {
 	std::cout << "What type of contacts would you like to select\n\t0. Outgoing\n\t1. Incoming" << std::endl;
 	bool choice;
 	Get_Template(choice);
-	Contact ** selection = psb->One_Type_Contacts(choice);
-	unsigned int i = 0;
+	unsigned int int_choice = choice;
+	Contact * selection = psb->One_Type_Contacts(int_choice);
 	std::cout << "TYPE\tX\tY\tCONNECTED" << std::endl;
-	while(selection[i])
+	for(unsigned int i = 0; i < int_choice; i++)
 	{
-		std::cout << selection[i]->type << '\t' << selection[i]->x << '\t' << selection[i]->y << '\t';
-		if(selection[i]->connection)
+		std::cout << selection[i].type << '\t' << selection[i].x << '\t' << selection[i].y << '\t';
+		if(selection[i].connection)
 		{
-			std::cout << selection[i]->another_num << std::endl;
+			std::cout << selection[i].another_num << std::endl;
 		}
 		else
 		{
 			std::cout << "none" << std::endl;
 		}
-		i++;
 	}
 	delete [] selection;
 	std::cout << std::endl;

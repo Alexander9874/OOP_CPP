@@ -20,12 +20,12 @@ bool My_Exception::Fatal() const
 
 std::ostream & operator << (std::ostream & out, const My_Exception & exception)
 {
-	out << "Exception: \""<< exception.message << "\"; ";
+	out << "Exception: \""<< exception.message << "\";\n";
 	if(!exception.Fatal())
 	{
 		out << "not ";
 	}
-	out << "fatal exception.";
+	out << "fatal exception.\n";
 	return out;
 }
 #ifdef MY_EXCEPTION_MAIN
