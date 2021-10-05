@@ -4,7 +4,7 @@
 
 int main()
 {
-	PSB* psb = new PSB;
+	PCB* pcb = new PCB;
 	int choice = 0;
 	while(1)
 	{
@@ -15,24 +15,24 @@ int main()
 			{
 				break;
 			}
-			Dialogs[choice -1](psb);
+			Dialogs[choice -1](pcb);
 		}
 		catch(My_Exception &ex)
 		{
 			std::cout << ex << std::endl;
 			if(ex.Fatal())
 			{
-				delete psb;
+				delete pcb;
 				return -1;
 			}
 		}
 		catch(std::bad_alloc &ex)
 		{
 			std::cout << ex.what() << std::endl;
-			delete psb;
+			delete pcb;
 			return -1;
 		}
 	}
-	delete psb;
+	delete pcb;
 	return 0;
 }

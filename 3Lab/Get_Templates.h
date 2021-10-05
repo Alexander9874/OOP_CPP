@@ -7,7 +7,7 @@ void Get_Template(X &x)
 {
 	if(typeid(X) == typeid(bool))
 	{
-        	std::cout << "To express bool type use 1 or 0." << std::endl;
+        	std::cout << "To input bool type use 1 or 0." << std::endl;
         }
 	std::cout << ">> ";
 	while(1)
@@ -34,7 +34,7 @@ void Get_Template(X &x, Y &y)
 {
 	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool))
 	{
-        	std::cout << "To express bool type use 1 or 0." << std::endl;
+        	std::cout << "To input bool type use 1 or 0." << std::endl;
         }
 	std::cout << ">> ";
         while(1)
@@ -60,7 +60,7 @@ void Get_Template(X &x, Y &y, Z &z)
 {
 	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool) || typeid(Z) == typeid(bool))
 	{
-        	std::cout << "To express bool type use 1 or 0." << std::endl;
+        	std::cout << "To input bool type use 1 or 0." << std::endl;
         }
 	std::cout << ">> ";
         while(1)
