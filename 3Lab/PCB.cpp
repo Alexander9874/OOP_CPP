@@ -3,7 +3,7 @@
 namespace Printed_Circuit_Board
 {
 //создание экземпляров структуры (контакта) с инициализацией типом и координатами расположения на плате;
-	Contact::Contact() : type(0), x(0), y(0), connection(false) {};
+	Contact::Contact() : type(false), x(0), y(0), connection(false) {};
 	Contact::Contact(bool a, double b, double c) : type(a), x(b), y(c), connection(false) {};
 
 // Используется внутри Connect_Safe & Connect_Unsafe
@@ -100,6 +100,7 @@ namespace Printed_Circuit_Board
 		{
 			throw My_Exception("Not enogh space.");
 		}
+		//new_contact.connection = false;
 		contacts[num++] = new_contact;
 	}
 
@@ -109,6 +110,7 @@ namespace Printed_Circuit_Board
 		{
 			throw My_Exception("Not enogh space.");
 		}
+		//new_contact.connection = false;
 		this->contacts[this->num++] = new_contact;
 		return *this;
 	}
@@ -207,7 +209,7 @@ namespace Printed_Circuit_Board
 						//std::cout << "?incorrect connection between " << number << " and " << another_num << ". Connection removed." << std::endl;
 					//contacts[number].connection = false;
 					return false;
-					}
+				}
 			}
 		}
 		return true;
@@ -284,6 +286,7 @@ namespace Printed_Circuit_Board
 	}
 
 //выделить группу контактов заданного типа;
+//получает аргумент типа unsigned int (подразумеваемый true или false) после завершения меняет его значение на колличество элементов массива
 	Contact * PCB::One_Type_Contacts(unsigned int &type) const
 	{
 		bool bool_type = type;
@@ -319,11 +322,11 @@ namespace Printed_Circuit_Board
 		{
 			throw My_Exception("No such contacts.");
 		}
-		if((contacts[first].connection && contacts[first].another_num != second) || (contacts[second].connection && contacts[second].another_num != first))
+		if(!contacts[first].connection || !contacts[second].connection || contacts[first].another_num != second || contacts[second].another_num != first)
 		{
 			throw My_Exception("No such connection.");
 		}
-		if(contacts[first].type == contacts[second].type)
+		if(!(Check_Connection(first) && Check_Connection(second)))
 		{
 			throw My_Exception("Incorrect connection.");
 		}
@@ -334,7 +337,7 @@ namespace Printed_Circuit_Board
 	{
 		if(!(index < num))
 		{
-			throw My_Exception("No such contack.");
+			throw My_Exception("No such contacts.");
 		}
 		return this->contacts[index];
 	}
