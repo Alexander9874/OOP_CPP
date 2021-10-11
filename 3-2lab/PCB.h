@@ -9,9 +9,8 @@
 namespace Printed_Circuit_Board
 {
 	
-	#define INCOMING true	// Выходной тип контакта
-	#define OUTGOING false	// Входной тип контакта
-	#define NUM 10		// Максимальный размер массива
+//	#define INCOMING true	// Выходной тип контакта
+//	#define OUTGOING false	// Входной тип контакта
 
 	struct Contact
 	{
@@ -30,7 +29,7 @@ namespace Printed_Circuit_Board
 	class PCB
 	{
 		private:
-			Contact contacts[NUM];	// Массив контактов
+			char * contacts;	// Указатель а контакты
 			unsigned int num;	// Количество контактов в массиве
 			inline void Connect_Body(unsigned int, unsigned int);
 		public:

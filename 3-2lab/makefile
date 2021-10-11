@@ -10,7 +10,7 @@ unmake:
 	rm -r -f SOURCE LIBRARY INCLUDE
 	rm RUN_dialog RUN_test -f	
 LIBRARIES:
-	rm -r -f LIBRARY INCLUDE
+	rm -r -f LIBRARIES INCLUDE
 	mkdir LIBRARY INCLUDE
 	g++-10 -c PCB.cpp $(CF)
 	g++-10 -c My_Exception.cpp $(CF)
