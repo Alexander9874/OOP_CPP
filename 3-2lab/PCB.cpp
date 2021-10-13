@@ -18,31 +18,61 @@ namespace Printed_Circuit_Board
 //пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
 	PCB::PCB() : num(0) {};
 
+	PCB::~PCB()
+	{
+		if(num)
+		{
+			delete [] contacts;
+		}
+	}
+
 //ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
+
+	void PCB::Expand()
+	{
+		Contact * new_contacts = new Contact[1 + num];
+		for(unsigned int i = 0; i < num; i++)
+		{
+			new_contacts[i] = contacts[i];
+		}
+		if(num)
+		{
+			delete [] contacts;
+		}
+		contacts = new_contacts;
+		num++;
+	}
+
+	void PCB::Shrink()
+	{
+		Contact * new_contacts = new Contact[num - 1];
+		for(unsigned int i = 0; i < num - 1; i++)
+		{
+			new_contacts[i] = contacts[i];
+		}
+		delete [] contacts;
+		contacts = new_contacts;
+		num--;
+	}
+
 	void PCB::Input_Contact(std::istream & input, std::ostream & output)
 	{
-		if(num == NUM)
-		{
-			throw My_Exception("Not enogh space.");
-		}
+		Expand();
 		bool tmp_type;
 		double tmp_x, tmp_y;
 		Get_Template(tmp_type, tmp_x, tmp_y, input, output);
 		Contact new_contact(tmp_type, tmp_x, tmp_y);
-		contacts[num++] = new_contact;
+		contacts[num - 1] = new_contact;
 	}
 
 	std::istream & operator >> (std::istream & input, PCB & pcb)
 	{
-		if(pcb.num == NUM)
+		pcb.Expand();
+		input >> pcb.contacts[pcb.num - 1].type >> pcb.contacts[pcb.num - 1].x >> pcb.contacts[pcb.num - 1].y;
+		pcb.contacts[pcb.num - 1].connection = false;
+		if(input.fail())
 		{
-			throw My_Exception("Not enough space.");
-		}
-		input >> pcb.contacts[pcb.num].type >> pcb.contacts[pcb.num].x >> pcb.contacts[pcb.num].y;
-		pcb.contacts[pcb.num].connection = false;
-		if(input.good())
-		{
-			pcb.num++;
+			pcb.Shrink();
 		}
 		return input;
 	}
@@ -75,7 +105,8 @@ namespace Printed_Circuit_Board
 	{
 		if(!pcb.num)
 		{
-			throw My_Exception("PCB is empty.");
+			output << "PCB is empty.\n";
+			return output;
 		}
 		output << "NUM\tTYPE\tX\tY\tCONNECTION" << std::endl;
 		for(unsigned int i = 0; i < pcb.num; i++)
@@ -97,22 +128,14 @@ namespace Printed_Circuit_Board
 //добавить контакт на плате;	(Перегрузка +=)
 	void PCB::Add_Contact(Contact new_contact)
 	{
-		if(num == NUM)
-		{
-			throw My_Exception("Not enogh space.");
-		}
-		//new_contact.connection = false;
-		contacts[num++] = new_contact;
+		Expand();
+		contacts[num - 1] = new_contact;
 	}
 
-	void & PCB::operator += (Contact new_contact)
+	PCB & PCB::operator += (Contact new_contact)
 	{
-		if(num == NUM)
-		{
-			throw My_Exception("Not enogh space.");
-		}
-		//new_contact.connection = false;
-		contacts[num++] = new_contact;
+		Expand();
+		contacts[num - 1] = new_contact;
 		return *this;
 	}
 
@@ -145,10 +168,7 @@ namespace Printed_Circuit_Board
 
 //проверка “корректности связи” контакта, указанного его номером (входной контакт может быть связан только с одним выходным контактом, и наоборот);
 
-	//void
-	bool
-	PCB::Check_Connection(unsigned int number)
-	const
+	bool PCB::Check_Connection(unsigned int number) const
 	{
 		if(!(number < num))
 		{
@@ -160,8 +180,6 @@ namespace Printed_Circuit_Board
 			{
 				if(contacts[i].connection && contacts[i].another_num == number)
 				{
-					//std::cout << "Incorrect connection between " << number << " and " << i << ". Connection removed." << std::endl;
-					//contacts[i].connection = false;
 					return false;
 				}
 			}
@@ -173,8 +191,6 @@ namespace Printed_Circuit_Board
 			{
 				if(contacts[i].connection && contacts[i].another_num == number)
 				{
-					//std::cout << "#incorrect connection between " << number << " and " << i << ". Connection removed." << std::endl;
-					//contacts[i].connection = false;
 					return false;
 				}
 			}
@@ -182,15 +198,11 @@ namespace Printed_Circuit_Board
 			{
 				if(contacts[i].connection && contacts[i].another_num == number)
 				{
-					//std::cout << "$incorrect connection between " << number << " and " << i << ". Connection removed." << std::endl;
-					//contacts[i].connection = false;
 					return false;
 				}
 			}
 			if(!contacts[another_num].connection)
 			{
-				//std::cout << "&incorrect connection between " << number << " and " << another_num << ". Connection removed." << std::endl;
-				//contacts[number].connection = false;
 				return false;
 			}
 			else
@@ -199,16 +211,11 @@ namespace Printed_Circuit_Board
 				{
 					if(contacts[another_num].type == contacts[number].type)
 					{
-						//std::cout << "!incorrect connection between " << number << " and " << another_num << ". Connection removed." << std::endl;
-						//contacts[number].connection = false;
-						//contacts[another_num].connection = false;
 						return false;
 					}
 				}
 				else
 				{
-						//std::cout << "?incorrect connection between " << number << " and " << another_num << ". Connection removed." << std::endl;
-					//contacts[number].connection = false;
 					return false;
 				}
 			}
@@ -216,10 +223,7 @@ namespace Printed_Circuit_Board
 		return true;
 	}
 
-	//void 
-	bool
-	PCB::Check_Connection()
-	const
+	bool PCB::Check_Connection() const
 	{
 		for(unsigned int i = 0; i < num; i++)
 		{
@@ -229,8 +233,6 @@ namespace Printed_Circuit_Board
 				{
 					if(contacts[j].connection && contacts[j].another_num == i)
 					{
-						//std::cout << "Incorrect connection between " << i << " and " << j << ". Connection removed." << std::endl;
-						//contacts[j].connection = false;
 						return false;
 					}
 				}
@@ -242,15 +244,11 @@ namespace Printed_Circuit_Board
 				{
 					if(contacts[j].connection && contacts[j].another_num == i)
 					{
-						//std::cout << "Incorrect connection between " << i << " and " << j << ". Connection removed." << std::endl;
-						//contacts[j].connection = false;
 						return false;
 					}
 				}
 				if(!contacts[another_num].connection)
 				{
-					//std::cout << "Incorrect connection between " << i << " and " << another_num << ". Connection removed." << std::endl;
-					//contacts[i].connection = false;
 					return false;
 				}
 				else
@@ -259,16 +257,11 @@ namespace Printed_Circuit_Board
 					{
 						if(contacts[another_num].type == contacts[i].type)
 						{
-							//std::cout << "Incorrect connection between " << i << " and " << another_num << ". Connection removed." << std::endl;
-							//contacts[i].connection = false;
-							//contacts[another_num].connection = false;
 							return false;
 						}
 					}
 					else
 					{
-						//std::cout << "Incorrect connection between " << i << " and " << another_num << ". Connection removed." << std::endl;
-						//contacts[i].connection = false;
 						return false;
 					}
 				}
@@ -276,8 +269,6 @@ namespace Printed_Circuit_Board
 				{
 					if(contacts[j].connection && contacts[j].another_num == i)
 					{
-						//std::cout << "Incorrect connection between " << i << " and " << j << ". Connection removed." << std::endl;
-						//contacts[j].connection = false;
 						return false;
 					}
 				}
