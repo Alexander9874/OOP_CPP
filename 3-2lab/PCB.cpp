@@ -26,6 +26,59 @@ namespace Printed_Circuit_Board
 		}
 	}
 
+	PCB::PCB(const PCB & obj) : contacts(nullptr), num(obj.num) 
+	{
+		if(num)
+		{
+			contacts = new Contact[num];
+			for(unsigned int i = 0; i < num; i++)
+			{
+				contacts[i] = obj.contacts[i];
+			}
+		}
+	}
+
+	PCB & PCB::operator = (const PCB & obj)
+	{
+		if(this != &obj)
+		{
+			if(num)
+			{
+				delete [] contacts;
+			}
+			num = obj.num;
+			if(num)
+			{
+				contacts = new Contact[num];
+				for(unsigned int i = 0; i < num; i++)
+				{
+					contacts[i] = obj.contacts[i];
+				}
+			}
+		}
+		return *this;
+	}
+
+	PCB::PCB(PCB && pcb) : contacts(pcb.contacts), num(pcb.num)
+	{
+		pcb.contacts = nullptr;
+	}
+
+	PCB & PCB::operator = (PCB && pcb) noexcept
+	{
+		if(this != &pcb)
+		{
+			if(num)
+			{
+				delete [] contacts;
+			}
+			num = pcb.num;
+			contacts = pcb.contacts;
+			pcb.contacts = nullptr;
+		}
+		return *this;
+	}
+
 //ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
 
 	void PCB::Expand()
@@ -325,7 +378,7 @@ namespace Printed_Circuit_Board
 		return sqrt(pow((contacts[first].x - contacts[second].x), 2) + pow((contacts[first].y - contacts[second].y), 2));
 	}
 
-	Contact PCB::operator [](unsigned int index) const
+	Contact & PCB::operator [](unsigned int index) const
 	{
 		if(!(index < num))
 		{

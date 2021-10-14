@@ -31,14 +31,19 @@ namespace Printed_Circuit_Board
 		private:
 			Contact * contacts;	// Массив контактов
 			unsigned int num;	// Количество контактов в массиве
-			inline void Connect_Body(unsigned int, unsigned int);
+
+inline void Connect_Body(unsigned int, unsigned int);
 			void Expand();
 			void Shrink();
 		public:
 //пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
 			PCB();
 			~PCB();
-			
+			PCB(const PCB &);
+			PCB & operator = (const PCB &);
+			PCB(PCB &&);
+			PCB & operator = (PCB &&) noexcept;
+
 //ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
 			void Input_Contact(std::istream & input = std::cin, std::ostream & output = std::cout);
 			friend std::istream & operator >> (std::istream &, PCB &);
@@ -66,7 +71,7 @@ namespace Printed_Circuit_Board
 //оценить длину трассы между двумя указанными контактами (с проверкой корректности).
 	[[nodiscard]]	double PCB_Trace_Length(unsigned int, unsigned int) const;
 	
-	[[nodiscard]]	Contact operator [](unsigned int) const;
+	[[nodiscard]]	Contact & operator [](unsigned int) const;
 	};
 }
 #endif
