@@ -9,6 +9,7 @@ namespace Printed_Circuit_Board
 // Используется внутри Connect_Safe & Connect_Unsafe
 	inline void PCB::Connect_Body(unsigned int first, unsigned int second)
 	{
+		Contact * contacts = (Contact *)contacts_char;
 		contacts[first].connection = true;
 		contacts[second].connection = true;
 		contacts[first].another_num = second;
@@ -22,18 +23,20 @@ namespace Printed_Circuit_Board
 	{
 		if(num)
 		{
-			delete [] contacts;
+			delete [] contacts_char;
 		}
 	}
 
-	PCB::PCB(const PCB & obj) : contacts(nullptr), num(obj.num) 
+	PCB::PCB(const PCB & obj) : contacts_char(nullptr), num(obj.num) 
 	{
 		if(num)
 		{
-			contacts = new Contact[num];
+			//contacts = new Contact[num];
+			contacts_char = (char *)(new Contact[num]);
+			Contact * contacts = (Contact *)contacts_char, * contacts_obj = (Contact *)obj.contacts_char;
 			for(unsigned int i = 0; i < num; i++)
 			{
-				contacts[i] = obj.contacts[i];
+				contacts[i] = contacts_obj[i];
 			}
 		}
 	}
@@ -44,24 +47,26 @@ namespace Printed_Circuit_Board
 		{
 			if(num)
 			{
-				delete [] contacts;
+				delete [] contacts_char;
 			}
 			num = obj.num;
 			if(num)
 			{
-				contacts = new Contact[num];
+				//contacts = new Contact[num];
+				contacts_char = (char *)(new Contact[num]);
+				Contact * contacts = (Contact *)contacts_char, * contacts_obj = (Contact *)obj.contacts_char;
 				for(unsigned int i = 0; i < num; i++)
 				{
-					contacts[i] = obj.contacts[i];
+					contacts[i] = contacts_obj[i];
 				}
 			}
 		}
 		return *this;
 	}
 
-	PCB::PCB(PCB && pcb) : contacts(pcb.contacts), num(pcb.num)
+	PCB::PCB(PCB && pcb) : contacts_char(pcb.contacts_char), num(pcb.num)
 	{
-		pcb.contacts = nullptr;
+		pcb.contacts_char = nullptr;
 	}
 
 	PCB & PCB::operator = (PCB && pcb) noexcept
@@ -70,11 +75,11 @@ namespace Printed_Circuit_Board
 		{
 			if(num)
 			{
-				delete [] contacts;
+				delete [] contacts_char;
 			}
 			num = pcb.num;
-			contacts = pcb.contacts;
-			pcb.contacts = nullptr;
+			contacts_char = pcb.contacts_char;
+			pcb.contacts_char = nullptr;
 		}
 		return *this;
 	}
@@ -84,6 +89,7 @@ namespace Printed_Circuit_Board
 	void PCB::Expand()
 	{
 		Contact * new_contacts = new Contact[1 + num];
+		Contact * contacts = (Contact *)contacts_char;
 		for(unsigned int i = 0; i < num; i++)
 		{
 			new_contacts[i] = contacts[i];
@@ -99,6 +105,7 @@ namespace Printed_Circuit_Board
 	void PCB::Shrink()
 	{
 		Contact * new_contacts = new Contact[num - 1];
+		Contact * contacts = (Contact *)contacts_char;
 		for(unsigned int i = 0; i < num - 1; i++)
 		{
 			new_contacts[i] = contacts[i];
@@ -115,14 +122,17 @@ namespace Printed_Circuit_Board
 		double tmp_x, tmp_y;
 		Get_Template(tmp_type, tmp_x, tmp_y, input, output);
 		Contact new_contact(tmp_type, tmp_x, tmp_y);
+		Contact * contacts = (Contact *)contacts_char;
 		contacts[num - 1] = new_contact;
 	}
 
 	std::istream & operator >> (std::istream & input, PCB & pcb)
 	{
 		pcb.Expand();
-		input >> pcb.contacts[pcb.num - 1].type >> pcb.contacts[pcb.num - 1].x >> pcb.contacts[pcb.num - 1].y;
-		pcb.contacts[pcb.num - 1].connection = false;
+		Contact * contacts = (Contact *)(pcb.contacts_char);
+std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
+		input >> contacts[pcb.num - 1].type >> contacts[pcb.num - 1].x >> contacts[pcb.num - 1].y;
+		contacts[pcb.num - 1].connection = false;
 		if(input.fail())
 		{
 			pcb.Shrink();
@@ -138,6 +148,7 @@ namespace Printed_Circuit_Board
 			output << "PCB is empty.\n";
 			return;
 		}
+		Contact * contacts = (Contact *)contacts_char;
 		output << "NUM\tTYPE\tX\tY\tCONNECTION" << std::endl;
 		for(unsigned int i = 0; i < num; i++)
 		{
@@ -161,13 +172,14 @@ namespace Printed_Circuit_Board
 			output << "PCB is empty.\n";
 			return output;
 		}
+		Contact * contacts = (Contact *)(pcb.contacts_char);
 		output << "NUM\tTYPE\tX\tY\tCONNECTION" << std::endl;
 		for(unsigned int i = 0; i < pcb.num; i++)
 		{
-			output << i << '\t' << pcb.contacts[i].type << '\t' << pcb.contacts[i].x << '\t' << pcb.contacts[i].y << '\t';
-			if(pcb.contacts[i].connection)
+			output << i << '\t' << contacts[i].type << '\t' << contacts[i].x << '\t' << contacts[i].y << '\t';
+			if(contacts[i].connection)
 			{
-				output << pcb.contacts[i].another_num << std::endl;
+				output << contacts[i].another_num << std::endl;
 			}
 			else
 			{
@@ -182,12 +194,14 @@ namespace Printed_Circuit_Board
 	void PCB::Add_Contact(Contact new_contact)
 	{
 		Expand();
+		Contact * contacts = (Contact *)contacts_char;
 		contacts[num - 1] = new_contact;
 	}
 
 	PCB & PCB::operator += (Contact new_contact)
 	{
 		Expand();
+		Contact * contacts = (Contact *)contacts_char; 
 		contacts[num - 1] = new_contact;
 		return *this;
 	}
@@ -199,6 +213,7 @@ namespace Printed_Circuit_Board
 		{
 			throw My_Exception("No such contacts.");
 		}
+		Contact * contacts = (Contact *)contacts_char;
 		if(contacts[first].type == contacts[second].type)
 		{
 			throw My_Exception("Both contacts have the same type.");
@@ -223,6 +238,7 @@ namespace Printed_Circuit_Board
 
 	bool PCB::Check_Connection(unsigned int number) const
 	{
+		Contact * contacts = (Contact *)contacts_char;
 		if(!(number < num))
 		{
 			throw My_Exception("No such contact.");
@@ -278,6 +294,7 @@ namespace Printed_Circuit_Board
 
 	bool PCB::Check_Connection() const
 	{
+		Contact * contacts = (Contact *)contacts_char;
 		for(unsigned int i = 0; i < num; i++)
 		{
 			if(contacts[i].connection == false)
@@ -332,8 +349,9 @@ namespace Printed_Circuit_Board
 
 //выделить группу контактов заданного типа;
 //получает аргумент типа unsigned int (подразумеваемый true или false) после завершения меняет его значение на колличество элементов массива
-	Contact * PCB::One_Type_Contacts(unsigned int &type) const
+	Contact * PCB::One_Type_Contacts(unsigned int & type) const
 	{
+		Contact * contacts = (Contact *)contacts_char;
 		bool bool_type = type;
 		unsigned int count = 0;
 		for(unsigned int i = 0; i < num; i++)
@@ -363,6 +381,7 @@ namespace Printed_Circuit_Board
 //оценить длину трассы между двумя указанными контактами (с проверкой корректности).
 	double PCB::PCB_Trace_Length(unsigned int first, unsigned int second) const
 	{
+		Contact * contacts = (Contact *)contacts_char;
 		if(!(first < num && second < num))
 		{
 			throw My_Exception("No such contacts.");
@@ -384,6 +403,6 @@ namespace Printed_Circuit_Board
 		{
 			throw My_Exception("No such contacts.");
 		}
-		return this->contacts[index];
+		return ((Contact *)(this->contacts_char))[index];
 	}
 }

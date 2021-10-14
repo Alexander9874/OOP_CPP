@@ -29,7 +29,7 @@ namespace Printed_Circuit_Board
 	class PCB
 	{
 		private:
-			Contact * contacts;	// Массив контактов
+			char * contacts_char;	// Массив контактов
 			unsigned int num;	// Количество контактов в массиве
 
 			inline void Connect_Body(unsigned int, unsigned int);
