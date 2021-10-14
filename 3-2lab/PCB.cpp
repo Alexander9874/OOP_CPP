@@ -211,14 +211,14 @@ namespace Printed_Circuit_Board
 	}
 
 //добавить контакт на плате;	(Перегрузка +=)
-	void PCB::Add_Contact(Contact new_contact)
+	void PCB::Add_Contact(const Contact & new_contact)
 	{
 		Expand();
 		Contact * contacts = (Contact *)contacts_char;
 		contacts[num - 1] = new_contact;
 	}
 
-	PCB & PCB::operator += (Contact new_contact)
+	PCB & PCB::operator += (const Contact & new_contact)
 	{
 		Expand();
 		Contact * contacts = (Contact *)contacts_char; 

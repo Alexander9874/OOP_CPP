@@ -59,8 +59,8 @@ namespace Printed_Circuit_Board
 			friend std::ostream & operator << (std::ostream &, const PCB &) noexcept;
 	
 //добавить контакт на плате;	(Перегрузка +=)
-			void Add_Contact(Contact);
-			PCB & operator += (Contact);
+			void Add_Contact(const Contact &);
+			PCB & operator += (const Contact &);
 	
 //“установить связь” между двумя указанными контактами (с проверкой корректности);
 			void Connect_Safe(unsigned int, unsigned int);
