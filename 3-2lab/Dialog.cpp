@@ -5,7 +5,7 @@ int Dialog_Main()
 	int choice;
 	while(1)
 	{
-		std::cout << "Choose:\n\t0. Exit\n\t1. Inpute Contact\n\t2. Print PCB Contacts\n\t3. Add Contact\n\t4. Connect Contacts\n\t5. Check Connection\n\t6. Select One Type Contacts\n\t7. Find Trace Lengt\n\t8. Extra(not listed in task)" << std::endl;
+		std::cout << "Choose:\n\t0. Exit\n\t1. Inpute Contact\n\t2. Print PCB Contacts\n\t3. Add Contact\n\t4. Connect Contacts\n\t5. Check Connection\n\t6. Select One Type Contacts\n\t7. Find Trace Lengt\n\t8. Get contact (not listed in task)" << std::endl;
 		Get_Template(choice);
 		if(choice < 9 && choice > -1) break;
 		std::cout << "Out of range, repeat." << std::endl;
@@ -153,7 +153,7 @@ void Extra(PCB * pcb)
 	std::cout << "Enter index" << std::endl;
 	unsigned int index;
 	Get_Template(index);
-	std::cout << (*pcb)[index].type << std::endl;
-	std::cout << (*pcb)[index].x << std::endl;
-	std::cout << (*pcb)[index].y << std::endl;
+	std::cout << "TYPE:\t" << (*pcb)[index].type << std::endl;
+	std::cout << "X:\t" << (*pcb)[index].x << std::endl;
+	std::cout << "Y\t" << (*pcb)[index].y << std::endl;
 }

@@ -5,10 +5,10 @@
 template <typename X>
 void Get_Template(X &x, std::istream & input = std::cin, std::ostream & output = std::cout) 
 {
-	if(typeid(X) == typeid(bool))
+/*	if(typeid(X) == typeid(bool))
 	{
         	output << "To input bool type use 1 or 0." << std::endl;
-        }
+        }*/
 	output << ">> ";
 	while(1)
         {
@@ -36,10 +36,10 @@ void Get_Template(X &x, std::istream & input = std::cin, std::ostream & output =
 template <typename X, typename Y>
 void Get_Template(X &x, Y &y, std::istream & input = std::cin, std::ostream & output = std::cout) 
 {
-	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool))
+/*	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool))
 	{
         	output << "To input bool type use 1 or 0." << std::endl;
-        }
+        }*/
 	output << ">> ";
         while(1)
         {
@@ -66,10 +66,10 @@ void Get_Template(X &x, Y &y, std::istream & input = std::cin, std::ostream & ou
 template <typename X, typename Y, typename Z>
 void Get_Template(X &x, Y &y, Z &z, std::istream & input = std::cin, std::ostream & output = std::cout) 
 {
-	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool) || typeid(Z) == typeid(bool))
+/*	if(typeid(X) == typeid(bool) || typeid(Y) == typeid(bool) || typeid(Z) == typeid(bool))
 	{
         	output << "To input bool type use 1 or 0." << std::endl;
-        }
+        }*/
 	output << ">> ";
         while(1)
         {

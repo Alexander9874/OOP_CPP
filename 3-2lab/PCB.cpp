@@ -7,7 +7,7 @@ namespace Printed_Circuit_Board
 	Contact::Contact(bool a, double b, double c) : type(a), x(b), y(c), connection(false) {};
 
 // Используется внутри Connect_Safe & Connect_Unsafe
-	inline void PCB::Connect_Body(unsigned int first, unsigned int second)
+	inline void PCB::Connect_Body(unsigned int first, unsigned int second) noexcept
 	{
 		Contact * contacts = (Contact *)contacts_char;
 		contacts[first].connection = true;
@@ -16,9 +16,41 @@ namespace Printed_Circuit_Board
 		contacts[second].another_num = first;
 	}
 
-//пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
+// Увеличение длины вектора на 1 контакт, используется при добавлении новых контактов
+	void PCB::Expand()
+	{
+		Contact * new_contacts = new Contact[1 + num];
+		Contact * contacts = (Contact *)contacts_char;
+		for(unsigned int i = 0; i < num; i++)
+		{
+			new_contacts[i] = contacts[i];
+		}
+		if(num)
+		{
+			delete [] contacts;
+		}
+		contacts_char = (char *)new_contacts;
+		num++;
+	}
+
+// Уменьшение длины вектора на 1 контакт, используется только в операторе >> при неправильном вводе
+	void PCB::Shrink()
+	{
+		Contact * new_contacts = new Contact[num - 1];
+		Contact * contacts = (Contact *)contacts_char;
+		for(unsigned int i = 0; i < num - 1; i++)
+		{
+			new_contacts[i] = contacts[i];
+		}
+		delete [] contacts;
+		contacts_char = (char *)new_contacts;
+		num--;
+	}
+
+// пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
 	PCB::PCB() : num(0) {};
 
+// Destructor
 	PCB::~PCB()
 	{
 		if(num)
@@ -27,6 +59,7 @@ namespace Printed_Circuit_Board
 		}
 	}
 
+// Копируюший конструктор
 	PCB::PCB(const PCB & obj) : contacts_char(nullptr), num(obj.num) 
 	{
 		if(num)
@@ -39,8 +72,12 @@ namespace Printed_Circuit_Board
 				contacts[i] = contacts_obj[i];
 			}
 		}
+
+		// Для тестирования
+		test_char = '-';
 	}
 
+// оператор присваинвания копирования
 	PCB & PCB::operator = (const PCB & obj)
 	{
 		if(this != &obj)
@@ -61,14 +98,23 @@ namespace Printed_Circuit_Board
 				}
 			}
 		}
+		
+		// Для тестирования
+		test_char = '-';
+
 		return *this;
 	}
 
+// Перемещающий конструктор
 	PCB::PCB(PCB && pcb) : contacts_char(pcb.contacts_char), num(pcb.num)
 	{
 		pcb.contacts_char = nullptr;
+		
+		// Для тестирования
+		test_char = '@';
 	}
 
+// Оператор присваивания перемещения
 	PCB & PCB::operator = (PCB && pcb) noexcept
 	{
 		if(this != &pcb)
@@ -81,39 +127,14 @@ namespace Printed_Circuit_Board
 			contacts_char = pcb.contacts_char;
 			pcb.contacts_char = nullptr;
 		}
+		
+		// Для тестировани
+		test_char = '@';
+
 		return *this;
 	}
 
 //ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
-
-	void PCB::Expand()
-	{
-		Contact * new_contacts = new Contact[1 + num];
-		Contact * contacts = (Contact *)contacts_char;
-		for(unsigned int i = 0; i < num; i++)
-		{
-			new_contacts[i] = contacts[i];
-		}
-		if(num)
-		{
-			delete [] contacts;
-		}
-		contacts = new_contacts;
-		num++;
-	}
-
-	void PCB::Shrink()
-	{
-		Contact * new_contacts = new Contact[num - 1];
-		Contact * contacts = (Contact *)contacts_char;
-		for(unsigned int i = 0; i < num - 1; i++)
-		{
-			new_contacts[i] = contacts[i];
-		}
-		delete [] contacts;
-		contacts = new_contacts;
-		num--;
-	}
 
 	void PCB::Input_Contact(std::istream & input, std::ostream & output)
 	{
@@ -130,7 +151,6 @@ namespace Printed_Circuit_Board
 	{
 		pcb.Expand();
 		Contact * contacts = (Contact *)(pcb.contacts_char);
-std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
 		input >> contacts[pcb.num - 1].type >> contacts[pcb.num - 1].x >> contacts[pcb.num - 1].y;
 		contacts[pcb.num - 1].connection = false;
 		if(input.fail())
@@ -141,7 +161,7 @@ std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
 	}
 
 //вывод информации о плате в выходной поток;	(Перегрузка <<)
-	void PCB::Print_PCB(std::ostream & output) const
+	void PCB::Print_PCB(std::ostream & output) const noexcept
 	{
 		if(!num)
 		{
@@ -165,7 +185,7 @@ std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
 		output << std::endl;
 	}
 		
-	std::ostream & operator << (std::ostream & output, const PCB & pcb)
+	std::ostream & operator << (std::ostream & output, const PCB & pcb) noexcept
 	{
 		if(!pcb.num)
 		{
@@ -292,7 +312,7 @@ std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
 		return true;
 	}
 
-	bool PCB::Check_Connection() const
+	bool PCB::Check_Connection() const noexcept
 	{
 		Contact * contacts = (Contact *)contacts_char;
 		for(unsigned int i = 0; i < num; i++)
@@ -397,6 +417,7 @@ std::cout << "\n\n\n" << contacts << "\n\n\n" << std::endl;
 		return sqrt(pow((contacts[first].x - contacts[second].x), 2) + pow((contacts[first].y - contacts[second].y), 2));
 	}
 
+// Возврат и-того контакта с возможностью его редактировать (нет в задании)
 	Contact & PCB::operator [](unsigned int index) const
 	{
 		if(!(index < num))

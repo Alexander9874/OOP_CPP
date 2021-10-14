@@ -1,5 +1,6 @@
 #include "PCB.h"
 #include <gtest/gtest.h>
+#include <fstream>
 
 using namespace Printed_Circuit_Board;
 
@@ -41,19 +42,6 @@ TEST(PCB_Add_Contact, Overloaded_Operator)
 	ASSERT_EQ(y.type, x.type);
 	ASSERT_NEAR(y.x, x.x, 0.01);
 	ASSERT_NEAR(y.y, x.y, 0.01);
-}
-
-TEST(PCB_Add_Contact, Throw_Not_Enough_Space)
-{
-	PCB pcb;
-	Contact contact;
-	for(unsigned int i = 0; i < NUM; i++)
-	{
-		pcb += contact;
-	}
-	ASSERT_ANY_THROW(pcb.Input_Contact());
-	ASSERT_ANY_THROW(std::cin >> pcb);
-	ASSERT_ANY_THROW(pcb += contact);
 }
 
 TEST(PCB_Connect_Contacts, Safe_Method_OK)
@@ -107,7 +95,7 @@ TEST(PCB_Connect_Contacts, Usnafe_Throw_No_Contacts)
 TEST(PCB_Check_Connection, All_Right_Contact)
 {
 	PCB pcb;
-	for(unsigned int i = 0; i < NUM; i++)
+	for(unsigned int i = 0; i < 10; i++)
 	{
 		Contact contact(i % 2, 0, 0);
 		pcb += contact;
@@ -120,7 +108,7 @@ TEST(PCB_Check_Connection, All_Right_Contact)
 TEST(PCB_Check_Connection, All_Right_Total)
 {
 	PCB pcb;
-	for(unsigned int i = 0; i < NUM; i++)
+	for(unsigned int i = 0; i < 10; i++)
 	{
 		Contact contact(i % 2, 0, 0);
 		pcb += contact;
@@ -132,7 +120,7 @@ TEST(PCB_Check_Connection, All_Right_Total)
 TEST(PCB_Check_Connection, False_Connection_Contact)
 {
 	PCB pcb;
-	for(unsigned int i = 0; i < NUM - 1; i++)
+	for(unsigned int i = 0; i < 10 - 1; i++)
 	{
 		Contact contact(i % 2, 0, 0);
 		pcb += contact;
@@ -147,7 +135,7 @@ TEST(PCB_Check_Connection, False_Connection_Contact)
 TEST(PCB_Check_Connection, False_Connection_Total)
 {
 	PCB pcb;
-	for(unsigned int i = 0; i < NUM - 1; i++)
+	for(unsigned int i = 0; i < 10 - 1; i++)
 	{
 		Contact contact(i % 2, 0, 0);
 		pcb += contact;
@@ -162,7 +150,7 @@ TEST(PCB_Check_Connection, False_Connection_Total)
 TEST(PCB_Check_Connection, Found_Another_Connection_Contact)
 {
         PCB pcb;
-        for(unsigned int i = 0; i < NUM; i++)
+        for(unsigned int i = 0; i < 10; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -175,7 +163,7 @@ TEST(PCB_Check_Connection, Found_Another_Connection_Contact)
 TEST(PCB_Check_Connection, Found_Another_Connection_Total)
 {
         PCB pcb;
-        for(unsigned int i = 0; i < NUM; i++)
+        for(unsigned int i = 0; i < 10; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -188,7 +176,7 @@ TEST(PCB_Check_Connection, Found_Another_Connection_Total)
 TEST(PCB_Check_Connection, Another_Doesnt_Connected_Contact)
 {
 	PCB pcb;
-        for(unsigned int i = 0; i < NUM - 1; i++)
+        for(unsigned int i = 0; i < 10 - 1; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -203,7 +191,7 @@ TEST(PCB_Check_Connection, Another_Doesnt_Connected_Contact)
 TEST(PCB_Check_Connection, Same_Types_Contact)
 {
 	PCB pcb;
-        for(unsigned int i = 0; i < NUM; i++)
+        for(unsigned int i = 0; i < 10; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -219,7 +207,7 @@ TEST(PCB_Check_Connection, Same_Types_Contact)
 TEST(PCB_Check_Connection, Same_Types_Total)
 {
 	PCB pcb;
-        for(unsigned int i = 0; i < NUM; i++)
+        for(unsigned int i = 0; i < 10; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -231,7 +219,7 @@ TEST(PCB_Check_Connection, Same_Types_Total)
 TEST(PCB_One_Type_Contacts, Method)
 {
 	PCB pcb;
-        for(unsigned int i = 0; i < NUM -1; i++)
+        for(unsigned int i = 0; i < 10 -1; i++)
         {
                 Contact contact(i % 2, 0, 0); 
                 pcb += contact;
@@ -289,7 +277,7 @@ TEST(PCB_Trace_Length, method)
 	ASSERT_NEAR(1053.9285, pcb.PCB_Trace_Length(0, 1), 0.01);
 }
 
-TEST(PCD_Extra_Method, Operator)
+TEST(PCB_Extra_Method, Operator)
 {
 	PCB pcb;
 	Contact contact(true, 34534.345435, -234324234234234.23423423423423423);
@@ -297,10 +285,166 @@ TEST(PCD_Extra_Method, Operator)
 	ASSERT_EQ(contact.type, pcb[0].type);
 	ASSERT_NEAR(contact.x, pcb[0].x, 0.01);
 	ASSERT_NEAR(contact.y, pcb[0].y, 0.01);
+	pcb[0].x = 123.321;
+	ASSERT_NEAR(123.321, pcb[0].x, 0.01);
+}
+
+//-------------------тесты для потока ввода--------------------------------//
+
+TEST(PCB_Streams, Input_Method)
+{
+	PCB pcb;
+	std::ifstream file("values.txt");
+	pcb.Input_Contact(file);
+	ASSERT_EQ(true, pcb[0].type);
+	ASSERT_NEAR(45, pcb[0].x, 0.01);
+	ASSERT_NEAR(-90.54, pcb[0].y, 0.01);
+	file.close();
+}
+
+TEST(PCB_Streams, Input_Operator)
+{
+	PCB pcb;
+	std::ifstream file("values.txt");
+	file >> pcb;
+	ASSERT_EQ(true, pcb[0].type);
+	ASSERT_NEAR(45, pcb[0].x, 0.01);
+	ASSERT_NEAR(-90.54, pcb[0].y, 0.01);
+	file.close();
+}
+
+//-------------------тесты которых не было в статике--------------------------//
+
+TEST(PCB_Dynamic, Copy_Constructor)
+{
+	PCB orig;
+	Contact contact(true, 345.342, -567.654);
+	orig += contact;
+	PCB pcb(orig);
+	ASSERT_EQ(contact.type, pcb[0].type);
+	ASSERT_NEAR(contact.x, pcb[0].x, 0.01);
+	ASSERT_NEAR(contact.y, pcb[0].y, 0.01);
+	ASSERT_EQ('-', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Copy_Constructor_Cycle)
+{
+	PCB orig;
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		Contact contact(i % 2, (double)3232.6575 / (i + 1), (double)-987.6543 / (i + 212));
+		orig += contact;
+	}
+	PCB pcb(orig);
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		ASSERT_EQ(i % 2, pcb[i].type);
+		ASSERT_NEAR((double)3232.6575 / (i + 1), pcb[i].x, 0.01);
+		ASSERT_NEAR((double)-987.6543 / (i + 212), pcb[i].y, 0.01);
+	}
+	ASSERT_EQ('-', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Copy_Operator)
+{
+	PCB orig;
+	Contact contact(true, 43543.657, -0.654);
+	orig += contact;
+	PCB pcb = orig;
+	ASSERT_EQ(contact.type, pcb[0].type);
+	ASSERT_NEAR(contact.x, pcb[0].x, 0.01);
+	ASSERT_NEAR(contact.y, pcb[0].y, 0.01);
+	ASSERT_EQ('-', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Copy_Operator_Cycle)
+{
+	PCB orig;
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		Contact contact(i % 2, (double)3232.6575 / (i + 1), (double)-987.6543 / (i + 212));
+		orig += contact;
+	}
+	PCB pcb = orig;
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		ASSERT_EQ(i % 2, pcb[i].type);
+		ASSERT_NEAR((double)3232.6575 / (i + 1), pcb[i].x, 0.01);
+		ASSERT_NEAR((double)-987.6543 / (i + 212), pcb[i].y, 0.01);
+	}
+	ASSERT_EQ('-', pcb.test_char);
+}
+
+PCB MOVE(PCB orig)
+{
+	return orig;
+}
+
+TEST(PCB_Dynamic, Move_Constructor)
+{
+	PCB orig;
+	Contact contact(true, 345.342, -567.654);
+	orig += contact;
+	PCB pcb(MOVE(orig));
+	ASSERT_EQ(contact.type, pcb[0].type);
+	ASSERT_NEAR(contact.x, pcb[0].x, 0.01);
+	ASSERT_NEAR(contact.y, pcb[0].y, 0.01);
+	ASSERT_EQ('@', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Move_Constructor_Cycle)
+{
+	PCB orig;
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		Contact contact(i % 2, (double)3232.6575 / (i + 1), (double)-987.6543 / (i + 212));
+		orig += contact;
+	}
+	PCB pcb(MOVE(orig));
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		ASSERT_EQ(i % 2, pcb[i].type);
+		ASSERT_NEAR((double)3232.6575 / (i + 1), pcb[i].x, 0.01);
+		ASSERT_NEAR((double)-987.6543 / (i + 212), pcb[i].y, 0.01);
+	}
+	ASSERT_EQ('@', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Move_Operator)
+{
+	PCB orig;
+	Contact contact(true, 345.342, -567.654);
+	orig += contact;
+	PCB pcb = MOVE(orig);
+	ASSERT_EQ(contact.type, pcb[0].type);
+	ASSERT_NEAR(contact.x, pcb[0].x, 0.01);
+	ASSERT_NEAR(contact.y, pcb[0].y, 0.01);
+	ASSERT_EQ('@', pcb.test_char);
+}
+
+TEST(PCB_Dynamic, Move_Operator_Cycle)
+{
+	PCB orig;
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		Contact contact(i % 2, (double)3232.6575 / (i + 1), (double)-987.6543 / (i + 212));
+		orig += contact;
+	}
+	PCB pcb = MOVE(orig);
+	for(unsigned int i = 0; i < 20; ++i)
+	{
+		ASSERT_EQ(i % 2, pcb[i].type);
+		ASSERT_NEAR((double)3232.6575 / (i + 1), pcb[i].x, 0.01);
+		ASSERT_NEAR((double)-987.6543 / (i + 212), pcb[i].y, 0.01);
+	}
+	ASSERT_EQ('@', pcb.test_char);
 }
 
 int main(int argc, char **argv)
 {
+	std::ofstream file("values.txt", std::ios::trunc);
+	file << 1 << ' ' << 45 << ' ' << ' ' << -90.54 << '\n';
+	file.close();
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }

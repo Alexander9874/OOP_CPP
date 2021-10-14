@@ -1,6 +1,6 @@
 CFE=-Wall -Wextra -pedantic -Weffc++ -Woverloaded-virtual -Wctor-dtor-privacy -Wnon-virtual-dtor -Wold-style-cast -Wconversion -Wsign-conversion -Winit-self -Wunreachable-code
 CF=-Wall -Wextra -g
-GT=-lgtest -lgtest_main -lpthread
+GT=-lgtest -lgtest_main -lpthread -D G_TEST
 
 make: LIBRARIES REORDER TEST DIALOG
 
@@ -15,11 +15,11 @@ LIBRARIES:
 	g++-10 -c PCB.cpp $(CF)
 	g++-10 -c My_Exception.cpp $(CF)
 	g++-10 -c Dialog.cpp main.cpp $(CF)
-#	g++-10 -c test.cpp $(CF) $(GF)
+	g++-10 -c test.cpp $(CF)
 	ar rcs libPCB.a PCB.o
 	ar rcs libDialog.a Dialog.o main.o
 	ar rcs libMy_Exception.a My_Exception.o
-#	ar rcs libTest.a test.o
+	ar rcs libTest.a test.o
 	mv *.a ./LIBRARY
 	cp *.h ./INCLUDE
 	rm *.o
@@ -28,8 +28,8 @@ REORDER:
 	mkdir SOURCE
 	mv *.cpp *.h ./SOURCE
 TEST:
-#	g++-10 -L./LIBRARY -I./INCLUDE -lTest -lPCB -lMy_Exception -lgtest -lgtest_main -lpthread -o RUN_test
+	g++-10 -L./LIBRARY -I./INCLUDE -lTest -lPCB -lMy_Exception $(GT) $(CF) -o RUN_test
 DIALOG:
-	g++-10 -L./LIBRARY -I./INCLUDE -lDialog -lPCB -lMy_Exception -o RUN_dialog 
+	g++-10 -L./LIBRARY -I./INCLUDE -lDialog -lPCB -lMy_Exception $(CF) -o RUN_dialog 
 
 
