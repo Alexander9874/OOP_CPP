@@ -85,29 +85,6 @@ void Dialog_Connect(PCB * pcb)
 	std::cout << std::endl;
 }
 
-<<<<<<< HEAD
-=======
-/*
-void Dialog_Correct_Connection(PCB * pcb)
-{
-	std::cout << "Execute Correction for\n\t0. Single contact\n\t1. Whole PCB" << std::endl;
-	bool choice;
-	Get_Template(choice);
-	if(!choice)
-	{
-		unsigned int number;
-		Get_Template(number);
-		pcb->Correct_Connection(number);
-	}
-	else
-	{
-		pcb->Correct_Connection();
-	}
-	std::cout << std::endl;
-}
-*/
-
->>>>>>> cd7391ebc1f4980027137b2c7ee0ee1b2efc550b
 void Dialog_Check_Connection(PCB * pcb)
 {
 	std::cout << "Execute Correction for\n\t0. Single contact\n\t1. Whole PCB" << std::endl;

@@ -26,7 +26,6 @@ namespace Printed_Circuit_Board
 		}
 	}
 
-<<<<<<< HEAD
 	PCB::PCB(const PCB & obj) : contacts(nullptr), num(obj.num) 
 	{
 		if(num)
@@ -80,8 +79,6 @@ namespace Printed_Circuit_Board
 		return *this;
 	}
 
-=======
->>>>>>> cd7391ebc1f4980027137b2c7ee0ee1b2efc550b
 //ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
 
 	void PCB::Expand()
@@ -381,11 +378,7 @@ namespace Printed_Circuit_Board
 		return sqrt(pow((contacts[first].x - contacts[second].x), 2) + pow((contacts[first].y - contacts[second].y), 2));
 	}
 
-<<<<<<< HEAD
 	Contact & PCB::operator [](unsigned int index) const
-=======
-	Contact PCB::operator [](unsigned int index) const
->>>>>>> cd7391ebc1f4980027137b2c7ee0ee1b2efc550b
 	{
 		if(!(index < num))
 		{
