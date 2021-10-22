@@ -33,30 +33,13 @@ namespace Printed_Circuit_Board
 		num++;
 	}
 
-// Уменьшение длины вектора на 1 контакт, используется только в операторе >> при неправильном вводе
-	void PCB::Shrink()
-	{
-		Contact * new_contacts = new Contact[num - 1];
-		Contact * contacts = reinterpret_cast<Contact *>(contacts_char);
-		for(unsigned int i = 0; i < num - 1; i++)
-		{
-			new_contacts[i] = contacts[i];
-		}
-		delete [] contacts;
-		contacts_char = reinterpret_cast<char *>(new_contacts);
-		num--;
-	}
-
 // пустой конструктор для инициализации экземпляра класса (платы) по умолчанию;
 	PCB::PCB() : contacts_char(nullptr), num(0) {};
 
 // Destructor
 	PCB::~PCB()
 	{
-		if(num)
-		{
-			delete [] contacts_char;
-		}
+		delete [] contacts_char;
 	}
 
 // Копируюший конструктор
@@ -81,10 +64,7 @@ namespace Printed_Circuit_Board
 	{
 		if(this != &obj)
 		{
-			if(num)
-			{
-				delete [] contacts_char;
-			}
+			delete [] contacts_char;
 			num = obj.num;
 			if(num)
 			{
@@ -124,6 +104,7 @@ namespace Printed_Circuit_Board
 			num = pcb.num;
 			contacts_char = pcb.contacts_char;
 			pcb.contacts_char = nullptr;
+			pcb.num = 0;
 		}
 		
 		// Для тестировани
@@ -132,8 +113,7 @@ namespace Printed_Circuit_Board
 		return *this;
 	}
 
-//ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;	(иными словами добавить контакт с клавиатуры)	(Перегрузка >>)
-
+//ввод экземпляров структуры (контакта) из входного потока с заданием типа и координат расположения для контакта;(Перегрузка >>)
 	void PCB::Input_Contact(std::istream & input, std::ostream & output)
 	{
 		Expand();
@@ -144,17 +124,22 @@ namespace Printed_Circuit_Board
 		Contact * contacts = reinterpret_cast<Contact *>(contacts_char);
 		contacts[num - 1] = new_contact;
 	}
-
+	
 	std::istream & operator >> (std::istream & input, PCB & pcb)
 	{
-		pcb.Expand();
-		Contact * contacts = reinterpret_cast<Contact *>(pcb.contacts_char);
-		input >> contacts[pcb.num - 1].type >> contacts[pcb.num - 1].x >> contacts[pcb.num - 1].y;
-		contacts[pcb.num - 1].connection = false;
+		bool tmp_type;
+		double tmp_x, tmp_y;
+		input >> tmp_type >> tmp_x >> tmp_y;
 		if(input.fail())
 		{
-			pcb.Shrink();
+			return input;
 		}
+		pcb.Expand();
+		Contact * contacts = reinterpret_cast<Contact *>(pcb.contacts_char);
+		contacts[pcb.num - 1].type = tmp_type;
+		contacts[pcb.num - 1].x = tmp_x;
+		contacts[pcb.num - 1].y = tmp_y;
+		contacts[pcb.num - 1].connection = false;
 		return input;
 	}
 
