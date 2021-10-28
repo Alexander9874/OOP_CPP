@@ -264,7 +264,9 @@ Table& Table::operator =(const Table &table) noexcept
 	delete [] m_table;
 	m_size = table.m_size;
 	m_n = table.m_n;
-	Item *temp = new Item[table.m_size];
+	Item *temp = nullptr;
+	if (table.m_size)
+	temp = new Item[table.m_size];
 	for (int i = 0; i < table.m_n; i++) {
 		temp[i] = table.m_table[i];
 	}

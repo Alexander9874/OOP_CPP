@@ -2,11 +2,7 @@
 
 result Restaurant::Add(const char * customer_name, const char * ordered_dishes)
 {
-	std::pair <int, const char *> customer, order;
-	customer.first = num;
-	customer.second = customer_name;
-	order.first = num;
-	order.second = ordered_dishes;
+	std::pair <int, const char *> customer(num, customer_name), order(num, ordered_dishes);
 	try
 	{
 		customers.add(customer);
@@ -43,11 +39,11 @@ void Restaurant::Clear()
 
 char * Restaurant::Name_Generate()
 {
-	size_t length = std::rand() % 6 + 4;
+	int length = std::rand() % 5 + 3;
 	char * name = new char[length + 1];
 	name[length] = '\0';
 	name[0] = 65 + std::rand() % 26;
-	for(size_t i = 1; i < length; ++i)
+	for(int i = 1; i < length; ++i)
 	{
 		name[i] = 97 + std::rand() % 26;
 	}
@@ -65,14 +61,16 @@ result Restaurant::Menu_Random()
 		try
 		{
 			menu.add(dish);
+			delete [] dish.second;
 		}
 		catch(std::exception &e)
 		{
 			std::cout << std::endl <<e.what() << std::endl;
-			delete [] dish.second;
+			//delete [] dish.second;
 			menu_size = i + 1;
 			return BAD;
 		}
+		//delete [] dish.second;
 	}
 	menu_size = 15;
 	return OK;
@@ -143,6 +141,8 @@ result Restaurant::Auto()
 		{
 			customer_name = Name_Generate();
 			ordered_dishes = Order_Generate();
+			//delete [] customer_name;
+			//delete [] ordered_dishes;
 		}
 		catch(std::exception &e)
 		{
@@ -153,8 +153,12 @@ result Restaurant::Auto()
 		}
 		if(Add(customer_name, ordered_dishes) == BAD)
 		{
+			delete [] customer_name;
+			delete [] ordered_dishes;
 			return BAD;
 		}
+		delete [] customer_name;
+		delete [] ordered_dishes;
 	}
 	return OK;
 }
@@ -179,7 +183,6 @@ result Restaurant::Manual(const char * customer_name, const char * ordered_dishe
 	return OK;
 }
 
-
 void Restaurant::Report()
 {
 	if(!num)
@@ -187,16 +190,17 @@ void Restaurant::Report()
 		std::cout << std::endl << "No reports" << std::endl;
 		return;
 	}
-	std::cout << "Customer\tOrder" << std::endl;
+	std::cout << "CUSTOMER:\tORDER:\n" << std::endl;
 	for(int i = 0; i < num; ++i)
 	{
-		std::cout << customers.search_info(i);
+		std::cout << customers.search_info(i) << "\t\t";
 		const char * order = orders.search_info(i);
 		int j = 0;
 		while(order[j])
 		{
-			std::cout << menu.search_info(static_cast<int>(order[j]) - 33) << std::endl; 
+			std::cout << menu.search_info(static_cast<int>(order[j++]) - 33) << '\t'; 
 		}
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
 }

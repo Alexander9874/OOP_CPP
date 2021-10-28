@@ -39,4 +39,5 @@ class Restaurant
 		// Inside Auto and Manual
 		result Add(const char * customer_name, const char * ordered_dishes);
 		void Clear();
+		void Delete();
 };
