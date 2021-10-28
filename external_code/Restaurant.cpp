@@ -45,6 +45,7 @@ char * Restaurant::Name_Generate()
 {
 	size_t length = std::rand() % 6 + 4;
 	char * name = new char[length + 1];
+	name[length] = '\0';
 	name[0] = 65 + std::rand() % 26;
 	for(size_t i = 1; i < length; ++i)
 	{
@@ -121,6 +122,7 @@ char * Restaurant::Order_Generate()
 {
 	size_t length = std::rand() % 3 + 1;
 	char * order = new char[length + 1];
+	order[length] = '\0';
 	for(size_t i = 0; i < length; ++i)
 	{
 		order[i] = 33 + std::rand() % menu_size;
