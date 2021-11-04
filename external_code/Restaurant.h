@@ -1,3 +1,6 @@
+#ifndef RESTAURANT_HEADER
+#define RESTAURANT_HEADER
+
 #include "table.h"
 #include <ctime>
 
@@ -20,18 +23,17 @@ class Restaurant
 		// Menu Editor
 		void Menu_Random();
 		void Menu_Add(const char * dish_name);
-//		void Menu_Add();
-		void Menu_Clear();
+		void Menu_Clear(); 
 		void Menu_Print();
 		// Auto fill customers and orders table with random values
 		void Auto();
 		// Manual fill -\\-
 		void Manual(const char * customer_name, const char * order);
 //		void Manual();
-		// Print daily report
 		void Report();
-		// Inside Auto and Manual
-		bool Add(const char * customer_name, const char * ordered_dishes);
+		void Add(const char * customer_name, const char * ordered_dishes);
 		void Clear();
 		void Delete();
 };
+
+#endif

@@ -1,5 +1,15 @@
 #include "menu.h"
 
+const char *FUNCS[] = {"0. Quit",
+					   "1. Add element",
+                       "2. Find element",
+                       "3. Find information",
+                       "4. Delete element",
+                       "5. Print table",
+                   	   "6. Refresh table"};
+
+const int FUNCS_SIZE = sizeof(FUNCS) / sizeof(FUNCS[0]);
+
 int dialog(const char *funcs[], int n)
 {
 	const char *err = "- MENU - ";
@@ -16,6 +26,7 @@ int dialog(const char *funcs[], int n)
 	} while (choice < 0 || choice >= n);
 	return choice;
 }
+
 void menu()
 {
 	Table table;

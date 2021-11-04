@@ -4,17 +4,11 @@
 #pragma once
 
 #include <limits> 
-
 #include "table.h" 
 
-const char *FUNCS[] = {"0. Quit",
-					   "1. Add element",
-                       "2. Find element",
-                       "3. Find information",
-                       "4. Delete element",
-                       "5. Print table",
-                   	   "6. Refresh table"};
+void menu();
 
+int dialog(const char *funcs[], int n);
 
 template <typename T>
 input input_type(const char *msg, T &res)
@@ -34,14 +28,5 @@ input input_type(const char *msg, T &res)
 
 template <typename T> input input_type(const char *, int &);
 template <typename T> input input_type(const char *, Item &);
-
-const int FUNCS_SIZE = sizeof(FUNCS) / sizeof(FUNCS[0]);
-
-
-void menu();
-
-int dialog(const char *funcs[], int n);
-
-
 
 #endif

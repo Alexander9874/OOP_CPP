@@ -1,5 +1,5 @@
 #include "Restaurant.h"
-//#include "menu.cpp"
+#include "menu.h"
 
 std::istream & operator >> (std::istream & input, char * & res)
 {
@@ -120,46 +120,6 @@ std::istream & operator >> (std::istream & input, int * & res)
 	}
 	return input;
 }
-
-///////////////////////////////////////////////////////////////////
-
-int dialog_choice(const char *funcs[], int n)
-{
-	const char *err = "- MENU - ";
-	int choice;
-	do {
-		std::cout << std::endl << err << std::endl;
-		err = "Incorrect input. Try again...";
-		for (int i = 0; i < n; i++) {
-			std::cout << funcs[i] << std::endl;
-		}
-		std::cout << "\nMake a choice: ";
-		choice = getchar() - '0';
-		while (getchar() != '\n') {}
-	} while (choice < 0 || choice >= n);
-	return choice;
-}
-
-template <typename T>
-input input_type(const char *msg, T &res)
-{
-	std::cout << msg << std::endl;
-	std::cin >> res;
-	if (std::cin.bad()) { return CRASH; }
-	if (std::cin.eof()) { return END_OF_FILE; }
-	if (std::cin.fail()) { 
-		std::cin.clear(); 
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		return INVALID;
-	}
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	return GOOD;
-}
-
-template <typename T> input input_type(const char *, int &);
-template <typename T> input input_type(const char *, Item &);
-
-/////////////////////////////////////////////////////////////////
 	
 const char * MAIN_FUNC[] = {"0. Exit", "1. Menu Editor", "2. Start", "3. Report"};
 const char * EDITOR_FUNC[] = {"0. Exit", "1. Add", "2. Print", "3. Random", "4. Clear"};
@@ -184,7 +144,7 @@ void dialog_editor(Restaurant & rest)
 {
 	int check = 0;
 	do {
-		check = dialog_choice(EDITOR_FUNC, EDITOR_SIZE);
+		check = dialog(EDITOR_FUNC, EDITOR_SIZE);
 		switch(check)
 		{
 			case 0:
@@ -248,7 +208,7 @@ void dialog_manual(Restaurant & rest)
 {
 	int check = 0;
 	do {
-		check = dialog_choice(MANUAL_FUNC, MANUAL_SIZE);
+		check = dialog(MANUAL_FUNC, MANUAL_SIZE);
 		switch(check)
 		{
 			case 0:
@@ -297,7 +257,7 @@ void dialog_start(Restaurant & rest)
 {
 	int check = 0;
 	do {
-		check = dialog_choice(START_FUNC, START_SIZE);
+		check = dialog(START_FUNC, START_SIZE);
 		switch(check)
 		{
 			case 0:
@@ -316,7 +276,7 @@ void dialog_main(Restaurant & rest)
 {
 	int check = 0;
 	do {
-		check = dialog_choice(MAIN_FUNC, MAIN_SIZE);
+		check = dialog(MAIN_FUNC, MAIN_SIZE);
 		switch(check)
 		{
 			case 0:
@@ -334,8 +294,17 @@ void dialog_main(Restaurant & rest)
 }
 
 int main()
-{
+{	
 	Restaurant rest;
-	dialog_main(rest);
+	try
+	{
+		dialog_main(rest);
+	}
+	catch(std::exception &e)
+	{
+		rest.Menu_Print();
+		rest.Report();
+		std::cout << std::endl << e.what() << std::endl;
+	}
 	return 0;
 }

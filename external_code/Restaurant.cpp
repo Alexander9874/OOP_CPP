@@ -25,7 +25,7 @@ char * Restaurant::Name_Generate()
 	return name;
 }
 
-bool Restaurant::Add(const char * customer_name, const char * ordered_dishes)
+void Restaurant::Add(const char * customer_name, const char * ordered_dishes)
 {
 	std::pair <int, const char *> customer(num, customer_name), order(num, ordered_dishes);
 	try
@@ -35,9 +35,7 @@ bool Restaurant::Add(const char * customer_name, const char * ordered_dishes)
 	catch(std::exception & e)									//	move catch into dialog
 	{															//
 		std::cout << std::endl << e.what() << std::endl;
-		//delete [] order.second;
-		//delete [] customer.second;
-		return false;
+		return;
 	}
 	try
 	{
@@ -47,11 +45,9 @@ bool Restaurant::Add(const char * customer_name, const char * ordered_dishes)
 	{
 		std::cout << std::endl << e.what() << std::endl;
 		customers.delete_item(num);
-		//delete [] order.second;
-		return false;
+		return;
 	}
 	++num;
-	return true;
 }
 
 void Restaurant::Clear()
@@ -77,6 +73,7 @@ void Restaurant::Menu_Random()
 		}
 		catch(std::exception &e)
 		{
+			delete [] dish.second;
 			std::cout << std::endl <<e.what() << std::endl;
 			menu_size = i + 1;
 			return;
@@ -100,7 +97,6 @@ void Restaurant::Menu_Add(const char * dish_name)
 	catch(std::exception &e)
 	{
 		std::cout << std::endl << e.what() << std::endl;
-		//delete [] dish.second;
 		return;
 	}
 	++menu_size;
@@ -145,10 +141,7 @@ void Restaurant::Auto()
 			std::cout << std::endl << e.what() << std::endl;
 			return;
 		}
-		if(!Add(customer_name, ordered_dishes))
-		{
-			return;
-		}
+		Add(customer_name, ordered_dishes);
 		delete [] customer_name;
 		delete [] ordered_dishes;
 	}
@@ -159,21 +152,13 @@ void Restaurant::Manual(const char * customer_name, const char * ordered_dishes)
 	int i = 0;
 	while(ordered_dishes[i])
 	{
-std::cout << "DEBUD INSIDE Restaurant::Manual\t\tdishes, menu_size" << ordered_dishes[i] << ' ' << menu_size << std::endl;
 		if(ordered_dishes[i++] >= menu_size + 33)
 		{
 			std::cout << std::endl << "No such dish on the menu" << std::endl;
-			//delete [] customer_name;
-			//delete [] ordered_dishes;
 			return;
 		}
 	}
-	if(!Add(customer_name, ordered_dishes))
-	{
-		return;
-	}
-	//delete [] customer_name;
-	//delete [] ordered_dishes;
+	Add(customer_name, ordered_dishes);
 }
 
 void Restaurant::Report()

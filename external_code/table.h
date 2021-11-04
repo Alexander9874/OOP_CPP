@@ -1,7 +1,6 @@
 #ifndef TABLE_NOT_MINE
 #define TABLE_NOT_MINE
 
-
 #pragma once
 
 #include <iostream> 
@@ -99,10 +98,6 @@ public:
 	friend std::ostream& operator <<(std::ostream &, const Table &) noexcept;
 	friend std::istream& operator >>(std::istream &, Table &) noexcept;
 };
-
-
-
-
 
 std::istream& get_str(std::istream &input, char *&res);
 

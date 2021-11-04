@@ -47,7 +47,7 @@ input input_type(const char *msg, T &res)
 template <typename T> input input_type(const char *, int &);
 template <typename T> input input_type(const char *, Item &);
 
-void not_menu()
+void menu()
 {
 	Table table;
 	int c = 0, key;
