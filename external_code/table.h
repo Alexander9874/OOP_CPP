@@ -1,3 +1,7 @@
+#ifndef TABLE_NOT_MINE
+#define TABLE_NOT_MINE
+
+
 #pragma once
 
 #include <iostream> 
@@ -97,3 +101,9 @@ public:
 };
 
 
+
+
+
+std::istream& get_str(std::istream &input, char *&res);
+
+#endif

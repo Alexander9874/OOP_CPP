@@ -1,15 +1,4 @@
-#include "menu.h" 
-#include "table.h" 
-
-const char *FUNCS[] = {"0. Quit",
-					   "1. Add element",
-                       "2. Find element",
-                       "3. Find information",
-                       "4. Delete element",
-                       "5. Print table",
-                   	   "6. Refresh table"};
-
-const int FUNCS_SIZE = sizeof(FUNCS) / sizeof(FUNCS[0]);
+#include "menu.h"
 
 int dialog(const char *funcs[], int n)
 {
@@ -27,27 +16,7 @@ int dialog(const char *funcs[], int n)
 	} while (choice < 0 || choice >= n);
 	return choice;
 }
-
-template <typename T>
-input input_type(const char *msg, T &res)
-{
-	std::cout << msg << std::endl;
-	std::cin >> res;
-	if (std::cin.bad()) { return CRASH; }
-	if (std::cin.eof()) { return END_OF_FILE; }
-	if (std::cin.fail()) { 
-		std::cin.clear(); 
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-		return INVALID;
-	}
-	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	return GOOD;
-}
-
-template <typename T> input input_type(const char *, int &);
-template <typename T> input input_type(const char *, Item &);
-
-void not_menu()
+void menu()
 {
 	Table table;
 	int c = 0, key;

@@ -1,40 +1,15 @@
 #include "Restaurant.h"
 
-result Restaurant::Add(const char * customer_name, const char * ordered_dishes)
+char * Restaurant::Order_Generate()
 {
-	std::pair <int, const char *> customer(num, customer_name), order(num, ordered_dishes);
-	try
+	size_t length = std::rand() % 3 + 1;
+	char * order = new char[length + 1];
+	order[length] = '\0';
+	for(size_t i = 0; i < length; ++i)
 	{
-		customers.add(customer);
+		order[i] = 33 + std::rand() % menu_size;
 	}
-	catch(std::exception & e)
-	{
-		std::cout << std::endl << e.what() << std::endl;
-		delete [] order.second;
-		delete [] customer.second;
-		return BAD;
-	}
-	try
-	{
-		orders.add(order);
-	}
-	catch(std::exception & e)
-	{
-		std::cout << std::endl << e.what() << std::endl;
-		customers.delete_item(num);
-		delete [] order.second;
-		return BAD;
-	}
-	++num;
-	return OK;
-}
-
-void Restaurant::Clear()
-{
-	Table tmp;
-	customers = tmp;
-	orders = tmp;
-	num = 0;
+	return order;
 }
 
 char * Restaurant::Name_Generate()
@@ -50,7 +25,44 @@ char * Restaurant::Name_Generate()
 	return name;
 }
 
-result Restaurant::Menu_Random()
+bool Restaurant::Add(const char * customer_name, const char * ordered_dishes)
+{
+	std::pair <int, const char *> customer(num, customer_name), order(num, ordered_dishes);
+	try
+	{
+		customers.add(customer);
+	}
+	catch(std::exception & e)									//	move catch into dialog
+	{															//
+		std::cout << std::endl << e.what() << std::endl;
+		//delete [] order.second;
+		//delete [] customer.second;
+		return false;
+	}
+	try
+	{
+		orders.add(order);
+	}
+	catch(std::exception & e)
+	{
+		std::cout << std::endl << e.what() << std::endl;
+		customers.delete_item(num);
+		//delete [] order.second;
+		return false;
+	}
+	++num;
+	return true;
+}
+
+void Restaurant::Clear()
+{
+	Table tmp;
+	customers = tmp;
+	orders = tmp;
+	num = 0;
+}
+
+void Restaurant::Menu_Random()
 {
 	std::srand(std::time(nullptr));
 	std::pair<int, const char *> dish;
@@ -66,22 +78,19 @@ result Restaurant::Menu_Random()
 		catch(std::exception &e)
 		{
 			std::cout << std::endl <<e.what() << std::endl;
-			//delete [] dish.second;
 			menu_size = i + 1;
-			return BAD;
+			return;
 		}
-		//delete [] dish.second;
 	}
 	menu_size = 15;
-	return OK;
 }
 
-result Restaurant::Menu_Add(const char * dish_name)
+void Restaurant::Menu_Add(const char * dish_name)
 {
 	if(menu_size == max_menu_size)
 	{
 		std::cout << std::endl << "Not enough space" << std::endl;
-		return BAD;
+		return;
 	}
 	std::pair<int, const char *> dish(menu_size, dish_name);
 	try
@@ -91,11 +100,10 @@ result Restaurant::Menu_Add(const char * dish_name)
 	catch(std::exception &e)
 	{
 		std::cout << std::endl << e.what() << std::endl;
-		delete [] dish.second;
-		return BAD;
+		//delete [] dish.second;
+		return;
 	}
 	++menu_size;
-	return OK;
 }
 
 void Restaurant::Menu_Clear()
@@ -109,26 +117,14 @@ void Restaurant::Menu_Print()
 {
 	if(!menu_size)
 	{
-		std::cout << "Menu is empty" << std::endl;
+		std::cout << std::endl << "Menu is empty" << std::endl;
 		return;
 	}
 	std::cout << std::endl << "\tMENU:" << std::endl;
 	std::cout << menu << std::endl;
 }
 
-char * Restaurant::Order_Generate()
-{
-	size_t length = std::rand() % 3 + 1;
-	char * order = new char[length + 1];
-	order[length] = '\0';
-	for(size_t i = 0; i < length; ++i)
-	{
-		order[i] = 33 + std::rand() % menu_size;
-	}
-	return order;
-}
-
-result Restaurant::Auto()
+void Restaurant::Auto()
 {
 	Clear();
 	std::srand(std::time(nullptr));
@@ -141,46 +137,43 @@ result Restaurant::Auto()
 		{
 			customer_name = Name_Generate();
 			ordered_dishes = Order_Generate();
-			//delete [] customer_name;
-			//delete [] ordered_dishes;
 		}
 		catch(std::exception &e)
 		{
 			delete [] customer_name;
 			delete [] ordered_dishes;
 			std::cout << std::endl << e.what() << std::endl;
-			return BAD;
+			return;
 		}
-		if(Add(customer_name, ordered_dishes) == BAD)
+		if(!Add(customer_name, ordered_dishes))
 		{
-			delete [] customer_name;
-			delete [] ordered_dishes;
-			return BAD;
+			return;
 		}
 		delete [] customer_name;
 		delete [] ordered_dishes;
 	}
-	return OK;
 }
 
-result Restaurant::Manual(const char * customer_name, const char * ordered_dishes)
+void Restaurant::Manual(const char * customer_name, const char * ordered_dishes)
 {
 	int i = 0;
 	while(ordered_dishes[i])
 	{
-		if(ordered_dishes[i++] >= menu_size)
+std::cout << "DEBUD INSIDE Restaurant::Manual\t\tdishes, menu_size" << ordered_dishes[i] << ' ' << menu_size << std::endl;
+		if(ordered_dishes[i++] >= menu_size + 33)
 		{
 			std::cout << std::endl << "No such dish on the menu" << std::endl;
-			delete [] customer_name;
-			delete [] ordered_dishes;
-			return BAD;
+			//delete [] customer_name;
+			//delete [] ordered_dishes;
+			return;
 		}
 	}
-	if(Add(customer_name, ordered_dishes) == BAD)
+	if(!Add(customer_name, ordered_dishes))
 	{
-		return BAD;
+		return;
 	}
-	return OK;
+	//delete [] customer_name;
+	//delete [] ordered_dishes;
 }
 
 void Restaurant::Report()

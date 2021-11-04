@@ -1,8 +1,6 @@
 #include "table.h"
 #include <ctime>
 
-enum result {OK, BAD};
-
 class Restaurant
 {
 	private:
@@ -19,25 +17,21 @@ class Restaurant
 	public:
 		Restaurant() = default;
 		~Restaurant() = default;
-/*
-		Restaurant(const Reastaurant &);
-		Restaurant(Restaurant &&);
-		Restauran & operator = (const Restaurant &);
-		Restauran & operator = (Restaurant &&);
-*/
 		// Menu Editor
-		result Menu_Random();
-		result Menu_Add(const char * dish_name);
+		void Menu_Random();
+		void Menu_Add(const char * dish_name);
+//		void Menu_Add();
 		void Menu_Clear();
 		void Menu_Print();
 		// Auto fill customers and orders table with random values
-		result Auto();
+		void Auto();
 		// Manual fill -\\-
-		result Manual(const char * customer_name, const char * order);
+		void Manual(const char * customer_name, const char * order);
+//		void Manual();
 		// Print daily report
 		void Report();
 		// Inside Auto and Manual
-		result Add(const char * customer_name, const char * ordered_dishes);
+		bool Add(const char * customer_name, const char * ordered_dishes);
 		void Clear();
 		void Delete();
 };
