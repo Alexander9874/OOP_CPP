@@ -20,6 +20,10 @@
 
 !*.bin
 
+!*.pdf
+
+!*.dia
+
 # IDK:
 
 !*makefile
