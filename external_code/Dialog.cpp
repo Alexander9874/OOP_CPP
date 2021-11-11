@@ -233,17 +233,19 @@ void dialog_manual(Restaurant & rest)
 				if(res == END_OF_FILE || res == CRASH)
                                 {
                                         delete [] dishes_number;
-                                        throw eof_or_crash();
+                                        delete [] customer_name;
+					throw eof_or_crash();
                                 }
                                 if(res == INVALID)
                                 {
                                         std::cout << "Incorrect input, repeat" << std::endl;
                                         delete [] dishes_number;
+                                        delete [] customer_name;
                                         break;
                                 }
 
 				char * order = int_to_char_arr(dishes_number);
-				std::cout << "ORDER DEBUG:\t\t"<< order << std::endl;
+//:w				std::cout << "ORDER DEBUG:\t\t"<< order << std::endl;
 				rest.Manual(customer_name, order);
 
 				delete [] order;
