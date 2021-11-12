@@ -32,8 +32,8 @@ void Restaurant::Add(const char * customer_name, const char * ordered_dishes)
 	{
 		customers.add(customer);
 	}
-	catch(std::exception & e)									//	move catch into dialog
-	{															//
+	catch(std::exception & e)									
+	{									
 		std::cout << std::endl << e.what() << std::endl;
 		return;
 	}

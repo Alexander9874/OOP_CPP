@@ -24,6 +24,8 @@
 
 !*.dia
 
+!*.png
+
 # IDK:
 
 !*makefile
