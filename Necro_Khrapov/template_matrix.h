@@ -168,6 +168,8 @@ class Matrix
 			data[first.second + cols * first.first] = data[second.second + cols * second.first];
 			data[second.second + cols * second.first] = tmp;
 		}
+		typedef Iterator<T> iterator;
+		typedef const Iterator<T> const_iterator;	//WRONG
 		Iterator<T> begin() noexcept
 		{
 			return Iterator<T>(data.begin());

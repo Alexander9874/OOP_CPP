@@ -101,7 +101,14 @@ int main()
 	std::cout << std::endl;
 
 	std::cout << *(matrix.find(std::pair<int, int>(3, 3))) << std::endl;
-		
+
+	Matrix<int>::const_iterator new_it;
+
+	for(new_it = matrix.cbegin(); new_it != matrix.cend(); ++new_it)
+	{
+		std::cout << * new_it << ' ';
+	}
+	std::cout << std::endl;
 
 	return 0;
 }
