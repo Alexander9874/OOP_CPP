@@ -1,5 +1,4 @@
 //#include "Alive_Creature.h"
-
 #include "include.h"
 
 void Alive_Creature::add_curse_state(const curse_states state, const int magnitude)
@@ -11,8 +10,9 @@ void Alive_Creature::add_curse_state(const curse_states state, const int magnitu
 void Alive_Creature::to_damage(Creature & target) const
 {
     if(this == & target) throw Exception("self_argument");
-	if(fraction == target.get_fraction()) throw Exception("frendly_fire");
+	if(get_fraction() == target.get_fraction()) throw Exception("frendly_fire");
     double koeff_d = 1, koeff_p = 1;
+    int damage_p = get_damage_probability();
     for(auto i : curse_state)
     {
         if(i.first == WEAKNESS)
@@ -21,7 +21,7 @@ void Alive_Creature::to_damage(Creature & target) const
         }
         else if(i.first == INACCURACY)
         {
-            koeff_p = (koeff_p * damage_probability - (100 - damage_probability) * i.second / 5 * damage_probability * koeff_p) / damage_probability;
+            koeff_p = (koeff_p * damage_p - (100 - damage_p) * i.second / 5 * damage_p * koeff_p) / damage_p;
         }
         else if(i.first == STRENGTH)
         {
@@ -30,24 +30,24 @@ void Alive_Creature::to_damage(Creature & target) const
         else if(i.first == ACCURACY)
         {
             // K(n+1) = (K(n) * P + (1-P) * P * K(n) * strength_of_effect) / P
-            koeff_p = (koeff_p * damage_probability + (100 - damage_probability) * i.second / 5 * damage_probability * koeff_p) / damage_probability;
+            koeff_p = (koeff_p * damage_p + (100 - damage_p) * i.second / 5 * damage_p * koeff_p) / damage_p;
         }
     }
-    target.receive_damage(damage * koeff_d, damage_probability * koeff_p);
+    target.receive_damage(get_damage() * koeff_d, damage_p * koeff_p);
 }
 
 void Alive_Creature::receive_damage(const int magnitude, const int probability)
 {
     if(magnitude < 0) throw Exception("unavailable_value"); 
 	if(probability > 100 || probability < 0) throw Exception("unavailable_value");
-	
+	int damage_p = get_damage_probability();
     double koeff_m = 1, koeff_p = 1;
 
     for(auto i : curse_state)
     {
         if(i.first == CLUMSINESS)
         {
-            koeff_p = (koeff_p * damage_probability + (100 - damage_probability) * i.second / 5 * damage_probability * koeff_p) / damage_probability;
+            koeff_p = (koeff_p * damage_p + (100 - damage_p) * i.second / 5 * damage_p * koeff_p) / damage_p;
         }
         else if(i.first == MORTIFICATION)
         {
@@ -59,16 +59,18 @@ void Alive_Creature::receive_damage(const int magnitude, const int probability)
         }
         else if (i.first == DODGE)
         {
-            koeff_p = (koeff_p * damage_probability - (100 - damage_probability) * i.second / 5 * damage_probability * koeff_p) / damage_probability;
+            koeff_p = (koeff_p * damage_p - (100 - damage_p) * i.second / 5 * damage_p * koeff_p) / damage_p;
         }
     }
     if(std::rand() % 100 < probability * koeff_p)
 	{
-		health -= magnitude * koeff_m;
-		if(health < 0)
+        int health_tmp = get_health() - magnitude * koeff_m;
+		if(health_tmp < 0)
         {
-            health = 0;
+            set_health(0);
             still_alive = false;
+            return;
         }
+        set_health(health_tmp);
     }
 }

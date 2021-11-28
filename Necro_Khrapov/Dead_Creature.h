@@ -6,18 +6,23 @@
 class Dead_Creature : public Creature
 {
 	private:
-		bool state_increase();
-		bool state_decrease();
-	protected:
-		dead_states dead_state;	
+		dead_states dead_state;
 	public:
-		Dead_Creature(creature_states st, int mh, int h, fraction_states f, int d, int dp, dead_states ds = GHOST) : Creature(st, mh, h, f, d, dp, false), dead_state(ds) {};
-		Dead_Creature(const Alive_Creature & c, dead_states s = GHOST) : Creature(c.creature_state, c.max_health, c.max_health, c.fraction, c.damage, c.damage_probability, false), dead_state(s) {};
+		explicit Dead_Creature(creature_states st, int mh, fraction_states f, int d, int dp, dead_states ds = GHOST) :
+		Creature(st, mh, f, d, dp, false), dead_state(ds) {};
+
+		explicit Dead_Creature(const Alive_Creature & c, dead_states s = GHOST) :
+		Creature(c.get_creature_state(), c.get_max_health(), c.get_fraction(), c.get_damage(), c.get_damage_probability(), false), dead_state(s) {};
+		
 		void to_damage(Creature & target) const;
 		void receive_damagee(const int magnitude, const int probability);
-		dead_states get_dead_state() const {return dead_state;};
-		void set_dead_state(const dead_states state) noexcept {dead_state = state;};
-		friend class User;
+
+		bool dead_state_increase();		//	may be make them private
+		bool dead_state_decrease();		//	and friend User???
+
+		inline dead_states get_dead_state() const {return dead_state;};
+
+		inline void set_dead_state(const dead_states state);
 };
 
 #endif

@@ -8,17 +8,14 @@
 class Dangeon
 {
 	private:
-		//std::map<std::pair<int, int>, Cell> field;
-		//Matrix<Cell> field;
-		std::vector<Creature> creatures;
-		User user;
+		std::map<std::pair<int, int>, Cell *> cells;
+		std::map<std::pair<int, int>, Creature *> creatures;
+		User * user;
 		int level;
 		int layer;
 	public:
 		void load_layer(const size_t offset = 0);
 		void load_map(const char * map_name);
-		
-//[[nodiscard]]	std::map<std::pair<int, int>, Cell> get_field() const noexcept {return field;};
 		
 		void set_cell(std::pair<int, int> position, const cell_states cell);
 		void set_cell(Cell & cell, const cell_states state);
