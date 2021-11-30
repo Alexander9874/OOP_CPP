@@ -12,28 +12,30 @@ inline void Golem::set_golem_state(const golem_states state)
     golem_state = state;
 }
 
-void Golem::receive_damage(const int magnitude, const int probability)
+bool Golem::receive_damage(const int magnitude, const int probability)
 {
     if(magnitude < 0) throw Exception("unavailable_value"); 
 	if(probability > 100 || probability < 0) throw Exception("unavailable_value");
     if(std::rand() % 10000 < probability * receive_damage_probability)
 	{
-		//health -= magnitude;
         int health_tmp = get_health() - magnitude;
 		if(health_tmp < 0)
         {
             set_health(0);
-            //if(get_golem_state == )
-            //cells.try_emplace(std::pair<std::pair<int, int>int>)
-            return;
+            return true;
         }
         set_health(health_tmp);
+        return false;
     }
 }
 
-void Golem::to_damage(Creature & target) const
+void Golem::to_damage(Creature * target) const
 {
-    if(this == & target) throw Exception("self_harm");
-    if(get_fraction() == target.get_fraction()) throw Exception("frendly_fire");
-    target.receive_damage(get_damage() * (1 + golem_state / 5), get_damage_probability());
+    if(this == target) throw Exception("self_harm");
+    if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
+    if(!target->receive_damage(get_damage() * (1 + golem_state / 5), get_damage_probability()))
+    {
+        dungeon->creature_remove(target->get_position());
+        delete target;
+    }
 }

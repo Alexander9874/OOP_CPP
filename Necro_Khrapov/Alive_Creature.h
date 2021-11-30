@@ -15,17 +15,15 @@ class Alive_Creature : public Creature
 		Alive_Creature() :
 		Creature(), still_alive(false) {};
 		
-		void to_damage(Creature & target) const;
-		void receive_damage(const int magnitude, const int probability);
+		void to_damage(Creature * target) const;
+		bool receive_damage(const int magnitude, const int probability);
 		
-//		std::vector<std::pair<curse_states, int>> get_curse_state() {return curse_state;};
+		std::vector<std::pair<curse_states, int>> get_curse_state() {return curse_state;};
 		inline bool is_still_alive() noexcept {return still_alive;};
 		
 		inline void set_still_alive_state(const bool state = true) noexcept {still_alive = state;}
 		
 		void add_curse_state(const curse_states state, const int magnitude);
-		
-		//friend class Dead_Creature;		//?????
 };
 
 #endif

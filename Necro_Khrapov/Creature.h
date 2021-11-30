@@ -6,13 +6,16 @@
 class Creature
 {
 	private:
+		std::pair<int, int> position; //	(x, y) x: right & left, y: up & down
 		creature_states creature_state;
 		int max_health;
 		int health;
 		fraction_states fraction;
 		int damage;
 		int damage_probability;
-		bool alive;		// can be replaced with dynamic_cast inside other codes
+		bool alive;
+	protected:
+		Dungeon * dungeon;
 	public:
 		explicit Creature(creature_states st, int mh, fraction_states f, int d, int dp, bool a) :
 		creature_state(st), max_health(mh), health(max_health), fraction(f), damage(d), damage_probability(dp), alive(a)
@@ -25,38 +28,22 @@ class Creature
 		Creature() :
 		creature_state(GOBLIN), max_health(0), health(0), fraction(ENEMY), damage(0), damage_probability(0), alive(false) {}; 
 
-/*
- *		virtual void receive_damage(const int magnitude, const int probability)
- *		{
- *			if(magnitude < 0) throw Exception("unavailable_value"); 
- *			if(probability > 100 || probability < 0) throw Exception("unavailable_value");
- *			if(std::rand() % 100 < probability)
- *			{
- *				health -= magnitude;
- *				if(health < 0) health = 0;
- *			}
- *		}
- *
- *		virtual void to_damage(Creature & target) const
- *		{
- *			if(this == & target) throw Exception("self_harm");
- *			if(fraction == target.fraction) throw Exception("frendly_fire");
- *			target.receive_damage(damage, damage_probability);
- *		}
- */
+		virtual bool receive_damage(const int magnitude, const int probability) = 0;
+ 		virtual void to_damage(Creature * target) const = 0;
+		
+		inline void lava_damage();
 
-		virtual void receive_damage(const int magnitude, const int probability) = 0;
-
- 		virtual void to_damage(Creature & target) const = 0;
-
+		inline std::pair<int, int> get_position() const noexcept {return position;};
 		inline creature_states get_creature_state() const noexcept {return creature_state;};
 		inline int get_max_health() const noexcept {return max_health;};
 		inline int get_health() const noexcept {return health;};
 		inline fraction_states get_fraction() const noexcept {return fraction;};
 		inline int get_damage() const noexcept {return damage;};
 		inline int get_damage_probability() const noexcept {return damage_probability;};
-		inline bool is_alive() noexcept {return alive;}
+		inline bool is_alive() const noexcept {return alive;}
+		inline Dungeon * get_dungeon() const noexcept {return dungeon;};
 
+		inline void set_position(const std::pair<int, int> state);
 		inline void set_creature_state(const creature_states state);
 		inline void set_max_health(const int state);
 		inline void set_health(const int state);
@@ -64,6 +51,13 @@ class Creature
 		inline void set_damage(const int state);
 		inline void set_damage_probability(const float state);
 		inline void set_alive_state(const bool state) noexcept {alive = state;};
+		inline void set_dungeon(Dungeon * state) noexcept {dungeon = state;};
+
+		void move_up();									// ???
+		void move_down();								// ???
+		void move_right();								// ???
+		void move_left();								// ???
+		void move(const std::pair<int, int> state);		// ???
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include <map>
 #include <utility>
 #include <limits>
+//#include <stdexcept>
 
 #include "Cell.h"
 #include "Alive_Creature.h"
@@ -24,9 +25,9 @@ enum creature_states {USER, GOBLIN, ORC, OGRE, SUMMONER, GOLEM};
 
 enum fraction_states {FRIEND, ENEMY, SMTH_ELSE};
 
-enum cell_states {WALL, LAVA, DOOR_OPENED, DOOR_CLOSED, LADDER, ESSENCE};
+enum cell_states {FLOOR, WALL, LAVA, DOOR_OPENED, DOOR_CLOSED, LADDER, ESSENCE};
 
-enum ladder_states {UP, DOWN}; // completed
+//enum ladder_states {UP, DOWN}; // completed
 
 enum skills {WITHER, CURSE, NECROMANCY, MORPHISM};  //  completed
 

@@ -14,4 +14,12 @@ class Exception : public std::exception
         }
 };
 
+class Game_Over : public std::exception
+{
+	virtual const char * what() noexcept
+	{
+		return "Game_Over";
+	}
+};
+
 #endif

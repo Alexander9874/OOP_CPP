@@ -26,14 +26,18 @@ bool Dead_Creature::dead_state_decrease()
     return true;
 }
 
-void Dead_Creature::to_damage(Creature & target) const
+void Dead_Creature::to_damage(Creature * target) const
 {
-    if(this == & target) throw Exception("self_harm");
-    if(get_fraction() == target.get_fraction()) throw Exception("frendly_fire");
-    target.receive_damage(get_damage() * (1 + dead_state / 10), get_damage_probability());
+    if(this == target) throw Exception("self_harm");
+    if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
+    if(target->receive_damage(get_damage() * (1 + dead_state / 10), get_damage_probability()))
+    {
+        dungeon->creature_remove(target->get_position());
+        delete target;
+    }
 }
 
-void Dead_Creature::receive_damagee(const int magnitude, const int probability)
+bool Dead_Creature::receive_damage(const int magnitude, const int probability)
 {
     if(magnitude < 0) throw Exception("unavailable_value"); 
 	if(probability > 100 || probability < 0) throw Exception("unavailable_value");
@@ -43,8 +47,9 @@ void Dead_Creature::receive_damagee(const int magnitude, const int probability)
 		if(health_tmp < 0)
         {
             set_health(0);
-            return;
+            return true;
         }
         set_health(health_tmp);
+        return false;
     }
 }

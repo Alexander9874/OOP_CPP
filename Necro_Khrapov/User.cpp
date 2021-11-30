@@ -38,6 +38,25 @@ inline void User::set_skill_power(const skills skill, const int state)
 	skill_table[skill] = state;
 }
 
+void User::collect_essence()
+{
+	if(dungeon->get_cell_state(get_position()) != ESSENCE) throw Exception("wrong_type");
+	int chance = std::rand() % 10;	//if 0 nothing received
+	if(chance > 0 && chance < 4)
+	{
+		mana_exchange(1);
+	}
+	if(chance > 3 && chance < 7)
+	{
+		receive_health(3);
+	}
+	if(chance > 6 && chance < 10)
+	{
+		receive_experience(5);
+	}
+	dungeon->cell_remove(get_position());
+}
+
 void User::mana_exchange(const int state = 0)
 {
 	int num = mana + state;
@@ -74,6 +93,7 @@ void User::wither(Creature * target)
 	if(skill_table[WITHER] == 0) throw Exception("skill_not_available");
 	if(!target->is_alive()) throw Exception("target_is_not_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
+	if(target_alive == nullptr) throw Exception("nullptr_object");
 	if(target_alive->is_still_alive()) throw Exception("target_is_still_alive");
 	mana_exchange(-skill_table[WITHER]);
 	int chance = std::rand() % 10;	//if 0 nothing received
@@ -89,8 +109,7 @@ void User::wither(Creature * target)
 	{
 		receive_experience(skill_table[WITHER] * 5);
 	}
-
-	// delete target from vector in dangeon
+	dungeon->creature_remove(target->get_position());
 }
 
 void User::curse(Creature * target)
@@ -99,6 +118,7 @@ void User::curse(Creature * target)
 	//if(distznce > some_value) throw too_far_away();
 	if(!target->is_alive()) throw Exception("target_is_not_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
+	if(target_alive == nullptr) throw Exception("nullptr_object");
 	if(!target_alive->is_still_alive()) throw Exception("target_is_not_still_alive");
 	mana_exchange(-1 - skill_table[CURSE] / 3);
 	int num5 = std::rand() % 5;
@@ -111,9 +131,11 @@ void User::necromancy(Creature * target)
 	if(skill_table[NECROMANCY] == 0) throw Exception("skill_not_available");
 	if(!target->is_alive()) throw Exception("target_is_not_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
+	if(target_alive == nullptr) throw Exception("nullptr_object");
 	if(target_alive->is_still_alive()) throw Exception("target_is_still_alive");
 	mana_exchange(-skill_table[NECROMANCY] - 1);
-	// vector<Creature> [target_alive->get_position] = Dead_Creatures(* target_alive);
+	Dead_Creature * target_dead = new Dead_Creature(* target_alive);
+	dungeon->emplace_creature(target_alive->get_position(), static_cast<Creature *>(target_dead));
 }
 
 void User::morphism(Creature * target)
@@ -121,7 +143,8 @@ void User::morphism(Creature * target)
 	if(skill_table[MORPHISM] == 0) throw Exception("skill_not_available");
 	//if(distznce > some_value) throw too_far_away();
 	if(target->is_alive()) throw Exception("target_is_alive");
-	Dead_Creature * target_dead = static_cast<Dead_Creature *>(target);
+	Dead_Creature * target_dead = dynamic_cast<Dead_Creature *>(target);
+	if(target_dead == nullptr) throw Exception("nullptr_object");
 	mana_exchange(-skill_table[MORPHISM] - 1);
 	if(target_dead->get_fraction() == get_fraction())
 	{
@@ -141,7 +164,7 @@ void User::morphism(Creature * target)
 	}
 }
 
-void User::receive_damage(const int magnitude, const int probability)
+bool User::receive_damage(const int magnitude, const int probability)
 {
 	if(magnitude < 0) throw Exception("unavailable_value"); 
 	if(probability > 100 || probability < 0) throw Exception("unavailable_value");
@@ -151,15 +174,20 @@ void User::receive_damage(const int magnitude, const int probability)
 		if(health_tmp <= 0)
 		{
 			set_health(0);
-			return;
+			throw Game_Over();
 		}
 		set_health(health_tmp);
+		return false;
 	}
 }
 
-void User::to_damage(Creature & target) const
+void User::to_damage(Creature * target) const
 {
-	if(this == & target) throw Exception("self_harm");
-	if(get_fraction() == target.get_fraction()) throw Exception("frendly_fire");
-	target.receive_damage(get_damage(), get_damage_probability());
+	if(this == target) throw Exception("self_harm");
+	if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
+	if(!target->receive_damage(get_damage(), get_damage_probability()))
+	{
+        dungeon->creature_remove(target->get_position());
+        delete target;
+	}
 }

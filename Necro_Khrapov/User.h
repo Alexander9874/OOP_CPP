@@ -37,7 +37,9 @@ class User : public Creature
 		void set_experience(const int state);
 		inline void set_skill_point(const int state);
 		inline void set_skill_power(const skills skill, const int state);
-		
+
+
+		void collect_essence();
 		void mana_exchange(const int state = 0);
 		void receive_experience(const int state = 0);
 		void receive_health(const int state = 0);
@@ -48,8 +50,8 @@ class User : public Creature
 		void necromancy(Creature * target);
 		void morphism(Creature * target);
 
-		void receive_damage(const int magnitude, const int probability);
-		void to_damage(Creature & target) const;
+		bool receive_damage(const int magnitude, const int probability);
+		void to_damage(Creature * target) const;
 };
 
 #endif

@@ -15,10 +15,17 @@ class Golem : public Alive_Creature
 		inline void set_recieve_damage_probability(const int state = 70);
 		inline void set_golem_state(const golem_states state);
 
-		void receive_damage(const int magnitude, const int probability);
-        void to_damage(Creature & target) const;
+		bool receive_damage(const int magnitude, const int probability);
+        void to_damage(Creature * target) const;
 
-        ~Golem() {};
+        ~Golem()
+		{
+			cell_states cell;
+			if(golem_state == ETHER) cell = ESSENCE;
+			if(golem_state == FIRE) cell = LAVA;
+			else cell = WALL;
+			dungeon->try_emplace_cell(get_position(), cell);
+		};
 };
 
 #endif

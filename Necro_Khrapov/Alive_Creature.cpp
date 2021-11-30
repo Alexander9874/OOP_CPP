@@ -7,10 +7,10 @@ void Alive_Creature::add_curse_state(const curse_states state, const int magnitu
     curse_state.push_back(std::pair<curse_states, int>(state, magnitude));
 }
 
-void Alive_Creature::to_damage(Creature & target) const
+void Alive_Creature::to_damage(Creature * target) const
 {
-    if(this == & target) throw Exception("self_argument");
-	if(get_fraction() == target.get_fraction()) throw Exception("frendly_fire");
+    if(this == target) throw Exception("self_argument");
+	if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
     double koeff_d = 1, koeff_p = 1;
     int damage_p = get_damage_probability();
     for(auto i : curse_state)
@@ -33,10 +33,14 @@ void Alive_Creature::to_damage(Creature & target) const
             koeff_p = (koeff_p * damage_p + (100 - damage_p) * i.second / 5 * damage_p * koeff_p) / damage_p;
         }
     }
-    target.receive_damage(get_damage() * koeff_d, damage_p * koeff_p);
+    if(target->receive_damage(get_damage() * koeff_d, damage_p * koeff_p))
+    {
+        dungeon->creature_remove(target->get_position());
+        delete target;
+    }
 }
 
-void Alive_Creature::receive_damage(const int magnitude, const int probability)
+bool Alive_Creature::receive_damage(const int magnitude, const int probability)
 {
     if(magnitude < 0) throw Exception("unavailable_value"); 
 	if(probability > 100 || probability < 0) throw Exception("unavailable_value");
@@ -69,8 +73,9 @@ void Alive_Creature::receive_damage(const int magnitude, const int probability)
         {
             set_health(0);
             still_alive = false;
-            return;
+            return false;
         }
         set_health(health_tmp);
+        return false;
     }
 }

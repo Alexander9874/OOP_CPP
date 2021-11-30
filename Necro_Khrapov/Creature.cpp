@@ -1,5 +1,17 @@
 #include "include.h"
 
+inline void Creature::lava_damage()
+{
+	if(dungeon->get_cell_state(get_position()) == LAVA) receive_damage(30, 100);
+}
+
+inline void Creature::set_position(const std::pair<int, int> state)
+{
+	std::pair<int, int> limits(dungeon->get_limits());
+	if(state.first < 0 || state.second < 0 || state.first > limits.first || state.second > limits.second) throw Exception("out_of_range");
+	position = state; 
+}
+
 inline void Creature::set_creature_state(const creature_states state)
 {
 	if(state < 0 || state > (int)"some_value_TBD") throw Exception("unavailable_value");
