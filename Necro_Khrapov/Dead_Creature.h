@@ -32,6 +32,8 @@ class Dead_Creature : public Creature
 		explicit Dead_Creature(const Alive_Creature & c, dead_states s = GHOST) :
 		Creature(c.get_creature_state(), c.get_max_health(), c.get_fraction(), c.get_damage(), c.get_damage_probability(), false), dead_state(s) {};
 		
+		virtual ~Dead_Creature() = default;
+
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);
 
@@ -40,7 +42,7 @@ class Dead_Creature : public Creature
 
 		inline dead_states get_dead_state() const {return dead_state;};
 
-		inline void set_dead_state(const dead_states state);
+		void set_dead_state(const dead_states state);
 };
 
 #endif

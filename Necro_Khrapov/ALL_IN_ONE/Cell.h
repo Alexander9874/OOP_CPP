@@ -1,7 +1,9 @@
 #ifndef CELL_HEADER
 #define CELL_HEADER
 
-enum cell_states {FLOOR, WALL, LAVA, DOOR_OPENED, DOOR_CLOSED, LADDER, ESSENCE};
+#include "enums.h"
+
+//enum cell_states {FLOOR, WALL, LAVA, DOOR_OPENED, DOOR_CLOSED, LADDER, ESSENCE};
 
 class Cell
 {

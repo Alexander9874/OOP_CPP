@@ -47,6 +47,8 @@ class User : public Creature
 			for(int i = 0; i < 4; ++i) skill_table.insert(std::pair<skills, int>(static_cast<skills>(i), 0));
 		};
 
+		~User() = default;
+
 		inline int get_max_mana() const noexcept {return max_mana;};
 		inline int get_mana() const noexcept {return mana;};
 		inline int get_next_level_experience() const noexcept {return next_level_experience;};
@@ -58,9 +60,8 @@ class User : public Creature
 
 		inline void set_mana(const int state);
 		void set_experience(const int state);
-		inline void set_skill_point(const int state);
-		inline void set_skill_power(const skills skill, const int state);
-
+		void set_skill_point(const int state);
+		void set_skill_power(const skills skill, const int state);
 
 		void collect_essence();
 		void mana_exchange(const int state);

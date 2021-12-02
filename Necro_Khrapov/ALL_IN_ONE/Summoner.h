@@ -2,6 +2,7 @@
 #define SUMMONER_HEADER
 
 #include "ALL_IN_ONE.h"
+#include "enums.h"
 
 class Summoner
 {

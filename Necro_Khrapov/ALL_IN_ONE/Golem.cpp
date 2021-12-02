@@ -1,4 +1,5 @@
 #include "Golem.h"
+//#include "enums.h"
 
 inline void Golem::set_recieve_damage_probability(const int state)
 {

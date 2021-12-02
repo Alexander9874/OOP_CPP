@@ -6,23 +6,9 @@
 #include <vector>
 #include <cmath>
 
+#include "enums.h"
 #include "exceptions.h"
 #include "Cell.h"
-
-//#include "Alive_Creature.h"
-//#include "Dead_Creature.h"
-
-enum golem_states {ETHER, FIRE, STONE};
-
-enum creature_states {USER, GOBLIN, ORC, OGRE, SUMMONER, GOLEM};
-
-enum fraction_states {FRIEND, ENEMY, SMTH_ELSE};
-
-enum curse_states {SPEED, SLOWNESS, STRENGTH, WEAKNESS, RESISTANCE, MORTIFICATION, ACCURACY, INACCURACY, DODGE, CLUMSINESS};
-
-enum skills {WITHER, CURSE, NECROMANCY, MORPHISM};
-
-enum dead_states {GHOST, SKELETON, MUMMY, ZOMBIE, GHOUL, VAMPIRE}; 
 
 class Dungeon;
 
@@ -50,6 +36,8 @@ class Creature
 			if(damage < 0) throw Exception("unavailable_value");
 			if(damage_probability < 0 || damage_probability > 100) throw Exception("unavailable_value");
 		}
+
+		virtual ~Creature() = default;
 
 		virtual bool receive_damage(const int magnitude, const int probability) = 0;
  		virtual void to_damage(Creature * target) const = 0;
@@ -95,6 +83,9 @@ class Dungeon
 		int level;
 		int layer;
 	public:
+
+		//~Dungeon() = default;
+
 		Creature * get_configuration(const creature_states state) const;
 /*
 		void load_layer(const size_t offset = 0);
@@ -116,7 +107,6 @@ class Dungeon
 		void try_emplace_cell(const std::pair<int, int> position, cell_states state);
 };
 
-
 class Alive_Creature : public Creature
 {
 	private:
@@ -128,6 +118,8 @@ class Alive_Creature : public Creature
 
 		explicit Alive_Creature(creature_states st, int mh, fraction_states f, int d, int dp) :
 		Creature(st, mh, f, d, dp, true), still_alive(true) {};
+
+		virtual ~Alive_Creature() = default;
 		
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);
@@ -139,7 +131,6 @@ class Alive_Creature : public Creature
 		
 		void add_curse_state(const curse_states state, const int magnitude);
 };
-
 
 class User : public Creature
 {
@@ -167,6 +158,8 @@ class User : public Creature
 			for(int i = 0; i < 4; ++i) skill_table.insert(std::pair<skills, int>(static_cast<skills>(i), 0));
 		};
 
+		 ~User() = default;
+
 		inline int get_max_mana() const noexcept {return max_mana;};
 		inline int get_mana() const noexcept {return mana;};
 		inline int get_next_level_experience() const noexcept {return next_level_experience;};
@@ -180,7 +173,6 @@ class User : public Creature
 		void set_experience(const int state);
 		void set_skill_point(const int state);
 		void set_skill_power(const skills skill, const int state);
-
 
 		void collect_essence();
 		void mana_exchange(const int state);
@@ -197,7 +189,6 @@ class User : public Creature
 		void to_damage(Creature * target) const;
 };
 
-
 class Dead_Creature : public Creature
 {
 	private:
@@ -213,6 +204,8 @@ class Dead_Creature : public Creature
 		explicit Dead_Creature(const Alive_Creature & c, dead_states s = GHOST) :
 		Creature(c.get_creature_state(), c.get_max_health(), c.get_fraction(), c.get_damage(), c.get_damage_probability(), false), dead_state(s) {};
 		
+		virtual ~Dead_Creature() = default;
+
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);
 

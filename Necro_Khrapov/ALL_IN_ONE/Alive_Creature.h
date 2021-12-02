@@ -2,19 +2,10 @@
 #define ALIVE_CREATURE_HEADER
 
 #include <vector>
-#include <utility>
 
-#include "Creature.h"
-#include "Dungeon.h"
-#include "Cell.h"
-#include "exceptions.h"
-#include "enums.h"
+#include "ALL_IN_ONE.h"
 
-//enum curse_states {SPEED, SLOWNESS, STRENGTH, WEAKNESS, RESISTANCE, MORTIFICATION, ACCURACY, INACCURACY, DODGE, CLUMSINESS};
-
-class Creature;
-
-class Dungeon;
+enum curse_states {SPEED, SLOWNESS, STRENGTH, WEAKNESS, RESISTANCE, MORTIFICATION, ACCURACY, INACCURACY, DODGE, CLUMSINESS};
 
 class Alive_Creature : public Creature
 {
@@ -27,8 +18,6 @@ class Alive_Creature : public Creature
 
 		explicit Alive_Creature(creature_states st, int mh, fraction_states f, int d, int dp) :
 		Creature(st, mh, f, d, dp, true), still_alive(true) {};
-
-		virtual ~Alive_Creature() = default;
 		
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);

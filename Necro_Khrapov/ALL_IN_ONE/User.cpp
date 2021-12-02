@@ -19,7 +19,7 @@ inline void User::set_mana(const int state)
 	mana = state;
 }
 
-void User::set_experience(const int state)
+inline void User::set_experience(const int state)
 {
 	if(state < 0) throw Exception("unavailable_value");
 	experience = state;

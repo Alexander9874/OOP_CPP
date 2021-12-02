@@ -40,6 +40,8 @@ class Creature
 			if(damage_probability < 0 || damage_probability > 100) throw Exception("unavailable_value");
 		}
 
+		virtual ~Creature() = default;
+
 		virtual bool receive_damage(const int magnitude, const int probability) = 0;
  		virtual void to_damage(Creature * target) const = 0;
 		
@@ -55,15 +57,15 @@ class Creature
 		inline bool is_alive() const noexcept {return alive;}
 		inline Dungeon * get_dungeon() const noexcept {return dungeon;};
 
-		inline void set_position(const std::pair<int, int> state);
-		inline void set_creature_state(const creature_states state);
-		inline void set_max_health(const int state);
-		inline void set_health(const int state);
-		inline void set_fraction_state(const fraction_states state);
-		inline void set_damage(const int state);
-		inline void set_damage_probability(const int state);
+		void set_position(const std::pair<int, int> state);
+		void set_creature_state(const creature_states state);
+		void set_max_health(const int state);
+		void set_health(const int state);
+		void set_fraction_state(const fraction_states state);
+		void set_damage(const int state);
+		void set_damage_probability(const int state);
 		inline void set_alive_state(const bool state) noexcept {alive = state;};
-		inline void set_dungeon(Dungeon * state);
+		void set_dungeon(Dungeon * state);
 
 		void move_up();									// ???
 		void move_down();								// ???
