@@ -1,7 +1,21 @@
 #ifndef CREATURE_HEADER
 #define CREATURE_HEADER
 
-#include "include.h"
+#include <utility>
+#include <ctime>
+#include <cmath>
+
+#include "Dungeon.h"
+#include "Cell.h"
+#include "exceptions.h"
+#include "enums.h"
+
+
+//enum creature_states {USER, GOBLIN, ORC, OGRE, SUMMONER, GOLEM};
+
+//enum fraction_states {FRIEND, ENEMY, SMTH_ELSE};
+
+class Dungeon;
 
 class Creature
 {
@@ -15,8 +29,9 @@ class Creature
 		int damage_probability;
 		bool alive;
 	protected:
-		Dungeon * dungeon;
+		static Dungeon * dungeon;
 	public:
+		// ADD POSITION TO CONSTRUCTOR
 		explicit Creature(creature_states st, int mh, fraction_states f, int d, int dp, bool a) :
 		creature_state(st), max_health(mh), health(max_health), fraction(f), damage(d), damage_probability(dp), alive(a)
 		{
@@ -24,9 +39,6 @@ class Creature
 			if(damage < 0) throw Exception("unavailable_value");
 			if(damage_probability < 0 || damage_probability > 100) throw Exception("unavailable_value");
 		}
-
-		Creature() :
-		creature_state(GOBLIN), max_health(0), health(0), fraction(ENEMY), damage(0), damage_probability(0), alive(false) {}; 
 
 		virtual bool receive_damage(const int magnitude, const int probability) = 0;
  		virtual void to_damage(Creature * target) const = 0;
@@ -49,9 +61,9 @@ class Creature
 		inline void set_health(const int state);
 		inline void set_fraction_state(const fraction_states state);
 		inline void set_damage(const int state);
-		inline void set_damage_probability(const float state);
+		inline void set_damage_probability(const int state);
 		inline void set_alive_state(const bool state) noexcept {alive = state;};
-		inline void set_dungeon(Dungeon * state) noexcept {dungeon = state;};
+		inline void set_dungeon(Dungeon * state);
 
 		void move_up();									// ???
 		void move_down();								// ???

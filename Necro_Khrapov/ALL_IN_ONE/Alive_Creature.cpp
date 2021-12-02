@@ -1,4 +1,4 @@
-#include "Alive_Creature.h"
+#include "ALL_IN_ONE.h"
 
 void Alive_Creature::add_curse_state(const curse_states state, const int magnitude)
 {

@@ -1,20 +1,7 @@
 #ifndef SUMMONER_HEADER
 #define SUMMONER_HEADER
 
-#include "Creature.h"
-#include "Dungeon.h"
-#include "Cell.h"
-#include "Alive_Creature.h"
-#include "Dead_Creature.h"
-#include "enums.h"
-
-class Dungeon;
-
-class Creature;
-
-class Alive_Creature;
-
-class Dead_Creature;
+#include "ALL_IN_ONE.h"
 
 class Summoner
 {

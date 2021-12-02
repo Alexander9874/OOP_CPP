@@ -1,7 +1,25 @@
 #ifndef USER_HEADER
 #define USER_HEADER
 
-#include "include.h"
+#include <map>
+#include <utility>
+#include <vector>
+
+#include "Creature.h"
+#include "Alive_Creature.h"
+#include "Dead_Creature.h"
+#include "Cell.h"
+#include "enums.h"
+
+//enum skills {WITHER, CURSE, NECROMANCY, MORPHISM};
+
+class Dungeon;
+
+class Creature;
+
+class Alive_Creature;
+
+class Dead_Creature;
 
 class User : public Creature
 {
@@ -17,7 +35,12 @@ class User : public Creature
 		void correct();
 		
 	public:
-		//explicit User(int mh, int h, int d, int dp, int e, int m, ) :{};
+		explicit User(int mh, int d, int dp, int mm) :
+		Creature(USER, mh, FRIEND, d, dp, false), max_mana(mm), mana(max_mana), next_level_experience(100), experience(0), level(0), skill_point(0)
+		{
+			for(int i = 0; i < 4; ++i) skill_table.insert(std::pair<skills, int>(static_cast<skills>(i), 0));
+		};
+		
 		User() :
 		Creature(USER, 10, FRIEND, 2, 65, false), max_mana(0), mana(0), next_level_experience(100), experience(0), level(0), skill_point(0)
 		{
@@ -40,9 +63,9 @@ class User : public Creature
 
 
 		void collect_essence();
-		void mana_exchange(const int state = 0);
-		void receive_experience(const int state = 0);
-		void receive_health(const int state = 0);
+		void mana_exchange(const int state);
+		void receive_experience(const int state);
+		void receive_health(const int state);
 		void skill_increase(const skills skill_name);
 
 		void wither(Creature * target);

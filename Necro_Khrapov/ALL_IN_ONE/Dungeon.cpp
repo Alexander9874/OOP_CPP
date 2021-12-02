@@ -1,4 +1,4 @@
-#include "Dungeon.h"
+#include "ALL_IN_ONE.h"
 
 inline Creature * Dungeon::get_configuration(const creature_states state) const
 {
@@ -27,7 +27,7 @@ void Dungeon::set_ladder(std::pair<int, int> position, const size_t offset)
     if(!cells.contains(position)) throw Exception("does_not_exist");
     Cell cell = cells[position];
     if(cell.get_cell_state() != LADDER) throw Exception("wrong_type");
-    Ladder * cell_ladder = static_cast<Ladder *>(& cell);                   // ???
+    Ladder * cell_ladder = static_cast<Ladder *>(& cell);  // dynamic - ??    ///////????????
     cell_ladder->set_offset(offset);
 }
 

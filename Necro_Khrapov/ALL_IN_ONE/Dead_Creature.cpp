@@ -1,4 +1,4 @@
-#include "Dead_Creature.h"
+#include "ALL_IN_ONE.h"
 
 inline void Dead_Creature::set_dead_state(const dead_states state)
 {

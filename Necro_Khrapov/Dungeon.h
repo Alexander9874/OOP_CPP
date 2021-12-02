@@ -1,9 +1,18 @@
 #ifndef DANGEON_HEADER
 #define DANGEON_HEADER
 
-#include "include.h"
+#include <map>
+#include <utility>
 
-//#include "template_matrix.h" //???
+#include "exceptions.h"
+#include "Creature.h"
+#include "Cell.h"
+#include "User.h"
+#include "enums.h"
+
+class User;
+
+class Creature;
 
 class Dungeon
 {
@@ -17,11 +26,11 @@ class Dungeon
 		int level;
 		int layer;
 	public:
-		Creature * get_configuration(creature_states state) const;
-
+		inline Creature * get_configuration(const creature_states state) const;
+/*
 		void load_layer(const size_t offset = 0);
 		void load_map(const char * map_name);
-		
+*/		
 		inline void set_cell(std::pair<int, int> position, const cell_states state);
 		void set_ladder(std::pair<int, int> position, const size_t offset);
 		void set_door(const std::pair<int, int> position);

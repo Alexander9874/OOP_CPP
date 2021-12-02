@@ -1,13 +1,31 @@
 #ifndef DEAD_CREATURE_HEADER
 #define DEAD_CREATURE_HEADER
 
-#include "include.h"
+#include <utility>
+
+#include "Creature.h"
+#include "Alive_Creature.h"
+#include "Cell.h"
+#include "Dungeon.h"
+#include "enums.h"
+
+//enum dead_states {GHOST, SKELETON, MUMMY, ZOMBIE, GHOUL, VAMPIRE}; 
+
+class Dungeon;
+
+//class Creature;
+
+class Alive_Creature;
 
 class Dead_Creature : public Creature
 {
 	private:
 		dead_states dead_state;
 	public:
+
+		explicit Dead_Creature(creature_states alive_state, dead_states dead_state) : 
+		Dead_Creature(*(dynamic_cast<Alive_Creature *>(dungeon->get_configuration(alive_state))), dead_state) {};
+
 		explicit Dead_Creature(creature_states st, int mh, fraction_states f, int d, int dp, dead_states ds = GHOST) :
 		Creature(st, mh, f, d, dp, false), dead_state(ds) {};
 

@@ -1,16 +1,9 @@
 #ifndef GOLEM_HEADDER
 #define GOLEM_HEAEDER
 
-#include "Creature.h"
-#include "Dungeon.h"
-#include "Cell.h"
-#include "enums.h"
+#include "ALL_IN_ONE.h"
 
 //enum golem_states {ETHER, FIRE, STONE};
-
-class Dungeon;
-
-class Creature;
 
 class Golem : public Creature
 {
@@ -20,7 +13,7 @@ class Golem : public Creature
 	public:
 
 		explicit Golem(int mh, int d, int dp, golem_states gs, int rdp) :
-		Creature(GOLEM, mh, ENEMY, d, dp, false), golem_state(gs), receive_damage_probability(rdp) {};
+		Creature(GOLEM, mh, ENEMY, d, dp, false), receive_damage_probability(rdp), golem_state(gs) {};
 
 		explicit Golem(golem_states state) : 
 		Golem(*(dynamic_cast<Golem *>(dungeon->get_configuration(GOLEM))))

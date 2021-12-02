@@ -1,4 +1,4 @@
-#include "Creature.h"
+#include "ALL_IN_ONE.h"
 
 Dungeon * Creature::dungeon = nullptr;
 
