@@ -45,3 +45,25 @@ void Summoner_Dead::summon()
         }
     }   
 }
+
+void Summoner_Alive::turn()
+{
+    auto steps = Lee(get_position(), 8, !get_fraction(), ALL);
+			if(steps.empty()) return;			// steps.size == 0
+			auto step = steps.back();			// step = steps.at(step.size)
+			
+			turn_execute(step);
+            summon();
+}
+
+////    yes, i know...
+
+void Summoner_Dead::turn()
+{
+    auto steps = Lee(get_position(), 8, !get_fraction(), ALL);
+			if(steps.empty()) return;			// steps.size == 0
+			auto step = steps.back();			// step = steps.at(step.size)
+			
+			turn_execute(step);
+            summon();
+}

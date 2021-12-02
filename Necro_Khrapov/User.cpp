@@ -115,7 +115,6 @@ void User::wither(Creature * target)
 void User::curse(Creature * target)
 {
 	if(skill_table[CURSE] == 0) throw Exception("skill_not_available");
-	//if(distznce > some_value) throw too_far_away();
 	if(!target->is_alive()) throw Exception("target_is_not_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
 	if(target_alive == nullptr) throw Exception("nullptr_object");
@@ -141,7 +140,6 @@ void User::necromancy(Creature * target)
 void User::morphism(Creature * target)
 {
 	if(skill_table[MORPHISM] == 0) throw Exception("skill_not_available");
-	//if(distznce > some_value) throw too_far_away();
 	if(target->is_alive()) throw Exception("target_is_alive");
 	Dead_Creature * target_dead = dynamic_cast<Dead_Creature *>(target);
 	if(target_dead == nullptr) throw Exception("nullptr_object");

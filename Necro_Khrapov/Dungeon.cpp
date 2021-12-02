@@ -66,6 +66,20 @@ inline bool Dungeon::is_creature(const std::pair<int, int> position) const
     return creatures.contains(position);
 }
 
+inline Creature * Dungeon::get_creature(const std::pair<int, int> position)
+{
+    if(!creatures.contains(position)) throw Exception("does_not_exist");
+    return creatures.at(position);
+}
+
+std::pair<std::pair<int, int>, Creature *> Dungeon::creature_extract(std::pair<int, int> position)
+{
+    if(!creatures.contains(position)) throw Exception("does_not_exist");
+    std::pair<std::pair<int, int>, Creature *> tmp(position, creatures[position]);
+    creatures.erase(position);
+    return tmp;
+}
+
 inline void Dungeon::cell_remove(std::pair<int, int> position)
 {
     if(!cells.erase(position)) throw Exception("does_not_exist");

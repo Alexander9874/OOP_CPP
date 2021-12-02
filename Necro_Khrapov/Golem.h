@@ -20,7 +20,7 @@ class Golem : public Creature
 	public:
 
 		explicit Golem(int mh, int d, int dp, golem_states gs, int rdp) :
-		Creature(GOLEM, mh, ENEMY, d, dp, false), golem_state(gs), receive_damage_probability(rdp) {};
+		Creature(GOLEM, mh, ENEMY, d, dp, false), receive_damage_probability(rdp), golem_state(gs)  {};
 
 		explicit Golem(golem_states state) : 
 		Golem(*(dynamic_cast<Golem *>(dungeon->get_configuration(GOLEM))))

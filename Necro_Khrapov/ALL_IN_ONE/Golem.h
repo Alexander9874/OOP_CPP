@@ -2,7 +2,7 @@
 #define GOLEM_HEAEDER
 
 #include "ALL_IN_ONE.h"
-//#include "enums.h"
+#include "enums.h"
 
 //enum golem_states {ETHER, FIRE, STONE};
 

@@ -29,7 +29,7 @@ class Dungeon
 
 		//~Dungeon() = default;
 
-		inline Creature * get_configuration(const creature_states state) const;
+		Creature * get_configuration(const creature_states state) const;
 /*
 		void load_layer(const size_t offset = 0);
 		void load_map(const char * map_name);
@@ -44,6 +44,8 @@ class Dungeon
 		cell_states get_cell_state(std::pair<int, int> position) const noexcept;
 		inline std::pair<int, int> get_limits() const noexcept {return limits;};
 		bool is_creature(const std::pair<int, int> position) const;
+		Creature * get_creature(const std::pair<int, int> position);
+		std::pair<std::pair<int, int>, Creature *> creature_extract(std::pair<int, int> position);
 
 		void cell_remove(std::pair<int, int> position);
 		void creature_remove(std::pair<int, int> position);

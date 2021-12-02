@@ -9,8 +9,6 @@
 #include "Dungeon.h"
 #include "enums.h"
 
-//enum dead_states {GHOST, SKELETON, MUMMY, ZOMBIE, GHOUL, VAMPIRE}; 
-
 class Dungeon;
 
 //class Creature;

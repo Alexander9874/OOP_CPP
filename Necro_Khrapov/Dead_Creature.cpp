@@ -9,18 +9,24 @@ inline void Dead_Creature::set_dead_state(const dead_states state)
 bool Dead_Creature::dead_state_increase()
 {
     if(dead_state == VAMPIRE) return false;
+    ++dead_state;
+    /*
     int tmp = dead_state;
     ++tmp;
     dead_state = static_cast<dead_states>(tmp);
+    */
     return true;
 }
 
 bool Dead_Creature::dead_state_decrease()
 {
     if(dead_state == GHOST) return false;
+    --dead_state;
+    /*
     int tmp = dead_state;
     --tmp;
     dead_state = static_cast<dead_states>(tmp);
+    */
     return true;
 }
 

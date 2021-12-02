@@ -2,6 +2,7 @@
 #define CREATURE_HEADER
 
 #include <utility>
+#include <set>
 #include <ctime>
 #include <cmath>
 
@@ -10,12 +11,19 @@
 #include "exceptions.h"
 #include "enums.h"
 
-
-//enum creature_states {USER, GOBLIN, ORC, OGRE, SUMMONER, GOLEM};
-
-//enum fraction_states {FRIEND, ENEMY, SMTH_ELSE};
-
 class Dungeon;
+
+template <typename X, typename Y>                                                   
+inline std::pair<X, Y> operator + (const std::pair<X, Y> & first, const std::pair<X, Y> & second)
+{   
+    return std::pair<X, Y>(first.first + second.first, first.second + second.second);
+}
+
+template <typename X, typename Y>                                                   
+inline std::pair<X, Y> operator - (const std::pair<X, Y> & first, const std::pair<X, Y> & second)
+{   
+    return std::pair<X, Y>(first.first - second.first, first.second - second.second);
+}
 
 class Creature
 {
@@ -67,11 +75,19 @@ class Creature
 		inline void set_alive_state(const bool state) noexcept {alive = state;};
 		void set_dungeon(Dungeon * state);
 
-		void move_up();									// ???
-		void move_down();								// ???
-		void move_right();								// ???
-		void move_left();								// ???
-		void move(const std::pair<int, int> state);		// ???
+		void turn_execute(const std::pair<int, int> direction);
+
+		std::vector<std::pair<int, int>> Lee( const int range, const search_state search, const fraction_states _fraction) const;
+
+		virtual void turn()	//Summoner & User edit
+		{
+			auto steps = Lee(8, ALL, !fraction);
+			if(steps.empty()) return;			// steps.size == 0
+			auto step = steps.back();			// step = steps.at(step.size)
+			
+			turn_execute(step);
+
+		}
 };
 
 #endif

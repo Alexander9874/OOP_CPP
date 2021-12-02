@@ -11,8 +11,6 @@
 #include "Cell.h"
 #include "enums.h"
 
-//enum skills {WITHER, CURSE, NECROMANCY, MORPHISM};
-
 class Dungeon;
 
 class Creature;
@@ -58,7 +56,7 @@ class User : public Creature
 		inline int get_skill_power(const skills skill) const {return skill_table.at(skill);};
 		inline std::map<skills, int> get_skill_table() const {return skill_table;};
 
-		inline void set_mana(const int state);
+		void set_mana(const int state);
 		void set_experience(const int state);
 		void set_skill_point(const int state);
 		void set_skill_power(const skills skill, const int state);
@@ -76,6 +74,8 @@ class User : public Creature
 
 		bool receive_damage(const int magnitude, const int probability);
 		void to_damage(Creature * target) const;
+
+		void turn();
 };
 
 #endif

@@ -45,6 +45,8 @@ class Summoner_Alive : public Alive_Creature, public Summoner
         ~Summoner_Alive() = default;
 
         void summon();
+
+        void turn();
 };
 
 class Summoner_Dead : public Dead_Creature, public Summoner
@@ -59,6 +61,8 @@ class Summoner_Dead : public Dead_Creature, public Summoner
         ~Summoner_Dead() = default;
 
         void summon();
+
+        void turn();
 };
 
 #endif

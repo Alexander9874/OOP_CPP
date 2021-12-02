@@ -10,8 +10,6 @@
 #include "exceptions.h"
 #include "enums.h"
 
-//enum curse_states {SPEED, SLOWNESS, STRENGTH, WEAKNESS, RESISTANCE, MORTIFICATION, ACCURACY, INACCURACY, DODGE, CLUMSINESS};
-
 class Creature;
 
 class Dungeon;
