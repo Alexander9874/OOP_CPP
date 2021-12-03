@@ -16,12 +16,10 @@
 #include "enums.h"
 #include "exceptions.h"
 
-#include "User.h"
-#include "Creature.h"
 
-//class User;
+class User;
 
-//class Creature;
+class Creature;
 
 class Dungeon
 {
