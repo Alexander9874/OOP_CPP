@@ -1,6 +1,6 @@
 #include "Summoner.h"
 
-inline void Summoner::set_summon_probability(const int state)
+void Summoner::set_summon_probability(const int state)
 {
     if(state < 0 || state > 100) throw Exception("unavailable_value");
     summon_probability = state;
@@ -48,7 +48,7 @@ void Summoner_Dead::summon()
 
 void Summoner_Alive::turn()
 {
-    auto steps = Lee(get_position(), 8, !get_fraction(), ALL);
+    auto steps = Lee(8, ALL, !get_fraction());
 			if(steps.empty()) return;			// steps.size == 0
 			auto step = steps.back();			// step = steps.at(step.size)
 			
@@ -60,7 +60,7 @@ void Summoner_Alive::turn()
 
 void Summoner_Dead::turn()
 {
-    auto steps = Lee(get_position(), 8, !get_fraction(), ALL);
+    auto steps = Lee(8, ALL, !get_fraction());
 			if(steps.empty()) return;			// steps.size == 0
 			auto step = steps.back();			// step = steps.at(step.size)
 			

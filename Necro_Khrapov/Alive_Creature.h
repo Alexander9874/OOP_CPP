@@ -1,19 +1,13 @@
 #ifndef ALIVE_CREATURE_HEADER
 #define ALIVE_CREATURE_HEADER
 
-#include <vector>
-#include <utility>
-
+//#include "Dungeon.h"
 #include "Creature.h"
-#include "Dungeon.h"
+/*
 #include "Cell.h"
-#include "exceptions.h"
 #include "enums.h"
-
-class Creature;
-
-class Dungeon;
-
+#include "exceptions.h"
+*/
 class Alive_Creature : public Creature
 {
 	private:
@@ -31,10 +25,19 @@ class Alive_Creature : public Creature
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);
 		
-		std::vector<std::pair<curse_states, int>> get_curse_state() {return curse_state;};
-		inline bool is_still_alive() noexcept {return still_alive;};
+		std::vector<std::pair<curse_states, int>> get_curse_state()
+		{
+			return curse_state;
+		};
+		inline bool is_still_alive() noexcept
+		{
+			return still_alive;
+		};
 		
-		inline void set_still_alive_state(const bool state = true) noexcept {still_alive = state;}
+		inline void set_still_alive_state(const bool state = true) noexcept
+		{
+			still_alive = state;
+		}
 		
 		void add_curse_state(const curse_states state, const int magnitude);
 };

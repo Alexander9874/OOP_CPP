@@ -1,6 +1,6 @@
 #include "Dead_Creature.h"
 
-inline void Dead_Creature::set_dead_state(const dead_states state)
+void Dead_Creature::set_dead_state(const dead_states state)
 {
     if(state < 0 || state > VAMPIRE) throw Exception("unavailable_value");
     dead_state = state;

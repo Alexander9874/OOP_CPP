@@ -1,21 +1,14 @@
 #ifndef SUMMONER_HEADER
 #define SUMMONER_HEADER
 
-#include "Creature.h"
-#include "Dungeon.h"
-#include "Cell.h"
+//#include "Dungeon.h"
+//#include "Creature.h"
+
 #include "Alive_Creature.h"
 #include "Dead_Creature.h"
+/*#include "Cell.h"
 #include "enums.h"
-
-class Dungeon;
-
-class Creature;
-
-class Alive_Creature;
-
-class Dead_Creature;
-
+*/
 class Summoner
 {
     protected:
@@ -31,7 +24,10 @@ class Summoner
 
         virtual void summon() = 0;
 
-        inline int get_summon_probability() const noexcept {return summon_probability;};
+        inline int get_summon_probability() const noexcept
+        {
+            return summon_probability;
+        };
         
         void set_summon_probability(const int state);
 };

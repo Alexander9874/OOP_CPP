@@ -1,12 +1,12 @@
 #include "Golem.h"
 
-inline void Golem::set_recieve_damage_probability(const int state)
+void Golem::set_recieve_damage_probability(const int state)
 {
     if(state > 100 || state < 0) throw Exception("unavailable_value");
     receive_damage_probability = state;
 }
 
-inline void Golem::set_golem_state(const golem_states state)
+void Golem::set_golem_state(const golem_states state)
 {
     if(state < 0 || state > 2) throw Exception("unavailable_value");
     golem_state = state;

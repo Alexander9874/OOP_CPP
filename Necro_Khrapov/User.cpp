@@ -13,26 +13,26 @@ void User::correct()
 	}
 }
 
-inline void User::set_mana(const int state)
+void User::set_mana(const int state)
 {
 	if(state < 0 || state > max_mana) throw Exception("unavailable_value");
 	mana = state;
 }
 
-inline void User::set_experience(const int state)
+void User::set_experience(const int state)
 {
 	if(state < 0) throw Exception("unavailable_value");
 	experience = state;
 	correct();
 }
 
-inline void User::set_skill_point(const int state)
+void User::set_skill_point(const int state)
 {
 	if(state < 0) throw Exception("unavailable_value");
 	skill_point = state;
 }
 
-inline void User::set_skill_power(const skills skill, const int state)
+void User::set_skill_power(const skills skill, const int state)
 {
 	if(state < 0) throw Exception("unavailable_value");
 	skill_table[skill] = state;
@@ -188,4 +188,9 @@ void User::to_damage(Creature * target) const
         dungeon->creature_remove(target->get_position());
         delete target;
 	}
+}
+
+void User::turn()
+{
+
 }

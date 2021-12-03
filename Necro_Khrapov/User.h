@@ -5,19 +5,12 @@
 #include <utility>
 #include <vector>
 
+#include "Dungeon.h"
 #include "Creature.h"
 #include "Alive_Creature.h"
 #include "Dead_Creature.h"
 #include "Cell.h"
 #include "enums.h"
-
-class Dungeon;
-
-class Creature;
-
-class Alive_Creature;
-
-class Dead_Creature;
 
 class User : public Creature
 {
@@ -47,14 +40,38 @@ class User : public Creature
 
 		~User() = default;
 
-		inline int get_max_mana() const noexcept {return max_mana;};
-		inline int get_mana() const noexcept {return mana;};
-		inline int get_next_level_experience() const noexcept {return next_level_experience;};
-		inline int get_level() const noexcept {return level;};
-		inline int get_experience() const noexcept {return experience;};
-		inline int get_skill_point() const noexcept {return skill_point;};
-		inline int get_skill_power(const skills skill) const {return skill_table.at(skill);};
-		inline std::map<skills, int> get_skill_table() const {return skill_table;};
+		inline int get_max_mana() const noexcept
+		{
+			return max_mana;
+		};
+		inline int get_mana() const noexcept
+		{
+			return mana;
+		};
+		inline int get_next_level_experience() const noexcept
+		{
+			return next_level_experience;
+		};
+		inline int get_level() const noexcept
+		{
+			return level;
+		};
+		inline int get_experience() const noexcept
+		{
+			return experience;
+		};
+		inline int get_skill_point() const noexcept
+		{
+			return skill_point;
+		};
+		inline int get_skill_power(const skills skill) const
+		{
+			return skill_table.at(skill);
+		};
+		inline std::map<skills, int> get_skill_table() const
+		{
+			return skill_table;
+		};
 
 		void set_mana(const int state);
 		void set_experience(const int state);

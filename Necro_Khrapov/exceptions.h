@@ -2,7 +2,7 @@
 #define EXCEPTIONS_HEADER
 
 #include <exception>
-//#include <>stdexcept
+//#include <stdexcept>
 
 class Exception : public std::exception
 {

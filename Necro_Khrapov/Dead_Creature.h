@@ -1,19 +1,12 @@
 #ifndef DEAD_CREATURE_HEADER
 #define DEAD_CREATURE_HEADER
-
-#include <utility>
-
-#include "Creature.h"
-#include "Alive_Creature.h"
+/*
 #include "Cell.h"
 #include "Dungeon.h"
-#include "enums.h"
-
-class Dungeon;
-
-//class Creature;
-
-class Alive_Creature;
+#include "Creature.h"
+*/
+#include "Alive_Creature.h"
+//#include "enums.h"
 
 class Dead_Creature : public Creature
 {
@@ -38,7 +31,10 @@ class Dead_Creature : public Creature
 		bool dead_state_increase();		//	may be make them private
 		bool dead_state_decrease();		//	and friend User???
 
-		inline dead_states get_dead_state() const {return dead_state;};
+		inline dead_states get_dead_state() const
+		{
+			return dead_state;
+		};
 
 		void set_dead_state(const dead_states state);
 };

@@ -3,16 +3,25 @@
 
 #include <map>
 #include <utility>
-
-#include "exceptions.h"
+//#include <fstream>
+/*
 #include "Creature.h"
-#include "Cell.h"
+#include "Alive_Creature.h"
+#include "Dead_Creature.h"
+#include "Summoner.h"
+#include "Golem.h"
 #include "User.h"
+*/
+#include "Cell.h"
 #include "enums.h"
+#include "exceptions.h"
 
-class User;
+#include "User.h"
+#include "Creature.h"
 
-class Creature;
+//class User;
+
+//class Creature;
 
 class Dungeon
 {
@@ -42,7 +51,10 @@ class Dungeon
 		void emplace_creature(std::pair<int, int> position, Creature * creature);
 
 		cell_states get_cell_state(std::pair<int, int> position) const noexcept;
-		inline std::pair<int, int> get_limits() const noexcept {return limits;};
+		inline std::pair<int, int> get_limits() const noexcept
+		{
+			return limits;
+		};
 		bool is_creature(const std::pair<int, int> position) const;
 		Creature * get_creature(const std::pair<int, int> position);
 		std::pair<std::pair<int, int>, Creature *> creature_extract(std::pair<int, int> position);

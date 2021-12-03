@@ -1,17 +1,12 @@
 #ifndef GOLEM_HEADDER
 #define GOLEM_HEAEDER
 
+//#include "Dungeon.h"
 #include "Creature.h"
-#include "Dungeon.h"
+/*
 #include "Cell.h"
 #include "enums.h"
-
-//enum golem_states {ETHER, FIRE, STONE};
-
-class Dungeon;
-
-class Creature;
-
+*/
 class Golem : public Creature
 {
 	private:
@@ -28,11 +23,17 @@ class Golem : public Creature
 			golem_state = state;
 		}
 
-    	inline int get_recieve_damage_probability() const {return receive_damage_probability;};
-    	inline golem_states get_golem_state() const {return golem_state;};
+    	inline int get_recieve_damage_probability() const
+		{
+			return receive_damage_probability;
+		};
+    	inline golem_states get_golem_state() const
+		{
+			return golem_state;
+		};
 
-		inline void set_recieve_damage_probability(const int state);
-		inline void set_golem_state(const golem_states state);
+		void set_recieve_damage_probability(const int state);
+		void set_golem_state(const golem_states state);
 
 		bool receive_damage(const int magnitude, const int probability);
         void to_damage(Creature * target) const;
