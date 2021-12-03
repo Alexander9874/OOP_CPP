@@ -2,12 +2,19 @@
 #define ALIVE_CREATURE_HEADER
 
 //#include "Dungeon.h"
-#include "Creature.h"
+//#include "Creature.h"
+
+#include "Dungeon_and_Creature.h"
+
 /*
 #include "Cell.h"
 #include "enums.h"
 #include "exceptions.h"
 */
+
+
+#include <iostream>
+
 class Alive_Creature : public Creature
 {
 	private:
@@ -21,7 +28,7 @@ class Alive_Creature : public Creature
 		Creature(st, mh, f, d, dp, true), still_alive(true) {};
 
 		virtual ~Alive_Creature() = default;
-		
+
 		void to_damage(Creature * target) const;
 		bool receive_damage(const int magnitude, const int probability);
 		

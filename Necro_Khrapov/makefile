@@ -1,2 +1,2 @@
 make:
-	g++-10 -std=c++20 -Wall -Wextra -g *.cpp
+	g++-10 -std=c++20 -Wall -Wextra *.cpp

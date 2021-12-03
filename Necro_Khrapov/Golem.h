@@ -2,7 +2,10 @@
 #define GOLEM_HEAEDER
 
 //#include "Dungeon.h"
-#include "Creature.h"
+//#include "Creature.h"
+
+#include "Dungeon_and_Creature.h"
+
 /*
 #include "Cell.h"
 #include "enums.h"

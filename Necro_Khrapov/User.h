@@ -1,16 +1,9 @@
 #ifndef USER_HEADER
 #define USER_HEADER
 
-#include <map>
-#include <utility>
-#include <vector>
-
-#include "Dungeon.h"
-#include "Creature.h"
+#include "Dungeon_and_Creature.h"
 #include "Alive_Creature.h"
 #include "Dead_Creature.h"
-#include "Cell.h"
-#include "enums.h"
 
 class User : public Creature
 {
