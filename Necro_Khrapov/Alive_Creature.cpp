@@ -71,7 +71,9 @@ bool Alive_Creature::receive_damage(const int magnitude, const int probability)
 		if(health_tmp < 0)
         {
             set_health(0);
-            still_alive = false;
+            set_alive_state(ZERO_HEALTH);
+            //alive = ZERO_HEALTH;
+            //still_alive = false;
             return false;
         }
         set_health(health_tmp);

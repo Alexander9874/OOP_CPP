@@ -1,17 +1,7 @@
 #ifndef ALIVE_CREATURE_HEADER
 #define ALIVE_CREATURE_HEADER
 
-//#include "Dungeon.h"
-//#include "Creature.h"
-
 #include "Dungeon_and_Creature.h"
-
-/*
-#include "Cell.h"
-#include "enums.h"
-#include "exceptions.h"
-*/
-
 
 #include <iostream>
 
@@ -19,13 +9,13 @@ class Alive_Creature : public Creature
 {
 	private:
 		std::vector<std::pair<curse_states, int>> curse_state;
-		bool still_alive;
+		//bool still_alive;
 	public:
 		explicit Alive_Creature(creature_states state) :
 		Alive_Creature(*dynamic_cast<Alive_Creature *>(dungeon->get_configuration(state))) {};
 
 		explicit Alive_Creature(creature_states st, int mh, fraction_states f, int d, int dp) :
-		Creature(st, mh, f, d, dp, true), still_alive(true) {};
+		Creature(st, mh, f, d, dp, NON_ZERO_HEALTH) {};
 
 		virtual ~Alive_Creature() = default;
 
@@ -36,7 +26,7 @@ class Alive_Creature : public Creature
 		{
 			return curse_state;
 		};
-		inline bool is_still_alive() noexcept
+/*		inline bool is_still_alive() noexcept
 		{
 			return still_alive;
 		};
@@ -45,7 +35,7 @@ class Alive_Creature : public Creature
 		{
 			still_alive = state;
 		}
-		
+*/		
 		void add_curse_state(const curse_states state, const int magnitude);
 };
 

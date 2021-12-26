@@ -19,7 +19,7 @@ void Creature::set_position(const std::pair<int, int> state)
 			throw Exception("wrong_statment");
 		}
 	}
-	dungeon->emplace_creature(position, this);
+	dungeon->emplace_creature(state, this);
 	position = state;
 }
 
@@ -78,19 +78,19 @@ void Creature::turn_execute(const std::pair<int, int> direction)
 	if(cell == WALL || cell == DOOR_CLOSED || cell == LADDER) throw Exception("wrong_directio");
 	set_position(direction);
 }
-
-std::vector<std::pair<int, int>> Creature::Lee(const int range, const search_state search, const fraction_states _fraction) const
+//// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+std::vector<std::pair<int, int>> Creature::Lee(const int range, const alive_states search, const fraction_states _fraction) const
 {
-	std::pair<bool, bool> compare;
+/*	std::pair<bool, bool> compare;
 	if(search == ALL)
 	{
 		compare = std::pair<bool, bool>(true, false);
 	}
-	if(search == ALIVE)
+	else if(search == ALIVE)
 	{
 		compare = std::pair<bool, bool>(true, true);
 	}
-	if(search == DEAD)
+	else if(search == DEAD)
 	{
 		compare = std::pair<bool, bool>(false, false);
 	}
@@ -98,7 +98,7 @@ std::vector<std::pair<int, int>> Creature::Lee(const int range, const search_sta
 	{
 		throw Exception("unavailable_value");
 	}
-
+*/
 	std::map<std::pair<int, int>, int> labels;
 	std::set<std::pair<int, int>> next;
 	std::vector<std::pair<int, int>> steps;
@@ -121,7 +121,8 @@ std::vector<std::pair<int, int>> Creature::Lee(const int range, const search_sta
 			if(dungeon->is_creature(i))
 			{
 				Creature * creature = dungeon->get_creature(i);
-				if(creature->get_fraction() == _fraction && (compare.first == creature->is_alive() || compare.second == creature->is_alive()))
+				if(creature->get_fraction() == _fraction && ((search == ALL && creature->is_alive() != ZERO_HEALTH) || search == creature->is_alive()))
+				//if(creature->get_fraction() == _fraction && (compare.first == creature->is_alive() || compare.second == creature->is_alive()))
 				{
 					steps.push_back(i);
 					break;
@@ -176,6 +177,7 @@ Creature * Dungeon::get_configuration(const creature_states state) const
     if(state < 0 || state > GOLEM) throw Exception("does_not_exist");
     return creature_configuration.at(state);
 }
+
 /*
 void Dungeon::load_layer(const size_t offset = 0)
 {
@@ -187,6 +189,7 @@ void Dungeon::load_map(const char * map_name)
 
 }
 */
+
 void Dungeon::set_cell(std::pair<int, int> position, cell_states state)
 {
     if(position.first < 0 || position.second < 0 || position.first > limits.first || position.second > limits.second) throw Exception("out_of_range");
@@ -230,13 +233,13 @@ cell_states Dungeon::get_cell_state(std::pair<int, int> position) const noexcept
     if(!cells.contains(position)) return FLOOR;
     return cells.at(position).get_cell_state();
 }
-
+/*
 bool Dungeon::is_creature(const std::pair<int, int> position) const
 {
     if(position.first < 0 || position.second < 0 || position.first > limits.first || position.second > limits.second) throw Exception("out_of_range");
     return creatures.contains(position);
 }
-
+*/
 Creature * Dungeon::get_creature(const std::pair<int, int> position)
 {
     if(!creatures.contains(position)) throw Exception("does_not_exist");

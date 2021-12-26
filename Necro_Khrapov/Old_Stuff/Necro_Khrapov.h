@@ -1,3 +1,4 @@
+/*
 #ifndef NECRO_KHRAPOV_HEADER
 #define NECRO_KHRAPOV_HEADER
 
@@ -64,7 +65,7 @@ class Creature
 		/*Creature(creature_states st, std::pair<int, int> pos, int mh, int d, int dp, fraction_states f = ENEMY, int h = std::numeric_limits<int>::max()) : creature_state(st), position(pos), max_health(mh), damage(d), damage_probability(dp), fraction(f), health(h)
 		{
 			if()
-		};*/
+		};
 		virtual void receive_damage(const int magnitude, const float probability)
 		{
 			if(magnitude <= 0) throw My_Exception("Unavailable damage received.");
@@ -86,7 +87,7 @@ class Creature
 [[nodiscard]]	creature_states get_creature_state() const noexcept {return creature_state;};
 
 		void set_fraction_state(const fraction_states state) noexcept {fraction = state;} ;
-		void set_position(const std::pair<int, int> & position);/*here*/
+		void set_position(const std::pair<int, int> & position);/*
 		void set_max_health(const int state);
 		void set_health(const int state);
 		void set_damage(const int state);
@@ -120,7 +121,7 @@ class User : public Creature
 		void set_mana(const int state);
 		void set_level(const int state);
 		void set_experience(const int state);
-/*****/		void set_skill_point(const int state);				/****/
+		void set_skill_point(const int state);				/
 		void set_skill_power(const skills skill, const int state);
 		void set_skill_table(const std::map<skills, int> state);
 
@@ -210,3 +211,4 @@ class Dangeon
 };
 
 #endif
+*/

@@ -20,13 +20,13 @@ class User : public Creature
 		
 	public:
 		explicit User(int mh, int d, int dp, int mm) :
-		Creature(USER, mh, FRIEND, d, dp, false), max_mana(mm), mana(max_mana), next_level_experience(100), experience(0), level(0), skill_point(0)
+		Creature(USER, mh, FRIEND, d, dp, NONE), max_mana(mm), mana(max_mana), next_level_experience(100), experience(0), level(0), skill_point(0)
 		{
 			for(int i = 0; i < 4; ++i) skill_table.insert(std::pair<skills, int>(static_cast<skills>(i), 0));
 		};
 		
 		User() :
-		Creature(USER, 10, FRIEND, 2, 65, false), max_mana(0), mana(0), next_level_experience(100), experience(0), level(0), skill_point(0)
+		Creature(USER, 10, FRIEND, 2, 65, NONE), max_mana(0), mana(0), next_level_experience(100), experience(0), level(0), skill_point(0)
 		{
 			for(int i = 0; i < 4; ++i) skill_table.insert(std::pair<skills, int>(static_cast<skills>(i), 0));
 		};

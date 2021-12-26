@@ -14,6 +14,14 @@ enum creature_states
     GOLEM       // 5
 };
 
+enum alive_states
+{
+    NONE,
+    NON_ZERO_HEALTH,
+    ZERO_HEALTH,
+    ALL
+};
+
 enum fraction_states
 {
     FRIEND, // 0
@@ -30,8 +38,6 @@ enum cell_states
     LADDER,         // 5
     ESSENCE         // 6
 };
-
-//enum ladder_states {UP, DOWN}; // completed
 
 enum skills
 {
@@ -74,14 +80,14 @@ enum dead_states
     GHOUL,      // 4
     VAMPIRE     // 5
 }; 
-
+/*
 enum search_state
 {
     ALL,    // 0
     ALIVE,  // 1
     DEAD    // 2
 };
-
+*/
 inline fraction_states operator ! (fraction_states fraction) noexcept
 {
     if(fraction == FRIEND) return ENEMY;
@@ -96,41 +102,4 @@ dead_states operator ++ (dead_states & state, int); // state++
 
 dead_states operator -- (dead_states & state, int); // state--
 
-/*
-inline fraction_states operator ! (fraction_states fraction) noexcept
-{
-    if(fraction == FRIEND) return ENEMY;
-    return FRIEND;
-}
-
-dead_states & operator ++ (dead_states & state) // ++state
-{
-    if(state == VAMPIRE) throw Exception("already_max_state");
-    state = static_cast<dead_states>(static_cast<int>(state) + 1);
-    return state;
-}
-
-dead_states & operator -- (dead_states & state) // --state
-{
-    if(state == GHOST) throw Exception("already_min_state");
-    state = static_cast<dead_states>(static_cast<int>(state) - 1);
-    return state;
-}
-
-dead_states operator ++ (dead_states & state, int) // state++
-{
-    if(state == VAMPIRE) throw Exception("already_max_state");
-    dead_states tmp = state;
-    state = static_cast<dead_states>(static_cast<int>(state) + 1);
-    return tmp;
-}
-
-dead_states operator -- (dead_states & state, int) // state--
-{
-    if(state == GHOST) throw Exception("already_min_state");
-    dead_states tmp = state;
-    state = static_cast<dead_states>(static_cast<int>(state) - 1);
-    return tmp;
-}
-*/
 #endif

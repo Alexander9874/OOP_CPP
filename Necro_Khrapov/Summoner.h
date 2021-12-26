@@ -1,14 +1,9 @@
 #ifndef SUMMONER_HEADER
 #define SUMMONER_HEADER
 
-//#include "Dungeon.h"
-//#include "Creature.h"
-
 #include "Alive_Creature.h"
 #include "Dead_Creature.h"
-/*#include "Cell.h"
-#include "enums.h"
-*/
+
 class Summoner
 {
     protected:
