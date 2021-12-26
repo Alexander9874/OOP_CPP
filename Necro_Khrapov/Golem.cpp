@@ -33,9 +33,8 @@ void Golem::to_damage(Creature * target) const
 {
     if(this == target) throw Exception("self_harm");
     if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
-    if(!target->receive_damage(get_damage() * (1 + golem_state / 5), get_damage_probability()))
+    if(target->receive_damage(get_damage() * (1 + golem_state / 5), get_damage_probability()))
     {
         dungeon->creature_remove(target->get_position());
-        delete target;
     }
 }

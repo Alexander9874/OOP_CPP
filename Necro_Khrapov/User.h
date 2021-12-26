@@ -77,15 +77,15 @@ class User : public Creature
 		void receive_health(const int state);
 		void skill_increase(const skills skill_name);
 
-		void wither(Creature * target);
-		void curse(Creature * target);
-		void necromancy(Creature * target);
-		void morphism(Creature * target);
+		void wither();
+		void curse();
+		void necromancy();
+		void morphism();
 
 		bool receive_damage(const int magnitude, const int probability);
 		void to_damage(Creature * target) const;
 
-		void turn();
+		bool turn();
 };
 
 #endif

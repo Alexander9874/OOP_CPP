@@ -35,7 +35,6 @@ void Alive_Creature::to_damage(Creature * target) const
     if(target->receive_damage(get_damage() * koeff_d, damage_p * koeff_p))
     {
         dungeon->creature_remove(target->get_position());
-        delete target;
     }
 }
 
@@ -72,8 +71,6 @@ bool Alive_Creature::receive_damage(const int magnitude, const int probability)
         {
             set_health(0);
             set_alive_state(ZERO_HEALTH);
-            //alive = ZERO_HEALTH;
-            //still_alive = false;
             return false;
         }
         set_health(health_tmp);

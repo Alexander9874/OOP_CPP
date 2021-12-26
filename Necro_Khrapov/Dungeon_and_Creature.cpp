@@ -59,6 +59,12 @@ void Creature::set_damage_probability(const int state)
 	damage_probability = state;
 }
 
+void Creature::set_alive_state(const alive_states state)
+{
+	if(state < 0 || state > 2) throw Exception("unavailable_value");
+	alive = state;
+}
+
 void Creature::set_dungeon(Dungeon * state)
 {
 	if(dungeon) throw Exception("static_member_is_alredy_set");
@@ -78,27 +84,9 @@ void Creature::turn_execute(const std::pair<int, int> direction)
 	if(cell == WALL || cell == DOOR_CLOSED || cell == LADDER) throw Exception("wrong_directio");
 	set_position(direction);
 }
-//// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 std::vector<std::pair<int, int>> Creature::Lee(const int range, const alive_states search, const fraction_states _fraction) const
 {
-/*	std::pair<bool, bool> compare;
-	if(search == ALL)
-	{
-		compare = std::pair<bool, bool>(true, false);
-	}
-	else if(search == ALIVE)
-	{
-		compare = std::pair<bool, bool>(true, true);
-	}
-	else if(search == DEAD)
-	{
-		compare = std::pair<bool, bool>(false, false);
-	}
-	else
-	{
-		throw Exception("unavailable_value");
-	}
-*/
 	std::map<std::pair<int, int>, int> labels;
 	std::set<std::pair<int, int>> next;
 	std::vector<std::pair<int, int>> steps;
@@ -122,7 +110,6 @@ std::vector<std::pair<int, int>> Creature::Lee(const int range, const alive_stat
 			{
 				Creature * creature = dungeon->get_creature(i);
 				if(creature->get_fraction() == _fraction && ((search == ALL && creature->is_alive() != ZERO_HEALTH) || search == creature->is_alive()))
-				//if(creature->get_fraction() == _fraction && (compare.first == creature->is_alive() || compare.second == creature->is_alive()))
 				{
 					steps.push_back(i);
 					break;
@@ -130,7 +117,7 @@ std::vector<std::pair<int, int>> Creature::Lee(const int range, const alive_stat
 				continue;
 			}
 			cell = dungeon->get_cell_state(i);
-			if(cell == FLOOR || cell == LAVA || cell == DOOR_OPENED)
+			if(cell == FLOOR || cell == LAVA || cell == DOOR_OPENED || cell == ESSENCE)
 			{
 					tmp.emplace(i + x);
 					tmp.emplace(i - x);
@@ -293,7 +280,10 @@ void Dungeon::turns()
 
 		for(it = tmp.begin(); it != tmp.end(); it++)
 		{
-			it->second->turn();
+			if(it->second->turn())
+			{
+				creature_remove(it->second->get_position());
+			}
 		}
 
 		tmp = creatures;

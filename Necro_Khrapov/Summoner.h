@@ -37,7 +37,26 @@ class Summoner_Alive : public Alive_Creature, public Summoner
 
         void summon();
 
-        void turn();
+        virtual bool turn()
+        {
+            if(is_alive() != NON_ZERO_HEALTH) return false;
+			if(lava_damage()) return true;
+            if(get_health() == 0)
+			{
+				set_alive_state(ZERO_HEALTH);
+				return false;
+			}
+            auto steps = Lee(8, ALL, !get_fraction());
+           	if(steps.empty()) // steps.size == 0
+            {
+                summon();
+                return false;
+            }
+         	auto step = steps.back(); // step = steps.at(step.size)
+        	turn_execute(step);
+            summon();
+            return false;
+        }
 };
 
 class Summoner_Dead : public Dead_Creature, public Summoner
@@ -53,7 +72,22 @@ class Summoner_Dead : public Dead_Creature, public Summoner
 
         void summon();
 
-        void turn();
+        virtual bool turn()
+        {
+            if(lava_damage()) return true;
+   			if(get_health() == 0) return true;
+            auto steps = Lee(8, ALL, !get_fraction());
+        	if(steps.empty()) // steps.size == 0
+            {
+                summon();
+                return false;			
+            }
+            auto step = steps.back();			// step = steps.at(step.size)
+
+        	turn_execute(step);
+            summon();
+            return false;
+        }
 };
 
 #endif

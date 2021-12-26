@@ -38,7 +38,7 @@ class Golem : public Creature
 		{
 			cell_states cell;
 			if(golem_state == ETHER) cell = ESSENCE;
-			if(golem_state == FIRE) cell = LAVA;
+			else if(golem_state == FIRE) cell = LAVA;
 			else cell = WALL;
 			dungeon->try_emplace_cell(get_position(), cell);
 		};

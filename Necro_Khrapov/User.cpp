@@ -88,9 +88,12 @@ void User::skill_increase(const skills skill_name)
 	--skill_point;
 }
 
-void User::wither(Creature * target)
+void User::wither()
 {
 	if(skill_table[WITHER] == 0) throw Exception("skill_not_available");
+	std::vector<std::pair<int, int>> steps = Lee(2, ZERO_HEALTH, !get_fraction());
+	if(steps.empty()) throw Exception("target_not_found");
+	Creature * target = dungeon->get_creature(steps.front()); 
 	if(target->is_alive() != ZERO_HEALTH) throw Exception("target_is_not_alive_at_all_or_still_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
 	if(target_alive == nullptr) throw Exception("nullptr_object");
@@ -111,9 +114,12 @@ void User::wither(Creature * target)
 	dungeon->creature_remove(target->get_position());
 }
 
-void User::curse(Creature * target)
+void User::curse()
 {
 	if(skill_table[CURSE] == 0) throw Exception("skill_not_available");
+	std::vector<std::pair<int, int>> steps = Lee(5, NON_ZERO_HEALTH, !get_fraction());
+	if(steps.empty()) throw Exception("target_not_found");
+	Creature * target = dungeon->get_creature(steps.front()); 
 	if(target->is_alive() != NON_ZERO_HEALTH) throw Exception("target_is_not_alive_or_already_dead");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
 	if(target_alive == nullptr) throw Exception("nullptr_object");
@@ -123,20 +129,31 @@ void User::curse(Creature * target)
 	target_alive->add_curse_state(static_cast<curse_states>(num5 * 2 + num2), skill_table[CURSE]);
 }
 
-void User::necromancy(Creature * target)
+void User::necromancy()
 {
 	if(skill_table[NECROMANCY] == 0) throw Exception("skill_not_available");
+	std::vector<std::pair<int, int>> steps = Lee(3, ZERO_HEALTH, !get_fraction());
+	if(steps.empty()) throw Exception("target_not_found");
+	Creature * target = dungeon->get_creature(steps.front()); 
 	if(target->is_alive() != ZERO_HEALTH) throw Exception("target_is_not_alive_or_still_alive");
 	Alive_Creature * target_alive = dynamic_cast<Alive_Creature *>(target);
 	if(target_alive == nullptr) throw Exception("nullptr_object");
 	mana_exchange(-skill_table[NECROMANCY] - 1);
 	Dead_Creature * target_dead = new Dead_Creature(* target_alive);
+	target_dead->set_fraction_state(FRIEND);
 	dungeon->emplace_creature(target_alive->get_position(), static_cast<Creature *>(target_dead));
 }
 
-void User::morphism(Creature * target)
+void User::morphism()
 {
 	if(skill_table[MORPHISM] == 0) throw Exception("skill_not_available");
+	std::vector<std::pair<int, int>> steps = Lee(5, NONE, !get_fraction());
+	if(steps.empty())
+	{
+		steps = Lee(5, NONE, get_fraction());
+		if(steps.empty()) throw Exception("target_not_found");
+	}
+	Creature * target = dungeon->get_creature(steps.front()); 
 	if(target->is_alive() != NONE) throw Exception("target_is_alive");
 	Dead_Creature * target_dead = dynamic_cast<Dead_Creature *>(target);
 	if(target_dead == nullptr) throw Exception("nullptr_object");
@@ -180,14 +197,14 @@ void User::to_damage(Creature * target) const
 {
 	if(this == target) throw Exception("self_harm");
 	if(get_fraction() == target->get_fraction()) throw Exception("frendly_fire");
-	if(!target->receive_damage(get_damage(), get_damage_probability()))
+	if(target->receive_damage(get_damage(), get_damage_probability()))
 	{
         dungeon->creature_remove(target->get_position());
-        delete target;
 	}
 }
 
-void User::turn()
+bool User::turn()
 {
-
+	lava_damage();
+	return false;
 }

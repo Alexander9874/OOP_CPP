@@ -9,7 +9,6 @@ class Alive_Creature : public Creature
 {
 	private:
 		std::vector<std::pair<curse_states, int>> curse_state;
-		//bool still_alive;
 	public:
 		explicit Alive_Creature(creature_states state) :
 		Alive_Creature(*dynamic_cast<Alive_Creature *>(dungeon->get_configuration(state))) {};
@@ -26,26 +25,23 @@ class Alive_Creature : public Creature
 		{
 			return curse_state;
 		};
-/*		inline bool is_still_alive() noexcept
-		{
-			return still_alive;
-		};
 		
-		inline void set_still_alive_state(const bool state = true) noexcept
-		{
-			still_alive = state;
-		}
-*/		
 		void add_curse_state(const curse_states state, const int magnitude);
-		virtual void turn()	//Summoner & User edit
+		
+		virtual bool turn()	//Summoner & User edit
 		{
-			if(is_alive() != NON_ZERO_HEALTH) return;
+			if(is_alive() != NON_ZERO_HEALTH) return false;
+			if(lava_damage()) return true;
+			if(get_health() == 0)
+			{
+				set_alive_state(ZERO_HEALTH);
+				return false;
+			}
 			auto steps = Lee(10, ALL, !get_fraction());
-			if(steps.empty()) return;			// steps.size == 0
-			auto step = steps.back();			// step = steps.at(step.size)
-			
+			if(steps.empty()) return false;			// steps.size == 0
+			auto step = steps.back();				// step = steps.at(step.size)
 			turn_execute(step);
-
+			return false;
 		}
 };
 

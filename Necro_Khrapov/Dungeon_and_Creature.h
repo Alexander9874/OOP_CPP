@@ -84,11 +84,9 @@ class Creature
 		int damage;
 		int damage_probability;
 		alive_states alive;
-		//bool alive;
 	protected:
 		static Dungeon * dungeon;
 	public:
-		// ADD POSITION TO CONSTRUCTOR
 		explicit Creature(creature_states st, int mh, fraction_states f, int d, int dp, alive_states a) :
 		creature_state(st), max_health(mh), health(max_health), fraction(f), damage(d), damage_probability(dp), alive(a)
 		{
@@ -102,10 +100,15 @@ class Creature
 		virtual bool receive_damage(const int magnitude, const int probability) = 0;
  		virtual void to_damage(Creature * target) const = 0;
 		
-		inline void lava_damage()
+		inline bool lava_damage()
 		{
-			if(dungeon->get_cell_state(get_position()) == LAVA) receive_damage(30, 100);
+			if(dungeon->get_cell_state(get_position()) == LAVA) 
+			{
+				return receive_damage(30, 100);
+			}
+			return false;
 		};
+
 		inline std::pair<int, int> get_position() const noexcept
 		{
 			return position;
@@ -149,24 +152,23 @@ class Creature
 		void set_fraction_state(const fraction_states state);
 		void set_damage(const int state);
 		void set_damage_probability(const int state);
-		inline void set_alive_state(const alive_states state) noexcept
-		{
-			alive = state;
-		};
+		void set_alive_state(const alive_states state);
 		void set_dungeon(Dungeon * state);
 
 		void turn_execute(const std::pair<int, int> direction);
 
-		std::vector<std::pair<int, int>> Lee( const int range, const alive_states search, const fraction_states _fraction) const;
+		std::vector<std::pair<int, int>> Lee(const int range, const alive_states search, const fraction_states _fraction) const;
 
-		virtual void turn()	//Alive_Creature & Summoner & User edit!
+		virtual bool turn()	//Alive_Creature & Summoner & User edit!
 		{
+			if(lava_damage()) return true;
+			if(get_health() == 0) return true;
 			auto steps = Lee(10, ALL, !fraction);
-			if(steps.empty()) return;			// steps.size == 0
+			if(steps.empty()) return false;			// steps.size == 0
 			auto step = steps.back();			// step = steps.at(step.size)
 			
 			turn_execute(step);
-
+			return false;
 		}
 };
 

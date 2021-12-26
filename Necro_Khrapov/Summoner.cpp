@@ -18,7 +18,7 @@ void Summoner_Alive::summon()
             if(dungeon->get_cell_state(std::pair<int, int>(position.first + i, position.second + j)) == FLOOR && !dungeon->is_creature(std::pair<int, int>(position.first + i, position.second + j)))
             {
                 creature_states creature_state = static_cast<creature_states>(std::rand() % SUMMONER);
-                Alive_Creature * alive_creature = new Alive_Creature(creature_state);
+                Alive_Creature * alive_creature = new Alive_Creature(creature_state);   // throw map::at ???
                 dungeon->emplace_creature(std::pair<int, int>(position.first + i, position.second + j), alive_creature);
                 return;
             }
@@ -44,26 +44,4 @@ void Summoner_Dead::summon()
             }
         }
     }   
-}
-
-void Summoner_Alive::turn()
-{
-    auto steps = Lee(8, ALL, !get_fraction());
-			if(steps.empty()) return;			// steps.size == 0
-			auto step = steps.back();			// step = steps.at(step.size)
-			
-			turn_execute(step);
-            summon();
-}
-
-////    yes, i know...
-
-void Summoner_Dead::turn()
-{
-    auto steps = Lee(8, ALL, !get_fraction());
-			if(steps.empty()) return;			// steps.size == 0
-			auto step = steps.back();			// step = steps.at(step.size)
-			
-			turn_execute(step);
-            summon();
 }

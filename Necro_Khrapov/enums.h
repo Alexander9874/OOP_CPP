@@ -16,10 +16,10 @@ enum creature_states
 
 enum alive_states
 {
-    NONE,
-    NON_ZERO_HEALTH,
-    ZERO_HEALTH,
-    ALL
+    NONE,               // 0
+    NON_ZERO_HEALTH,    // 1
+    ZERO_HEALTH,        // 2
+    ALL                 // 3
 };
 
 enum fraction_states
@@ -80,14 +80,7 @@ enum dead_states
     GHOUL,      // 4
     VAMPIRE     // 5
 }; 
-/*
-enum search_state
-{
-    ALL,    // 0
-    ALIVE,  // 1
-    DEAD    // 2
-};
-*/
+
 inline fraction_states operator ! (fraction_states fraction) noexcept
 {
     if(fraction == FRIEND) return ENEMY;
