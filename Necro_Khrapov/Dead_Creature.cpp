@@ -37,7 +37,7 @@ void Dead_Creature::to_damage(Creature * target) const
     if(target->receive_damage(get_damage() * (1 + dead_state / 10), get_damage_probability()))
     {
         dungeon->creature_remove(target->get_position());
-        delete target;
+        //delete target;
     }
 }
 

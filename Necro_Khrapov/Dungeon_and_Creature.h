@@ -40,17 +40,8 @@ class Dungeon
 		int level;
 		int layer;
 	public:
+		~Dungeon();
 
-		//~Dungeon() = default;
-
-//		~Dungeon();
-/*		{
-			for(auto i : creatures)
-			{
-				delete i.second;
-			}
-		}
-*/
 		Creature * get_configuration(const creature_states state) const;
 /*
 		void load_layer(const size_t offset = 0);
@@ -78,6 +69,8 @@ class Dungeon
 		void cell_remove(std::pair<int, int> position);
 		void creature_remove(std::pair<int, int> position);
 		void try_emplace_cell(const std::pair<int, int> position, cell_states state);
+
+		void turns();
 };
 
 class Creature
@@ -166,7 +159,7 @@ class Creature
 
 		std::vector<std::pair<int, int>> Lee( const int range, const alive_states search, const fraction_states _fraction) const;
 
-		virtual void turn()	//Summoner & User edit
+		virtual void turn()	//Alive_Creature & Summoner & User edit!
 		{
 			auto steps = Lee(10, ALL, !fraction);
 			if(steps.empty()) return;			// steps.size == 0

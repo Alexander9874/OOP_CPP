@@ -37,6 +37,16 @@ class Alive_Creature : public Creature
 		}
 */		
 		void add_curse_state(const curse_states state, const int magnitude);
+		virtual void turn()	//Summoner & User edit
+		{
+			if(is_alive() != NON_ZERO_HEALTH) return;
+			auto steps = Lee(10, ALL, !get_fraction());
+			if(steps.empty()) return;			// steps.size == 0
+			auto step = steps.back();			// step = steps.at(step.size)
+			
+			turn_execute(step);
+
+		}
 };
 
 #endif

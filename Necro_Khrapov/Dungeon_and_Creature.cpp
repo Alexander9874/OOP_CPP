@@ -172,6 +172,14 @@ std::vector<std::pair<int, int>> Creature::Lee(const int range, const alive_stat
 	return steps;
 }
 
+Dungeon::~Dungeon()
+{
+	for(auto i : creatures)
+		{
+			delete i.second;
+		}
+}
+
 Creature * Dungeon::get_configuration(const creature_states state) const
 {
     if(state < 0 || state > GOLEM) throw Exception("does_not_exist");
@@ -272,4 +280,27 @@ void Dungeon::try_emplace_cell(std::pair<int, int> position, cell_states state)
 {
     if(position.first < 0 || position.second < 0 || position.first > limits.first || position.second > limits.second) throw Exception("out_of_range");
     cells.try_emplace(position, Cell(state));
+}
+
+#include <iostream>
+
+void Dungeon::turns()
+{
+	while(true)
+	{
+		std::map<std::pair<int, int>, Creature *> tmp = creatures;
+		std::map<std::pair<int, int>, Creature *>::iterator it;
+
+		for(it = tmp.begin(); it != tmp.end(); it++)
+		{
+			it->second->turn();
+		}
+
+		tmp = creatures;
+		for(it = tmp.begin(); it != tmp.end(); it++)
+		{
+			auto obj = it->second;
+			std::cout << obj->get_creature_state() << '(' << obj->get_position().first << ',' << obj->get_position().second << ')' << obj->get_health() << ' ' << obj->is_alive() << std::endl;
+		}
+	}
 }
