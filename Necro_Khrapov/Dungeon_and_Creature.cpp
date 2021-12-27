@@ -280,17 +280,25 @@ void Dungeon::turns()
 
 		for(it = tmp.begin(); it != tmp.end(); it++)
 		{
-			if(it->second->turn())
+			try
 			{
-				creature_remove(it->second->get_position());
+				if(it->second->turn())
+				{
+					creature_remove(it->second->get_position());
+				}
+			}
+			catch(std::exception & e)
+			{
+				std::cout << e.what() << std::endl;
 			}
 		}
-
+/*
 		tmp = creatures;
 		for(it = tmp.begin(); it != tmp.end(); it++)
 		{
 			auto obj = it->second;
 			std::cout << obj->get_creature_state() << '(' << obj->get_position().first << ',' << obj->get_position().second << ')' << obj->get_health() << ' ' << obj->is_alive() << std::endl;
 		}
+*/
 	}
 }

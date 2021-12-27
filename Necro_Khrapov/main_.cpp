@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-int main()
+int main_()
 {
 
     srand(time(NULL));
