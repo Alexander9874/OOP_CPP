@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(QWidged * parent) : QWidget(parent), Dungeon()
+Game::Game(QWidget * parent) : QWidget(parent), Dungeon()
 {
 	setStyleSheet("background-color:black;");
 	resize(1600, 1200);
@@ -38,47 +38,47 @@ void Game::doDrawing()
 	{
 		std::map<std::pair<int, int>, Cell>::const_iterator it_cell = cells.begin();
 		std::map<std::pair<int, int>, Creature *>::const_iterator it_creat = creatures.begin();
-		for(it_cell; it_cell != cells.end(); ++it_cell)
+		for(; it_cell != cells.end(); ++it_cell)
 		{
 			if(it_cell->second.get_cell_state() == WALL)
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Wall);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Wall);
 			}
 			else
 			if(it_cell->second.get_cell_state() == LAVA)
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Lava);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Lava);
 			}
 			else
 			if(it_cell->second.get_cell_state() == ESSENCE)
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Essence);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Essence);
 			}
 			else
 			if(it_cell->second.get_cell_state() == DOOR_CLOSED)
 			{				
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, DoorClosed);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, DoorClosed);
 			}
 			else
 			if(it_cell->second.get_cell_state() == DOOR_OPENED)
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, DoorOpened);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, DoorOpened);
 			}
 			else
 			if(it_cell->second.get_cell_state() == LADDER)
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Ladder);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Ladder);
 			}
 		}
-		for(it_creat; it_creat != creatures.end(); ++it_creat)
+		for(; it_creat != creatures.end(); ++it_creat)
 		{
 			if(it_creat->second->get_creature_state() != USER)
 			{
-				qp.draw(it_creat->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Enemy);
+				qp.drawImage(it_creat->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Enemy);
 			}
 			else
 			{
-				qp.draw(it_cell->first.first * CELL_SIZE, it_cell->second * CELL_SIZE, Player);
+				qp.drawImage(it_cell->first.first * CELL_SIZE, it_cell->first.second * CELL_SIZE, Player);
 			}
 		}
 	}
@@ -107,9 +107,9 @@ void Game::gameOver(QPainter & qp)
 void Game::move()
 {
 	if(direction == NO_DIRECTION && action == NO_ACTION) return;
-	if(user->get_health == 0)
+	if(user->get_health() == 0)
 	{
-		inGame == false;
+		inGame = false;
 		return;
 	}
 	std::pair<int, int> coords(user->get_position());
@@ -157,10 +157,14 @@ void Game::move()
 
 void Game::timerEvent(QTimerEvent * e)
 {
+
+std::cout << "IM HERE" << std::endl;
+
 	Q_UNUSED(e);
 
 	if(inGame)
 	{
+std::cout << "MEOW" << std::endl;
 		try
 		{
 			turns();
@@ -179,15 +183,15 @@ void Game::keyPressEvent(QKeyEvent * e)
 {
 	int key = e->key();
 
-	if(key == QT::Key_W) direction = UP;
-	else if(key == QT::Key_A) direction = LEFT;
-	else if(key == QT::Key_S) direction = DOWN;
-	else if(key == QT::Key_D) direction = RIGHT;
+	if(key == Qt::Key_W) direction = UP;
+	else if(key == Qt::Key_A) direction = LEFT;
+	else if(key == Qt::Key_S) direction = DOWN;
+	else if(key == Qt::Key_D) direction = RIGHT;
 
-	if(key == QT::Key_H) action = WITHER_;
-	else if(key == QT::Key_J) action = CURSE_;
-	else if(key == QT::Key_K) action = NECROMANCY_;
-	else if(key == QT::Key_L) action = MORPHISM_;
+	if(key == Qt::Key_H) action = WITHER_;
+	else if(key == Qt::Key_J) action = CURSE_;
+	else if(key == Qt::Key_K) action = NECROMANCY_;
+	else if(key == Qt::Key_L) action = MORPHISM_;
 	
 	QWidget::keyPressEvent(e);
 }

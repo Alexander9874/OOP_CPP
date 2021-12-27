@@ -5,7 +5,10 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QTime>
+#include <iostream>
+
 #include "Dungeon_and_Creature.h"
+#include "User.h"
 
 enum directions
 {
@@ -16,14 +19,14 @@ enum directions
 	RIGHT
 };
 
-enum actions
+enum actions_
 {
 	NO_ACTION,
 	WITHER_,
 	CURSE_,
 	NECROMANCY_,
 	MORPHISM_
-}
+};
 
 class Game : public QWidget, public Dungeon
 {
@@ -41,7 +44,7 @@ class Game : public QWidget, public Dungeon
 		QImage DoorOpened;
 		QImage DoorClosed;
 		QImage Ladder;
-		QIMage Essence;
+		QImage Essence;
 		// And so on...
 
 		static const int WIGHT = 1600;
@@ -53,13 +56,13 @@ class Game : public QWidget, public Dungeon
 		bool inGame;
 
 		directions direction;
-		actions action;
+		actions_ action;
 
 		void loadImages();
 		void startGame();
 		void move();
 		void doDrawing();
 		void gameOver(QPainter &);
-}
+};
 
 #endif
