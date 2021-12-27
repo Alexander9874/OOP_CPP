@@ -7,6 +7,7 @@
 #include <utility>
 #include <ctime>
 #include <cmath>
+#include <fstream>
 
 #include "exceptions.h"
 #include "enums.h"
@@ -30,17 +31,25 @@ class Creature;
 
 class Dungeon
 {
-	private:
+	protected:
 		std::map<creature_states, Creature *> creature_configuration;
 
-		std::map<std::pair<int, int>, Cell> cells;	////???????
+		std::map<std::pair<int, int>, Cell> cells;
 		std::map<std::pair<int, int>, Creature *> creatures;
 		User * user;
 		std::pair<int, int> limits;
 		int level;
 		int layer;
 	public:
+
+		Dungeon()
+		{
+
+		}
+
 		~Dungeon();
+
+		void load_configuration();
 
 		Creature * get_configuration(const creature_states state) const;
 /*
@@ -72,6 +81,12 @@ class Dungeon
 
 		void turns();
 };
+
+/**
+ * @brief класс существ, класс абстрактный.
+ * @brief brief description
+ *
+ */
 
 class Creature
 {
