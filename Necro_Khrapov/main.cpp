@@ -5,7 +5,7 @@
 #include "Alive_Creature.h"
 #include "Dead_Creature.h"
 #include "Summoner.h"
-#include "Golem.h"
+//#include "Golem.h"
 #include "User.h"
 #include "Cell.h"
 

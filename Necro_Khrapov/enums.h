@@ -64,9 +64,9 @@ enum curse_states
 // Do not change, EVEN order 
 enum golem_states
 {
-    ETHER,  // 0
-    FIRE,   // 1
-    STONE   // 2
+    ETHER,  // 0    ///< эфировый голем 
+    FIRE,   // 1    ///< огненный голем
+    STONE   // 2    ///< каменный голем
 };
 
 // Ghost is always the first & Vampire - the last

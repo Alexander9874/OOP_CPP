@@ -273,7 +273,7 @@ void Dungeon::try_emplace_cell(std::pair<int, int> position, cell_states state)
 
 void Dungeon::turns()
 {
-std::cout << "WOOF!" << std::endl;
+//std::cout << "WOOF!" << std::endl;
 	//while(true)
 	//{
 		std::map<std::pair<int, int>, Creature *> tmp = creatures;
@@ -293,7 +293,7 @@ std::cout << "WOOF!" << std::endl;
 				std::cout << e.what() << std::endl;
 			}
 		}
-std::cout << "MOO!" << std::endl;
+//std::cout << "MOO!" << std::endl;
 /*
 		tmp = creatures;
 		for(it = tmp.begin(); it != tmp.end(); it++)

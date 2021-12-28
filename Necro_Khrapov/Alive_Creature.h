@@ -27,9 +27,10 @@ class Alive_Creature : public Creature
 		};
 		
 		void add_curse_state(const curse_states state, const int magnitude);
-		
+#include <iostream>		
 		virtual bool turn()	//Summoner & User edit
 		{
+std::cout << "ALIVE?" << std::endl;
 			if(is_alive() != NON_ZERO_HEALTH) return false;
 			if(lava_damage()) return true;
 			if(get_health() == 0)

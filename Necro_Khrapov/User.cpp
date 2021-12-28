@@ -141,7 +141,13 @@ void User::necromancy()
 	mana_exchange(-skill_table[NECROMANCY] - 1);
 	Dead_Creature * target_dead = new Dead_Creature(* target_alive);
 	target_dead->set_fraction_state(FRIEND);
+	target_dead->set_alive_state(NONE);
 	dungeon->emplace_creature(target_alive->get_position(), static_cast<Creature *>(target_dead));
+/*
+	Creature * tmp = dungeon->get_creature(target_alive->get_position());
+
+	std::cout << "is_alive->" << tmp->is_alive() << "rfaction->" << tmp->get_fraction() << "dead_state->" << dynamic_cast<Dead_Creature *>(tmp)->get_dead_state() << std::endl; 
+*/
 }
 
 void User::morphism()

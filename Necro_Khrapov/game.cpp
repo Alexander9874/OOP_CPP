@@ -2,15 +2,26 @@
 
 Game::Game(QWidget * parent) : QWidget(parent), Dungeon()
 {
-	setStyleSheet("background-color:black;");
+	//setStyleSheet("background-color:black;");
 	resize(1600, 1200);
 	loadImages();
 
-	label_health = new QLable("health %s", this);
-	label_damage = new QLable("damage %s", this);
-	//label_mana = 
+    label_user_stat = new QLabel("health %s / %s\tdamage %s\tmana %s / %s\texperience %s / %s", this);
+	label_user_stat->setFont(QFont("Purisa", 20));
+	label_user_stat->setGeometry(QRect(10, 640, 1100, 630));
 
-	startGame();
+/*
+	label_health = new QLabel("health %s / %s", this);
+	label_damage = new QLabel("damage %s", this);
+	label_mana = new  QLabel("mana %s / %s", this);
+	label_experience = new QLabel("experience %s / %s", this);
+
+	label_health->setFont(QFont("Purisa", 20));
+	label_damage->setFont(QFont("Purisa", 20));
+	label_mana->setFont(QFont("Purisa", 20));
+	label_experience->setFont(QFont("Purisa", 20));
+*/	
+	startGame();	
 }
 
 void Game::loadImages()
@@ -29,11 +40,15 @@ void Game::startGame()
 	//cells add
 	// creatures add
 
+	inGame = true;
+	action = NO_ACTION;
+	direction = NO_DIRECTION;
+
 	set_limits({(WIGHT) / CELL_SIZE, (HIGHT - 50) / CELL_SIZE});
 
 std::cout << (WIGHT)/ CELL_SIZE << ' ' << HIGHT / CELL_SIZE << std::endl;
 
-	user = new User(30, 10, 65, 1);
+	user = new User(30, 10, 65, 10);
 	user->set_dungeon(this);
 	user->set_position({10, 10});
 	user->set_skill_point(2);
@@ -74,7 +89,23 @@ std::cout << (WIGHT)/ CELL_SIZE << ' ' << HIGHT / CELL_SIZE << std::endl;
 	}
 
 	Alive_Creature * creat = new Alive_Creature(GOBLIN, 20, ENEMY, 5, 50);
+	Alive_Creature * creat_1 = new Alive_Creature(GOBLIN, 10, ENEMY, 5, 0);
+	Dead_Creature * creat_2 = new Dead_Creature(OGRE, 20, FRIEND, 0, 0); 
+
+	Golem * gol_1 = new Golem(10, 0, 0, STONE, 100);
+	Golem * gol_2 = new Golem(10, 0, 0, FIRE, 100);
+	Golem * gol_3 = new Golem(10, 0, 0, ETHER, 100);
+
+	gol_1->set_position({39, 29});
+	gol_2->set_position({38, 28});
+	gol_3->set_position({37, 27});
+	
+
 	creat->set_position({20, 20});
+	creat_1->set_position({1, 1});
+	creat_2->set_position({20, 25});
+
+	set_cell({20, 23}, WALL);
 
 	timerId = startTimer(DELAY);
 }
@@ -91,6 +122,9 @@ void Game::doDrawing()
 	QPainter qp(this);
 	if(inGame)
 	{
+		QString str = ("health %1 / %2\tdamage %3\tmana %4 / %5\texperience %6 / %7");
+		label_user_stat->setText(str.arg(user->get_health()).arg(user->get_max_health()).arg(user->get_damage()).arg(user->get_mana()).arg(user->get_max_mana()).arg(user->get_experience()).arg(user->get_next_level_experience()));
+
 		std::map<std::pair<int, int>, Cell>::const_iterator it_cell = cells.begin();
 		std::map<std::pair<int, int>, Creature *>::const_iterator it_creat = creatures.begin();
 		for(; it_cell != cells.end(); ++it_cell)
@@ -187,7 +221,7 @@ void Game::move()
 
 	if(is_creature(coords))
 	{
-std::cout << "BZZZ" << std::endl;
+//std::cout << "BZZZ" << std::endl;
 		if(get_creature(coords)->get_fraction() != user->get_fraction())
 		{
 			user->to_damage(get_creature(coords));
@@ -213,7 +247,7 @@ std::cout << "BZZZ" << std::endl;
 void Game::timerEvent(QTimerEvent * e)
 {
 
-std::cout << "IM HERE" << std::endl;
+//std::cout << "IM HERE" << std::endl;
 
 	Q_UNUSED(e);
 
@@ -223,7 +257,7 @@ std::cout << "IM HERE" << std::endl;
 		{
 			turns();
 			move();
-std::cout << "MEOW" << std::endl;
+//std::cout << "MEOW" << std::endl;
 		}
 		catch(const std::exception & e)
 		{

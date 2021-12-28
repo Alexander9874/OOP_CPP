@@ -8,6 +8,7 @@
 #include <ctime>
 #include <cmath>
 #include <fstream>
+#include <iostream>
 
 #include "exceptions.h"
 #include "enums.h"
@@ -49,7 +50,7 @@ class Dungeon
 
 		~Dungeon();
 
-		void load_configuration();
+		//void load_configuration();
 
 		Creature * get_configuration(const creature_states state) const;
 /*
@@ -173,7 +174,6 @@ class Creature
 		void turn_execute(const std::pair<int, int> direction);
 
 		std::vector<std::pair<int, int>> Lee(const int range, const alive_states search, const fraction_states _fraction) const;
-
 		virtual bool turn()	//Alive_Creature & Summoner & User edit!
 		{
 			if(lava_damage()) return true;
@@ -181,7 +181,7 @@ class Creature
 			auto steps = Lee(10, ALL, !fraction);
 			if(steps.empty()) return false;			// steps.size == 0
 			auto step = steps.back();			// step = steps.at(step.size)
-			
+std::cout << "DEAD?" << std::endl;			
 			turn_execute(step);
 			return false;
 		}

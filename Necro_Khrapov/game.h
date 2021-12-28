@@ -5,10 +5,12 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QTime>
+#include <QLabel>
 #include <iostream>
 
 #include "Dungeon_and_Creature.h"
 #include "User.h"
+#include "Golem.h"
 
 enum directions
 {
@@ -47,6 +49,13 @@ class Game : public QWidget, public Dungeon
 		QImage Essence;
 		// And so on...
 
+		QLabel * label_user_stat;
+/*
+		QLabel * label_health;
+		QLabel * label_mana;
+		QLabel * label_damage;
+		QLabel * label_experience;
+*/
 		static const int WIGHT = 1200;
 		static const int HIGHT = 950;
 		static const int CELL_SIZE = 30;
