@@ -281,6 +281,7 @@ void Dungeon::turns()
 
 		for(it = tmp.begin(); it != tmp.end(); it++)
 		{
+std::cout << '.';
 			try
 			{
 				if(it->second->turn())
@@ -293,6 +294,7 @@ void Dungeon::turns()
 				std::cout << e.what() << std::endl;
 			}
 		}
+std::cout << std::endl;
 //std::cout << "MOO!" << std::endl;
 /*
 		tmp = creatures;
