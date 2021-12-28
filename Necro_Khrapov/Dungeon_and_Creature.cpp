@@ -273,8 +273,9 @@ void Dungeon::try_emplace_cell(std::pair<int, int> position, cell_states state)
 
 void Dungeon::turns()
 {
-	while(true)
-	{
+std::cout << "WOOF!" << std::endl;
+	//while(true)
+	//{
 		std::map<std::pair<int, int>, Creature *> tmp = creatures;
 		std::map<std::pair<int, int>, Creature *>::iterator it;
 
@@ -292,6 +293,7 @@ void Dungeon::turns()
 				std::cout << e.what() << std::endl;
 			}
 		}
+std::cout << "MOO!" << std::endl;
 /*
 		tmp = creatures;
 		for(it = tmp.begin(); it != tmp.end(); it++)
@@ -300,5 +302,5 @@ void Dungeon::turns()
 			std::cout << obj->get_creature_state() << '(' << obj->get_position().first << ',' << obj->get_position().second << ')' << obj->get_health() << ' ' << obj->is_alive() << std::endl;
 		}
 */
-	}
+	//:wq}
 }

@@ -47,10 +47,10 @@ class Game : public QWidget, public Dungeon
 		QImage Essence;
 		// And so on...
 
-		static const int WIGHT = 1600;
-		static const int HIGHT = 1200;
-		static const int CELL_SIZE = 40;
-		static const int DELAY = 200;
+		static const int WIGHT = 1200;
+		static const int HIGHT = 950;
+		static const int CELL_SIZE = 30;
+		static const int DELAY = 150;
 
 		int timerId;
 		bool inGame;
